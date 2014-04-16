@@ -1,0 +1,350 @@
+- model: nf_server.user
+  pk: 1
+  fields:
+    name: Mary Somebody
+    password: drowssap
+    followedNewsFeeds:
+      - 1
+      - 2
+      - 3
+- model: nf_server.user
+  pk: 2
+  fields:
+    name: Mark the Shark
+    password: GOD
+- model: nf_server.newsobject
+  pk: 1
+  fields:
+    title: The New York Times
+- model: nf_server.newssource
+  pk: 1
+  fields:
+    country: America
+- model: nf_server.newsobject
+  pk: 2
+  fields:
+    title: The Economist
+- model: nf_server.newssource
+  pk: 2
+  fields:
+    country: Jolly Old England
+- model: nf_server.newsobject
+  pk: 3
+  fields:
+    title: 4chan
+- model: nf_server.newssource
+  pk: 3
+  fields:
+    country: t3h 1n73rw3b5
+- model: nf_server.newsobject
+  pk: 4
+  fields:
+    title: Mary's first newsfeed.
+- model: nf_server.newsfeed
+  pk: 4
+  fields:
+    owner: 1
+    newsSources:
+      - 1
+- model: nf_server.newsobject
+  pk: 5
+  fields:
+    title: Mary's favorite newsfeed.
+- model: nf_server.newsfeed
+  pk: 5
+  fields:
+    owner: 1
+    newsSources:
+      - 1
+      - 2
+- model: nf_server.newsobject
+  pk: 6
+  fields:
+    title: Mary's super-secret newsfeed-no peaking!
+- model: nf_server.newsfeed
+  pk: 6
+  fields:
+    owner: 1
+    newsSources:
+      - 3
+- model: nf_server.newsobject
+  pk: 7
+  fields:
+    title: "Confronting Militants in East, Ukraine Retakes Airport"
+- model: nf_server.article
+  pk: 7
+  fields:
+    newsSource: 1
+    url: http://www.nytimes.com/2014/04/16/world/europe/ukraine-russia.html?hp
+    pub_date: 2014-04-05 11:12-03:00
+    summaryText: "After days of failing to enforce its own ultimatums to pro-Russia militants, Ukraine stormed an airport near the city of Slovyansk, beginning what it called a military operation in the eastern part of the country."
+- model: nf_server.newsobject
+  pk: 8
+  fields:
+    title: "Political Divide Slows US Action on Climate Laws"
+- model: nf_server.article
+  pk: 8
+  fields:
+    newsSource: 1
+    url: http://www.nytimes.com/2014/04/15/us/politics/political-rifts-slow-us-effort-on-climate-laws.html?hp
+    pub_date: 2014-04-15 10:00-03:00
+    summaryText: "Efforts to tackle climate change have collided with politics in Washington, where Republicans question the science, and lawmakers’ ties to industry have made them resistant to change."
+- model: nf_server.newsobject
+  pk: 9
+  fields:
+    title: "A Year Later, Boston Honors Bombs' Victims"
+- model: nf_server.article
+  pk: 9
+  fields:
+    newsSource: 1
+    url: http://www.nytimes.com/2014/04/16/us/anniversary-of-boston-marathon-bombings.html?hp
+    pub_date: 2014-04-15 12:28-03:00
+    summaryText: "The city began a week of events to remember those killed and hurt in the marathon bombings, culminating on Monday with this year’s run."
+- model: nf_server.newsobject
+  pk: 10
+  fields:
+    title: "Tax Loopholes Citizens May Envy"
+- model: nf_server.article
+  pk: 10
+  fields:
+    newsSource: 1
+    url: http://dealbook.nytimes.com/2014/04/14/looking-at-some-corporate-tax-loopholes-ordinary-citizens-may-envy/
+    pub_date: 2014-04-14 6:47-03:00
+    summaryText: "On April 15, as individual taxpayers file, taking a look at a few opportunities for corporations that they may find slightly irksome."
+- model: nf_server.newsobject
+  pk: 11
+  fields:
+    title: "Sweet Tale of Friendship (Sex, Too)"
+- model: nf_server.article
+  pk: 11
+  fields:
+    title: "Sweet Tale of Friendship (Sex, Too)"
+    newsSource: 1
+    url: http://www.nytimes.com/2014/04/13/movies/woody-allen-joins-john-turturro-in-fading-gigolo.html
+    pub_date: 2014-04-14 12:30-03:00
+    summaryText: "John Turturro talks about his new film, “Fading Gigolo.”"
+- model: nf_server.newsobject
+  pk: 12
+  fields:
+    title: "Medicare, the Opera"
+- model: nf_server.article
+  pk: 12
+  fields:
+    newsSource: 2
+    url: http://www.economist.com/news/united-states/21600701-another-election-another-nonsensical-fight-over-elderly-medicare-opera
+    pub_date: 2014-04-12 12:00+00:00
+    summaryText: "Another election, another nonsensical fight over the elderly"
+- model: nf_server.newsobject
+  pk: 13
+  fields:
+    title: "Hunger Strikes"
+- model: nf_server.article
+  pk: 13
+  fields:
+    newsSource: 2
+    url: http://www.economist.com/news/science-and-technology/21600855-low-glucose-levels-can-lead-spouses-lash-out-one-another-hunger-strikes
+    pub_date: 2014-04-12 6:00+00:00
+    summaryText: "Low glucose levels can lead spouses to lash out at one another"
+- model: nf_server.newsobject
+  pk: 14
+  fields:
+    title: "Putting on an extra 20%"
+- model: nf_server.article
+  pk: 14
+  fields:
+    newsSource: 2
+    url: http://www.economist.com/blogs/baobab/2014/04/kenya-recalculates-its-gdp-figures
+    pub_date: 2014-04-12 11:00+00:00
+    summaryText: "Kenya is expected to revise the size of the economy"
+- model: nf_server.newsobject
+  pk: 15
+  fields:
+    title: "Book Production"
+- model: nf_server.article
+  pk: 15
+  fields:
+    newsSource: 2
+    url: http://www.economist.com/blogs/babbage/2014/04/book-production
+    pub_date: 2014-04-15 11:00+00:00
+    summaryText: "A new publisher finds printing is far easier than making a high quality e-book"
+- model: nf_server.newsobject
+  pk: 16
+  fields:
+    title: "A peace process that is going nowhere"
+- model: nf_server.article
+  pk: 16
+  fields:
+    newsSource: 2
+    url: http://www.economist.com/news/middle-east-and-africa/21600710-john-kerrys-dogged-bid-two-state-solution-has-faltered-peace-process
+    pub_date: 2014-04-12 10:30+00:00
+    summaryText: "John Kerry's dogged bid for a two-state solution has faltered"
+- model: nf_server.newsobject
+  pk: 17
+  fields:
+    title: "Hello, I am your sticky. NOW READ ME"
+- model: nf_server.article
+  pk: 17
+  fields:
+    newsSource: 3
+    url: http://boards.4chan.org/wg/res/4667225
+    pub_date: 2012-04-12 18:29-06:00
+    summaryText: "New to /wg/? Lets get you started."
+- model: nf_server.newsobject
+  pk: 18
+  fields:
+    title: ""
+- model: nf_server.article
+  pk: 18
+  fields:
+    newsSource: 3
+    url: http://boards.4chan.org/b/res/542367051
+    pub_date: 2012-04-15 11:03-06:00
+    summaryText: "ITT: we take pictures of where we are right now, and make assumptions about each other"
+- model: nf_server.newsobject
+  pk: 19
+  fields:
+    title: ""
+- model: nf_server.article
+  pk: 19
+  fields:
+    newsSource: 3
+    url: http://boards.4chan.org/b/res/542352309
+    pub_date: 2012-04-15 8:40-06:00
+    summaryText: "Deutschlandthread Sonderedition! Postet eure Postleitzahl und findet Gleichgesinnte! 71636 reportiert ein!"
+- model: nf_server.newsobject
+  pk: 20
+  fields:
+    title: "Commissaries of the Revolution"
+- model: nf_server.article
+  pk: 20
+  fields:
+    newsSource: 2
+    url: http://www.economist.com/news/international/21600716-vital-unsung-role-businesses-times-civil-strife-commissaries
+    pub_date: 2014-04-14 6:00+00:00
+    summaryText: "The vital, unsung role of businesses at times of civil strife"
+- model: nf_server.newsevent
+  pk: 1
+  fields:
+    articles:
+      - 1
+      - 14
+- model: nf_server.comment
+  pk: 1
+  fields:
+    text: "This is just the coolest!"
+    date: 2014-04-14 6:13-04:00
+    user: 1
+    commentee: 5
+- model: nf_server.comment
+  pk: 2
+  fields:
+    text: "Geez Mary you're so weird!"
+    date: 2014-04-14 6:14-04:00
+    user: 2
+    commentee: 5
+- model: nf_server.comment
+  pk: 3
+  fields:
+    text: "Don't be a poop, Mark"
+    date: 2014-04-14 6:15-04:00
+    user: 1
+    commentee: 5
+- model: nf_server.comment
+  pk: 4
+  fields:
+    text: "Testing testing 123..."
+    date: 2014-04-14 6:45-04:00
+    user: 1
+    commentee: 5
+- model: nf_server.tag
+  pk: 1
+  fields:
+    text: "politics"
+    tagees:
+      - 7
+      - 8
+      - 12
+      - 14
+      - 16
+      - 20
+- model: nf_server.tag
+  pk: 2
+  fields:
+    text: "technology"
+    tagees:
+      - 13
+      - 15
+      - 17
+- model: nf_server.tag
+  pk: 3
+  fields:
+    text: "arts"
+    tagees:
+      - 11
+      - 14
+      - 19
+- model: nf_server.tag
+  pk: 4
+  fields:
+    text: "fun"
+    tagees:
+      - 9
+      - 17
+      - 18
+      - 19
+- model: nf_server.rating
+  pk: 1
+  fields:
+    rating: 5
+    rater: 1
+    ratee: 1
+- model: nf_server.rating
+  pk: 2
+  fields:
+    rating: 4
+    rater: 1
+    ratee: 2
+- model: nf_server.rating
+  pk: 3
+  fields:
+    rating: 5
+    rater: 1
+    ratee: 3
+- model: nf_server.rating
+  pk: 4
+  fields:
+    rating: 2
+    rater: 1
+    ratee: 4
+- model: nf_server.rating
+  pk: 5
+  fields:
+    rating: 4
+    rater: 1
+    ratee: 5
+- model: nf_server.rating
+  pk: 6
+  fields:
+    rating: 5
+    rater: 1
+    ratee: 6
+- model: nf_server.rating
+  pk: 7
+  fields:
+    rating: 3
+    rater: 1
+    ratee: 7
+- model: nf_server.rating
+  pk: 8
+  fields:
+    rating: 4
+    rater: 2
+    ratee: 7
+- model: nf_server.recommendationbundle
+  pk: 1
+  fields:
+    user: 1
+- model: nf_server.recommendationbundle
+  pk: 2
+  fields:
+    user: 2

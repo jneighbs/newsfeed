@@ -1,0 +1,49 @@
+CREATING A NEW APP
+To create a an app, from top-level dir:
+$ python manage.py startapp my_app_name
+That'll create a my_app_name dir
+
+Then go to mysite/settings.py and add my_app_name to the list of INSTALLED APPS
+
+Then python manage.py sql my_app_name to create the actual tables
+
+Finally python manage.py syncdb
+
+
+STARTING SERVER
+python manage.py runserver
+	does exactly what you'd think
+	can do python manage.py runserver 8080 or
+	python manage.py runserver 0.0.0.0:8000
+	to change IP and port
+
+MUCKING ABOUT
+python manage.py shell
+	MyObject.objects.all() returns all your MyObjects
+	MyObject.objects.filter(id=N) gets your MyObject with id=N
+
+
+
+Relations
+- Foreign Key:
+	Article
+		publisher = models.ForeignKey(Publisher)
+	here, a Publisher has many articles
+	can do myArticle.publisher or myPublisher.article_set.all()
+- Many-to-Many:
+	Article
+		writers = models.ManyToMany(Writer)
+	can do myArticle.writers.all() or myWriter.article_set.all()
+- When creating fixtures, you need to do the parent object as well as the child
+
+first:
+	chmod u+x reset.sh
+then
+	./reset.sh
+RESET
+python manage.py sqlclear nf_server | sqlite3 db.sqlite3
+python manage.py sql nf_server | sqlite3 db.sqlite3
+python manage.py loaddata dummy2.yaml
+
+python manage.py shell
+from nf_server.models import NewsObject, NewsSource, NewsFeed, User, Article, NewsEvent, Comment, Tag, Rating, RecommendationBundle
