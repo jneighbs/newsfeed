@@ -1,0 +1,9 @@
+GETTING THE PAGES TO SHOW UP
+1) In proj/my_app create (if it doesn't exist) urls.py, add needed patterns
+	ex 'url(r'^(?P<poll_id>\d+)/results/$', views.results, name='results'),'
+	NB this configuration will capture the id and give it to you as poll_id arg
+	to your view method
+2) in proj/proj/urls.py, add a url for whatever you need
+	ex 'url(r'^polls/', include('polls.urls')),'
+
+ADDING TEMPLATES

@@ -1,0 +1,23 @@
+INSTALLATION
+1) Type 'pip' to make sure you have pip installed (should already be)
+	a. if it's not go to http://pip.readthedocs.org/en/latest/installing.html
+2) 'pip install celery' to install celery
+3) Install RabbitMQ
+	a. 'brew install rabbitmq'
+	b. edit your .profile ('open -a TextEdit ~/.profile') and add
+		export PATH="/usr/local/bin:/usr/local/sbin:$PATH"
+		to the end of it
+	c. then 'source ~/.profile'
+
+FIRE UP ZE ENGINES
+1) 'rabbitmq-server' to start the RabbitMQ server
+2) In another shell, once you have your tasks.py and config stuff setup, 'celery -A my_project_name worker -l info'
+	For our purposes, my_project_name = newsfeed_site
+3) start the django server in yet another shell and you're good to go.
+
+ODDS AND ENDS
+http://docs.celeryproject.org/en/latest/getting-started/first-steps-with-celery.html
+http://docs.celeryproject.org/en/latest/getting-started/next-steps.html
+http://celery.readthedocs.org/en/latest/django/first-steps-with-django.html
+	the one that's most relevant for us
+http://www.waratuman.com/2010/03/25/installing-ampq/
