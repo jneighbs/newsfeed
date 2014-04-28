@@ -15,6 +15,8 @@ FIRE UP ZE ENGINES
 	For our purposes, my_project_name = newsfeed_site
 3) start the django server in yet another shell and you're good to go.
 
+NB: When you update tasks.py, you have to restart the celery process for the changes to show up!
+
 ODDS AND ENDS
 http://docs.celeryproject.org/en/latest/getting-started/first-steps-with-celery.html
 http://docs.celeryproject.org/en/latest/getting-started/next-steps.html

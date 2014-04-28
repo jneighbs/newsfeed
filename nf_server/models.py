@@ -69,6 +69,10 @@ class Tag(models.Model):
 	def __unicode__(self):
 		return self.text
 
+class Topic(models.Model):
+	name = models.CharField(max_length=33)
+	tagees = models.ManyToManyField(Article)
+
 class Rating(models.Model):
 	RATING_CHOICES = [(1,"1"),(2,"2"),(3,"3"),(4,"4"),(5,"5")]
 	rating = models.IntegerField(default=1, choices=RATING_CHOICES)

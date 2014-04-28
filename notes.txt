@@ -47,3 +47,16 @@ python manage.py loaddata dummy2.yaml
 
 python manage.py shell
 from nf_server.models import NewsObject, NewsSource, NewsFeed, User, Article, NewsEvent, Comment, Tag, Rating, RecommendationBundle
+
+TOPICS - from NYTimes
+World News (?)
+US News (?)
+Politics
+Business
+Technology
+Science
+Health
+Sports
+Arts
+Style/Fashion
+Travel
