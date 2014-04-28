@@ -8,6 +8,7 @@ urlpatterns = patterns('',
     # url(r'^$', 'newsfeed_site.views.home', name='home'),
     # url(r'^blog/', include('blog.urls')),
 
-    url(r'^admin/', include(admin.site.urls)),
-    url(r'^nf_server/', include('nf_server.urls')),
+	url(r'^admin/', include(admin.site.urls)),
+	url(r'', include('nf_server.urls'))
+
 )
