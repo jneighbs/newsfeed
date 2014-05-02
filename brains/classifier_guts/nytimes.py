@@ -64,7 +64,7 @@ def condenseArticle(article):
 		abstract = trimAbstract(article['abstract'])
 		if firstNotInSecond(abstract, article['snippet']) and firstNotInSecond(abstract, article['lead_paragraph']):
 			condensed['text'] += abstract
-	if article['snippet'] is not None:
+	if article['snippet'] is not None firstNotInSecond(article['snippet'], article['abstract']):
 		condensed['text'] += " " + article['snippet']
 	if article['lead_paragraph'] is not None:
 		condensed['text'] += " " + article['lead_paragraph']

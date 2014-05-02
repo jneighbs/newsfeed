@@ -1,0 +1,17 @@
+To a certain extent, science is a process that's focused on getting rid of possible sources of bias. It's not enough to just change a single factor and see how it affects the result; you have to eliminate or control for all the other things that might produce similar effects.
+
+That's not as easy as it might seem, and a team of researchers from Montreal have identified a big source of bias that could be skewing a whole lot of research: male researchers. Apparently, the mere presence of a male, or even the presence of some of his clothes, is enough to set off a stress response in mice. The stress alters behavior, changes hormone levels, and even reduces the mice's ability to feel pain.
+
+The work started with a classic "huh, that's funny" moment. Someone in a lab that studies pain perception noted that "Our laboratory personnel have reported anecdotally that pain behavior appears to be blunted while experimenters are present." At some point, they decided to see if this was biasing their results. The researchers gave some mice a painful injection, left them alone for a bit, and then sent a researcher back in the room for a few minutes. The mice's pain was then assessed using "the mouse grimace scale" (yes, that's a formal measure of pain).
+
+It turns out the presence of a researcher could deaden the pain—but not just any researcher. It had to be a male. The male could be replaced with a bit of dirty laundry they'd created, and it would have the same effect. The same was true for bedding used by other mammals, although this failed when castrated dogs were tested.
+
+The reduction in pain was significant, at about 35 percent (with female mice showing a larger effect). The researchers also noted the mice tended to hug the walls of the cage when males were present, which is a sign of stress. In fact, the males... well... they scared something out of the mice. There was a "significant increase in fecal boli deposited by mice in the 30-min testing period." Just to be sure, the researchers tested the levels of stress hormones in the blood, confirming that the mice were stressed. Stress was already known to reduce pain, so this all ties neatly together.
+
+How stressful is the presence of male scent? The levels of stress hormones are equivalent to what you see when the mice are restrained for 15 minutes or dropped in a tank of water for three (mice hate to swim). Fortunately, it wore off after about 10 minutes.
+
+The researchers found that they could partly mimic the effect with a collection of hormone derivatives. Since some of these chemicals are unrelated to each other, the authors conclude that it's not a single response, but a collection of scents that set the mice off.
+
+This made them wonder whether their own work might have been biased by male researchers, so they went back and collected lots of archival data that was performed by known lab workers. Sure enough, the sex of the person working with the mice did affect their results.
+
+Since stress influences a wide variety of behaviors, it's clear that the potential for problems goes well beyond pain research. Fortunately, if you have anyone without a Y chromosome working in the lab, it's possible to avoid these problems altogether.
