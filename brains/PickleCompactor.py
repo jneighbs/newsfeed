@@ -5,6 +5,14 @@ from sklearn.linear_model import SGDClassifier
 from sklearn.externals import joblib
 from sklearn.feature_extraction.text import CountVectorizer
 
+####################################
+# WARNING SPAGHETTI CODE KEEY AWAY #
+#
+# this is all probably garbage but #
+# you never know when you might    #
+# need some of it, so... 		   #
+####################################
+
 class PickleCompactor:
 	def __init__(self):
 		#self.topics = ['entertainment', 'sports','foreign','national','politics','business','technology','science','health','arts','fashion','travel']

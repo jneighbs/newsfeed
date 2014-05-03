@@ -1,0 +1,10 @@
+flight
+ticket
+trip
+plan
+villa
+hotel
+beach
+resort
+museum
+bar

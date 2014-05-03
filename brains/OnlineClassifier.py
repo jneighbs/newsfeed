@@ -5,7 +5,10 @@ from sklearn.linear_model import SGDClassifier
 from sklearn.externals import joblib
 from sklearn.feature_extraction.text import CountVectorizer
 
-# An SGD linear classifier
+# A bundle of SGD linear classifiers, one for each news topic.
+# Can be trained on a big 'ole pile of pickled NYTimes article snippets,
+# or update one example at a time.
+
 class OnlineClassifier:
 	def __init__(self):
 		self.topics = ['sports','foreign','national','politics','business','technology','science','health','arts','fashion','travel']
@@ -247,13 +250,6 @@ class OnlineClassifier:
 		#print tokens
 		return tokens
 
-
-
-
-trainer = SGDTrainer()
-example = "To a certain extent, science is a process that's focused on getting rid of possible sources of bias. It's not enough to just change a single factor and see how it affects the result; you have to eliminate or control for all the other things that might produce similar effects."
-label = 1
-trainer.addTrainingExample(example, 'science', label)
 
 
 

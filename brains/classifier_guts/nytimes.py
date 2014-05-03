@@ -3,6 +3,11 @@ from time import time
 from datetime import datetime
 import pickle
 
+####################################
+# WARNING SPAGHETTI CODE KEEP AWAY #
+#								   #
+# srsface don't touch anything     #
+####################################
 
 api = articleAPI('2aeeb020218af0f30993f12ff451d821:10:62878084')
 '''
