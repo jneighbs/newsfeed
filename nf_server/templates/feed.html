@@ -1,0 +1,40 @@
+{% load staticfiles %}
+<html>
+  <head>
+    <link href="{% static 'bootstrap/css/bootstrap.min.css' %}"
+          rel="stylesheet" media="screen">
+          <link href="{% static 'bootstrap/css/application.css' %}"
+          rel="stylesheet" media="screen">
+  </head>
+
+  <body>
+  	<h1>Newsfeed</h1>
+  	 <div class="header row">
+              <br/>
+               <div class="standard columns full">
+               	<h2>{{name}}'s Newsfeed</h2>
+               	{% if sources %}
+					<ul>
+    					{% for source in sources %}
+                {% for article in articles %}
+                  {% if source.id == article.newsSource.id %}
+        					 <li><a href="{{article.url}}" target="_blank">From {{article.newsSource}}</a> 
+                    {{article.pub_date}} {{article.summaryText}}
+                    </li>
+                    {% endif %}
+    					   {% endfor %}
+                 {%endfor%}
+    					   </ul>
+					   {% endif %}
+  					
+               </div>
+                            
+            </div>
+
+  	
+    {% block content %}
+    {% endblock %}
+
+    <script src="{% static 'bootstrap/js/bootstrap.min.js' %}"></script>
+  </body>
+</html>

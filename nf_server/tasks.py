@@ -4,8 +4,8 @@ from celery.registry import tasks
 from time import sleep
 from nf_server.models import NewsObject, Article
 
-from sklearn.linear_model import SGDClassifier
-from sklearn.externals import joblib
+#from sklearn.linear_model import SGDClassifier
+#from sklearn.externals import joblib
 
 @shared_task
 def slowAdd(x,y):

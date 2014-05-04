@@ -1,10 +1,23 @@
 from django.http import HttpResponse
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, get_list_or_404
 from tasks import slowAdd, classify, trainClassifier
+from models import Article, NewsFeed, NewsSource
 
 # Create your views here.
 def index(request):
-	return HttpResponse("index - newsfeed.com/")
+	articles = Article.objects.all()
+	feeds = NewsFeed.objects.all();
+	context = {'articles': articles, 'feeds': feeds}
+	return render(request, 'base.html', context)
+	#return HttpResponse("index - newsfeed.com/")
+
+def feed(request, feed_id):
+	articles = Article.objects.all()
+	feed = get_object_or_404(NewsFeed, pk=feed_id)
+	name = feed.owner.name
+	sources = feed.newsSources.all()
+	context = {'sources': sources, 'name': name, 'articles': articles}
+	return render(request, 'feed.html', context)
 
 # Create your views here.
 def event(request, event_id):
