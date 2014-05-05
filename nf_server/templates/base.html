@@ -3,9 +3,46 @@
   <head>
     <link href="{% static 'bootstrap/css/bootstrap.min.css' %}"
           rel="stylesheet" media="screen">
+          <link href="{% static 'bootstrap/css/application.css' %}"
+          rel="stylesheet" media="screen">
   </head>
 
   <body>
+  	<h1>Newsfeed</h1>
+  	 <div class="header row">
+              <br/>
+               <div class="standard columns left">
+               	<h2>All Feeds</h2>
+               	{% if feeds %}
+					<ul>
+    					{% for feed in feeds %}
+        					<li><a href="/feed/{{feed.id}}">
+        					Newsfeed {{feed.id}}</a>
+        					</li>
+    					{% endfor %}
+    					</ul>
+						{% else %}
+    					<p>No feeds are available.</p>
+					{% endif %}
+  					
+               </div>
+               <div class="standard columns right">
+               	<h2>All Articles</h2>
+  					{% if articles %}
+    					<ul>
+    					{% for article in articles %}
+        					<li><a href="{{article.url}}" target="_blank">From {{article.newsSource}}</a> 
+        					{{article.pub_date}} {{article.summaryText}}
+        					</li>
+    					{% endfor %}
+    					</ul>
+						{% else %}
+    					<p>No articles are available.</p>
+					{% endif %}
+               </div>              
+            </div>
+
+  	
     {% block content %}
     {% endblock %}
 
