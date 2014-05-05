@@ -2,13 +2,25 @@
 
 {% block content %}
 <h1>YOLO</h1>
-<div class="btn-group">
-  <button type="button" class="btn btn-default">Left</button>
-  <button type="button" class="btn btn-default">Middle</button>
-  <button type="button" class="btn btn-default">Right</button>
-</div>
+
 <div class="input-group">
-  <span class="input-group-addon">@</span>
   <input type="text" class="form-control" placeholder="Username">
 </div>
+<div class="input-group">
+  <span class="input-group-addon">#</span>
+  <input type="text" class="form-control" placeholder="Event Tag">
+</div>
+{% if article %}
+<ul>
+	{% for article in event.articles.all %}
+    	<li>{{ article.title }}</li>
+	{% endfor %}
+	<li>{{ event.id }}</li>
+</ul>
+{% endif %}
+
+<form action="/new_event/" method="post">{% csrf_token %}
+{{ form.as_p }}
+<input type="submit" value="Submit" />
+</form>
 {% endblock %}
