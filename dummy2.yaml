@@ -234,12 +234,18 @@
     url: http://www.economist.com/news/international/21600716-vital-unsung-role-businesses-times-civil-strife-commissaries
     pub_date: 2014-04-14 6:00+00:00
     summaryText: "The vital, unsung role of businesses at times of civil strife"
-- model: nf_server.newsevent
-  pk: 1
+- model: nf_server.newsobject
+  pk: 21
   fields:
+    title: "Ukraine gets Poland-ed"
+- model: nf_server.newsevent
+  pk: 21
+  fields:
+    eventTag: "UkraineInvasion"
     articles:
       - 1
       - 14
+    owner: 1
 - model: nf_server.comment
   pk: 1
   fields:

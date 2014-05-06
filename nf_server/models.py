@@ -1,5 +1,6 @@
 from django.db import models
-
+from django.forms import ModelForm
+from django import forms
 # Create your models here.
 
 # An abstract object that has a title and has many comments and tags and ratings
@@ -51,7 +52,21 @@ class Article(NewsObject):
 
 class NewsEvent(NewsObject):
 	# has many articles
-	articles = models.ManyToManyField(Article)
+	eventTag = models.CharField(max_length=33)
+	articles = models.ManyToManyField(Article, related_name='news_event')
+	pendingArticles = models.ManyToManyField(Article, related_name='pending_news_event')
+	# timelineentry_set to get timeline entries
+	# tag_set to get tags
+	owner = models.ForeignKey(User, related_name='owned_events')
+	leadEditors = models.ManyToManyField(User, related_name='lead_edited_events')
+	editors = models.ManyToManyField(User, related_name='edited_events')
+
+class TimelineEntry(models.Model):
+	text = models.TextField()
+	date = models.DateTimeField('date updated')
+	event = models.ForeignKey(NewsEvent)
+	def __unicode__(self):
+		return self.text
 
 class Comment(models.Model):
 	text = models.TextField()
@@ -98,4 +113,14 @@ class RecommendationBundle(models.Model):
 
 	def __unicode__(self):
 		return self.user.name + " A:" + str(self.articleRecommendations) + " NSR:" + str(self.newsSourceRecommendations) + " NFR:" + str(self.newsFeedRecommendations)
+
+class NewsEventForm(ModelForm):
+	class Meta:
+		model = NewsEvent
+		fields = ['title', 'eventTag', 'articles', 'pendingArticles', 'owner', 'leadEditors', 'editors']
+	#timelineEntries = forms.ModelMultipleChoiceField(queryset=TimelineEntry.objects.filter(event=self.id))
+	#tags = forms.ModelMultipleChoiceField(queryset=Tag.objects.filter(tagee=self.id))
+
+
+
 
