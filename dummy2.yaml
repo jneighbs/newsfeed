@@ -43,6 +43,7 @@
 - model: nf_server.newsfeed
   pk: 4
   fields:
+    feed_title: "Politics"
     owner: 1
     newsSources:
       - 1
@@ -53,6 +54,7 @@
 - model: nf_server.newsfeed
   pk: 5
   fields:
+    feed_title: "Finance"
     owner: 1
     newsSources:
       - 1
@@ -64,8 +66,18 @@
 - model: nf_server.newsfeed
   pk: 6
   fields:
+    feed_title: "Entertainment"
     owner: 1
     newsSources:
+      - 3
+- model: nf_server.newsfeed
+  pk: 7
+  fields:
+    feed_title: "Sports"
+    owner: 1
+    newsSources:
+      - 1
+      - 2
       - 3
 - model: nf_server.newsobject
   pk: 7

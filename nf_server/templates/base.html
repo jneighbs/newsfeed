@@ -1,51 +1,71 @@
 {% load staticfiles %}
-<html>
-  <head>
-    <link href="{% static 'bootstrap/css/bootstrap.min.css' %}"
-          rel="stylesheet" media="screen">
-          <link href="{% static 'bootstrap/css/application.css' %}"
-          rel="stylesheet" media="screen">
-  </head>
-
-  <body>
-  	<h1>Newsfeed</h1>
-  	 <div class="header row">
-              <br/>
-               <div class="standard columns left">
-               	<h2>All Feeds</h2>
-               	{% if feeds %}
-					<ul>
-    					{% for feed in feeds %}
-        					<li><a href="/feed/{{feed.id}}">
-        					Newsfeed {{feed.id}}</a>
-        					</li>
-    					{% endfor %}
-    					</ul>
-						{% else %}
-    					<p>No feeds are available.</p>
-					{% endif %}
-  					
-               </div>
-               <div class="standard columns right">
-               	<h2>All Articles</h2>
-  					{% if articles %}
-    					<ul>
-    					{% for article in articles %}
-        					<li><a href="{{article.url}}" target="_blank">From {{article.newsSource}}</a> 
-        					{{article.pub_date}} {{article.summaryText}}
-        					</li>
-    					{% endfor %}
-    					</ul>
-						{% else %}
-    					<p>No articles are available.</p>
-					{% endif %}
-               </div>              
-            </div>
-
-  	
-    {% block content %}
-    {% endblock %}
-
-    <script src="{% static 'bootstrap/js/bootstrap.min.js' %}"></script>
-  </body>
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /> 
+		<meta name="description" content="Newsfeed" />
+		<meta name="HandheldFriendly" content="True">
+        <meta name="MobileOptimized" content="320">	
+        <meta http-equiv="cleartype" content="on">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">	
+		<meta id="viewport" name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+		<title>Newsfeed</title>
+		{% load staticfiles %}
+		<script type="text/javascript" src="{% static "bootstrap/js/custom.js" %}"></script>
+		<script type="text/javascript" src="{% static "bootstrap/js/modern.js" %}"></script>
+		<!--
+		<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.js"></script>
+		<script type="text/javascript" src="{% static "bootstrap/js/bootstrap.js" %}"></script>
+		<script type="text/javascript" src="{% static "bootstrap/js/bootstrap.min.js" %}"></script>
+		-->	
+		<!--[if IE]>
+			<link rel="stylesheet" type="text/css" href="css/ie.css" />
+		<![endif]-->
+		<link rel="stylesheet" media="screen" href="{% static "bootstrap/css/style.css" %}" />
+		<!--
+		<link rel="stylesheet" media="screen" href="{% static "bootstrap/css/application.css" %}" />
+		<link rel="stylesheet" media="screen" href="{% static "bootstrap/css/bootstrap-theme.css" %}" />
+		<link rel="stylesheet" media="screen" href="{% static "bootstrap/css/bootstrap-theme.css.map" %}" />
+		<link rel="stylesheet" media="screen" href="{% static "bootstrap/css/bootstrap.css" %}" />
+		<link rel="stylesheet" media="screen" href="{% static "bootstrap/css/bootstrap.css.map" %}" />
+		<link rel="stylesheet" media="screen" href="{% static "bootstrap/css/bootstrap.min.css" %}" />
+		-->
+       
+		<!-- Choose icons 
+        <link rel="apple-touch-icon-precomposed" href="/img/base/apple-touch-icon-57x57-precomposed.png" />
+        <link rel="apple-touch-icon-precomposed" sizes="72x72" href="/img/base/apple-touch-icon-72x72-precomposed.png" />
+        <link rel="apple-touch-icon-precomposed" sizes="114x114" href="/img/base/apple-touch-icon-114x114-precomposed.png" />
+        <link rel="shortcut icon" href="/img/base/favicon.ico" />
+    	-->
+    </head>
+	<body  class="open-menu">
+		<nav role="navigation">
+	    <ul id="navmenu">
+	            <li><a href="/" class="nav-home current" data-canxfilter=""><i class="menu-icon icon-etch"></i></a></li>
+	            <li><a href="/#studio" data-filter=".studio"><i class="menu-icon icon-studio"></i><span>Studio</span></a></li>
+	            <li><a href="/#team" data-filter=".team"><i class="menu-icon icon-team"></i><span>Team</span></a></li>
+	            <li><a href="/#projects" data-filter=".projects"><i class="menu-icon icon-work"></i><span>Projects</span></a></li>
+	            <li><a href="/#ethos" data-filter=".ethos"><i class="menu-icon icon-ethos"></i><span>Ethos</span></a></li>
+	    </ul>
+	    <a href="#contact" id="nav-contact"><i class="menu-icon icon-contact"></i><span>Contact</span></a>    
+		</nav>
+		<section role="main">
+		    <div class="grid-wrap shuffle grid-home">
+		    <div id="logo-block" class="block-wrap ignore-shuffle" data-rowspan="1" data-colspan="1">
+		    <div class="block text-only">
+		    	<h2>Newsfeeds</h2>
+		    	<ul>
+		    		<li><a href="/">Trending Now</a></li>
+		        	{% for feed in feeds %}
+						<li>
+							<a href="/feed/{{feed.id}}">{{ feed.feed_title }}</a>
+						</li>
+					{% endfor %}
+				</ul>	
+		    </div>
+		    </div>
+			{% block content %}
+    		{% endblock content %}
+    	</section>
+	</body>
 </html>

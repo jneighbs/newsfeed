@@ -14,6 +14,7 @@ class NewsSource(NewsObject):
 	country = models.CharField(max_length=30)
 
 class NewsFeed(NewsObject):
+	feed_title = models.CharField(max_length=60)
 
 	# has many newsSources
 	newsSources = models.ManyToManyField(NewsSource)
