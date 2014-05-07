@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h2>{{ feed.title }}</h2>
+<ul>
+	{% for source in feeds_sources %}
+ 		{% for article in articles %}
+			{% if source.id == article.newsSource.id %}
+				<li>
+					<a href="{{ article.url }}" target="_blank">{{ article.title }}</a>
+					<div class="date">{{article.pub_date}} | {{ article.newsSource }}</div>
+					{{article.summaryText}}
+					<br/><br/>
+				</li>
+			{% endif %}
+		{%endfor%}
+ 	{%endfor%}
+</ul>
+{% endblock content %}

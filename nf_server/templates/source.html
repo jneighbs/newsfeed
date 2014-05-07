@@ -1,19 +1,15 @@
 {% extends "base.html" %}
 
 {% block content %}
-<header id="intro" class="block-wrap ignore-shuffle" data-rowspan="2" data-colspan="2">
-<hgroup style="overflow:scroll;" class="block text-only">
-    <h2>{{ source.title }}</h2>
-    <ul>
-		{% for article in articles %}
-		<li>
-			<a href="{{ article.url }}" target="_blank">{{ article.title }}</a>
-			<div class="date">{{article.pub_date}} | {{ article.newsSource }}</div>
-			{{article.summaryText}}
-			<br/><br/>
-		</li>
-     	{%endfor%}
-   	</ul>
-</hgroup>
-</header>
+<h2>{{ source.title }}</h2>
+<ul>
+	{% for article in articles %}
+	<li>
+		<a href="{{ article.url }}" target="_blank">{{ article.title }}</a>
+		<div class="date">{{article.pub_date}} | {{ article.newsSource }}</div>
+		{{article.summaryText}}
+		<br/><br/>
+	</li>
+ 	{%endfor%}
+	</ul>	
 {% endblock content %}

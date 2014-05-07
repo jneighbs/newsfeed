@@ -18,23 +18,32 @@
 		<link rel="stylesheet" media="screen" href="{% static "css/style.css" %}" />
     </head>
 	<body  class="open-menu">
-		<section role="main">
-		    <div class="grid-wrap shuffle grid-home">
-		    <div id="logo-block" class="block-wrap ignore-shuffle" data-rowspan="1" data-colspan="1">
-		    <div class="block text-only">
-		    	<h2>Newsfeeds</h2>
+	<section role="main">
+		<div id="logo-block" class="block-wrap ignore-shuffle" data-rowspan="2" data-colspan="1">
+			<div class="block text-only">
+                <h2>Newsfeeds</h2>
 		    	<ul>
-		    		<li><a href="/">Trending</a></li>
+		        	{% for feed in feeds %}
+						<li>
+							<a href="/feed/{{ feed.id }}">{{ feed.title }}</a>
+						</li>
+					{% endfor %}
+				</ul>
+                <h2>Newssources</h2>
+		    	<ul>
 		        	{% for source in sources %}
 						<li>
 							<a href="/source/{{ source.id }}">{{ source.title }}</a>
 						</li>
 					{% endfor %}
-				</ul>	
-		    </div>
-		    </div>
-			{% block content %}
-    		{% endblock content %}
-    	</section>
+				</ul>
+            </div>
+        </div>
+ 		<header id="intro" class="block-wrap ignore-shuffle" data-rowspan="2" data-colspan="2">
+            <hgroup style="overflow:scroll;" class="block text-only">
+                {% block content %}{% endblock content %}
+        	</hgroup>
+        </header>
+    </section>		
 	</body>
 </html>

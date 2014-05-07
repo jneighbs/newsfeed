@@ -246,3 +246,67 @@
     url: http://www.reddit.com/r/AdviceAnimals/comments/24x040/with_all_of_the_finals_posts_recently_i_present/
     pub_date: 2014-05-06 6:00+00:00
     summaryText: ""
+- model: nf_server.newsobject
+  pk: 23
+  fields:
+    title: "Trending"
+- model: nf_server.newsfeed
+  pk: 23
+  fields:
+    owner: 1
+    newsSources:
+      - 1
+      - 2
+      - 3
+      - 4
+      - 5
+- model: nf_server.newsobject
+  pk: 24
+  fields:
+    title: "The New York Times"
+- model: nf_server.newsfeed
+  pk: 24
+  fields:
+    owner: 1
+    newsSources:
+      - 1
+- model: nf_server.newsobject
+  pk: 25
+  fields:
+    title: "The Economist"
+- model: nf_server.newsfeed
+  pk: 25
+  fields:
+    owner: 1
+    newsSources:
+      - 2
+- model: nf_server.newsobject
+  pk: 26
+  fields:
+    title: "Time Magazine"
+- model: nf_server.newsfeed
+  pk: 26
+  fields:
+    owner: 1
+    newsSources:
+      - 3
+- model: nf_server.newsobject
+  pk: 27
+  fields:
+    title: "4chan"
+- model: nf_server.newsfeed
+  pk: 27
+  fields:
+    owner: 1
+    newsSources:
+      - 4
+- model: nf_server.newsobject
+  pk: 28
+  fields:
+    title: "Reddit"
+- model: nf_server.newsfeed
+  pk: 28
+  fields:
+    owner: 1
+    newsSources:
+      - 5  
