@@ -1,6 +1,9 @@
-<!DOCTYPE html>
-<html lang="en">
-	<head>
+<!doctype html>
+<!-- HTML5 Boilerplate -->
+<!--[if lt IE 7]><html class="no-js lt-ie9 lt-ie8 lt-ie7" lang="en"> <![endif]-->
+<!--[if (IE 7)&!(IEMobile)]><html class="no-js lt-ie9 lt-ie8" lang="en"><![endif]-->
+<!--[if (IE 8)&!(IEMobile)]><html class="no-js lt-ie9" lang="en"><![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en"><!--<![endif]-->
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /> 
 		<meta name="description" content="Newsfeed" />
 		<meta name="HandheldFriendly" content="True">
@@ -15,16 +18,6 @@
 		<link rel="stylesheet" media="screen" href="{% static "css/style.css" %}" />
     </head>
 	<body  class="open-menu">
-		<nav role="navigation">
-	    <ul id="navmenu" class="open">
-	            <li><a href="/" class="nav-home current" data-canxfilter=""><i class="menu-icon icon-etch"></i></a></li>
-	            <li><a href="/#studio" data-filter=".studio"><i class="menu-icon icon-studio"></i><span>Studio</span></a></li>
-	            <li><a href="/#team" data-filter=".team"><i class="menu-icon icon-team"></i><span>Team</span></a></li>
-	            <li><a href="/#projects" data-filter=".projects"><i class="menu-icon icon-work"></i><span>Projects</span></a></li>
-	            <li><a href="/#ethos" data-filter=".ethos"><i class="menu-icon icon-ethos"></i><span>Ethos</span></a></li>
-	    </ul>
-	    <a href="#contact" id="nav-contact"><i class="menu-icon icon-contact"></i><span>Contact</span></a>    
-		</nav>
 		<section role="main">
 		    <div class="grid-wrap shuffle grid-home">
 		    <div id="logo-block" class="block-wrap ignore-shuffle" data-rowspan="1" data-colspan="1">
@@ -32,9 +25,9 @@
 		    	<h2>Newsfeeds</h2>
 		    	<ul>
 		    		<li><a href="/">Trending</a></li>
-		        	{% for feed in feeds %}
+		        	{% for source in sources %}
 						<li>
-							<a href="/feed/{{feed.id}}">{{ feed.feed_title }}</a>
+							<a href="/source/{{ source.id }}">{{ source.title }}</a>
 						</li>
 					{% endfor %}
 				</ul>	

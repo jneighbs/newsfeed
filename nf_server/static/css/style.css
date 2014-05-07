@@ -2155,7 +2155,6 @@ li.block-wrap {
     Hero Banners - Profile and Case study pages
 ======================================================================*/
 .hero-banner {
-  background-image: url(../img/base/loading.gif);
   background-repeat: no-repeat;
   background-position: center center;
   margin: 10px 5px 5px;
@@ -2804,18 +2803,6 @@ li.block-wrap {
 #blog-home-header li a {
   display: block;
   padding: 0.7em 0;
-}
-.svg .etch-logo {
-  background: url("../img/base/etch-logo-white.svg") no-repeat;
-  background-position: 0 0.25em;
-  background-size: 100%;
-  color: transparent;
-  display: inline-block;
-  height: 1.2em;
-  line-height: 1em;
-  overflow: hidden;
-  vertical-align: top;
-  width: 1.75em;
 }
 .svg .sidebar-block .etch-logo {
   background-position: 0 0.35em;
@@ -3606,13 +3593,11 @@ section {
 ======================================================================*/
 .menu-icon {
   display: block;
-  background: transparent url('../img/base/menu-sprite.svg') no-repeat;
   background-size: auto 100%;
   height: 3em;
   width: 3em;
 }
 .no-svg .menu-icon {
-  background-image: url('../img/base/menu-sprite.png');
 }
 .icon-menu {
   background-position: 0 0;
@@ -3815,7 +3800,6 @@ section {
   text-align: left;
   text-indent: -999em;
   direction: ltr;
-  background-image: url('../img/base/menu-sprite.svg');
   width: 2em;
   height: 2em;
   background-position: -12em 0;
@@ -3836,7 +3820,6 @@ section {
 }
 .no-svg #contact h4 a,
 .no-svg #new-contact h4 a {
-  background-image: url('../img/base/menu-sprite.png');
   background-position: right top;
   height: 45px;
   width: 45px;
@@ -3883,6 +3866,10 @@ section {
   font-size: 36px;
   font-size: 3.6rem;
 }
+#intro .date {
+  font-size: 12px;
+  font-size: 1.2rem;
+}
 @media all and (min-width: 40em) {
   #intro h2 {
     font-size: 72px;
@@ -3891,6 +3878,9 @@ section {
 }
 #logo-block {
   display: none;
+}
+#logo-block #selected-source {
+  color: ;
 }
 /* Pep swipe gallery */
 .studio {

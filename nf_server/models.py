@@ -10,13 +10,10 @@ class NewsObject(models.Model):
 	def __unicode__(self):
 		return self.title
 
-
 class NewsSource(NewsObject):
 	country = models.CharField(max_length=30)
 
 class NewsFeed(NewsObject):
-	feed_title = models.CharField(max_length=60)
-
 	# has many newsSources
 	newsSources = models.ManyToManyField(NewsSource)
 	# belongs to a user
@@ -48,7 +45,6 @@ class Article(NewsObject):
 	pub_date = models.DateTimeField('date published')
 	# photo / thumbnail
 	summaryText = models.TextField()
-
 
 class NewsEvent(NewsObject):
 	# has many articles

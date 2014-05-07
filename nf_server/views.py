@@ -7,19 +7,17 @@ from models import Article, NewsFeed, NewsSource, NewsEvent, NewsEventForm
 
 # Create your views here.
 def index(request):
+	sources = NewsSource.objects.all()
 	articles = Article.objects.all()
-	feeds = NewsFeed.objects.all()
-	context = {'articles': articles, 'feeds': feeds}
+	context = {'sources': sources, 'articles': articles}
 	return render(request, 'index.html', context)
 
-def feed(request, feed_id):
-	articles = Article.objects.all()
-	feeds = NewsFeed.objects.all()
-	feed = get_object_or_404(NewsFeed, pk=feed_id)
-	# name = feed.owner.name
-	sources = feed.newsSources.all()
-	context = {'sources': sources, 'feed': feed, 'articles': articles, 'feeds': feeds}
-	return render(request, 'feed.html', context)
+def source(request, source_id):
+	sources = NewsSource.objects.all()
+	source = get_object_or_404(NewsSource, pk=source_id)
+	articles = get_list_or_404(Article, newsSource=source_id)
+	context = {'sources': sources, 'source': source, 'articles': articles}
+	return render(request, 'source.html', context)
 
 # # Right side.
 # def feeds(request):
