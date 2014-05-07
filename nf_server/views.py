@@ -1,14 +1,9 @@
 from django.http import HttpResponse
 from django.shortcuts import render, get_object_or_404, get_list_or_404
 from tasks import slowAdd, classify, trainClassifier
-<<<<<<< HEAD
 from django.core.urlresolvers import reverse
 from django.views import generic
-from django.views.generic.list import ListView
-from models import Article, NewsFeed, NewsSource
-=======
 from models import Article, NewsFeed, NewsSource, NewsEvent, NewsEventForm
->>>>>>> FETCH_HEAD
 
 # Create your views here.
 def index(request):
@@ -38,26 +33,20 @@ def feed(request, feed_id):
 # def event(request, event_id):
 # 	return HttpResponse("event %s - newsfeed.com/event" % event_id)
 
-<<<<<<< HEAD
-# def createEvent(request):
-# 	return render(request, 'create_event.html', {})
-# 	#return HttpResponse("So you wanna create an event, eh?")
-=======
-def createEvent(request, event_id=None):
+# def createEvent(request, event_id=None):
 
-	if event_id:
-		print "got an id"
-		event = get_object_or_404(NewsEvent, pk=event_id)
-		form = NewsEventForm(instance=event)
+# 	if event_id:
+# 		print "got an id"
+# 		event = get_object_or_404(NewsEvent, pk=event_id)
+# 		form = NewsEventForm(instance=event)
 
-	else:
-		print "ain't got no event id"
-		form = NewsEventForm()
+# 	else:
+# 		print "ain't got no event id"
+# 		form = NewsEventForm()
 	
 
-	return render(request, 'create_event.html', {'form': form})
-	#return HttpResponse("So you wanna create an event, eh?")
->>>>>>> FETCH_HEAD
+# 	return render(request, 'create_event.html', {'form': form})
+# 	#return HttpResponse("So you wanna create an event, eh?")
 
 def newEvent(request):
 	return HttpResponse("Making a new event for ya...")

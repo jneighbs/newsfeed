@@ -726,18 +726,21 @@ blockquote p::after {
     Entypo
 ======================================================================*/
 @font-face {
-  font-family: 'entypo';
-  src: url('../fonts/icons/entypo.eot');
-  src: url('../fonts/icons/entypo.woff') format('woff'), url('../fonts/icons/entypo.ttf') format('truetype'), url('../fonts/icons/entypo.svg') format('svg');
+    font-family: 'entypo';
+    src: url('Entypo-webfont.eot');
+    src: url('Entypo-webfont.eot?#iefix') format('embedded-opentype'),
+         url('Entypo-webfont.woff') format('woff'),
+         url('Entypo-webfont.ttf') format('truetype'),
+         url('Entypo-webfont.svg#entyporegular') format('svg');
   font-weight: normal;
   font-style: normal;
 }
+
 /* Use the following CSS code if you want to use data attributes for inserting your icons */
 [class*="icon-"]:before,
 .icon:before,
 .cat-item a:before {
   font-family: 'entypo';
-  content: '';
   speak: none;
   font-weight: normal;
   font-variant: normal;
