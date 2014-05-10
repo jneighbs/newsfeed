@@ -10,4 +10,5 @@ urlpatterns = patterns('',
     url(r'^create_event$', views.createEvent, name='create_event'),
     url(r'^new_event$', views.newEvent, name='new_event'),
     url(r'^article/(?P<article_id>\d+)/', views.article, name='article'), 
+    url(r'^search/(?P<query>.+)/', views.search, name='search'),
 )

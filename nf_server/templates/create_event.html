@@ -6,10 +6,14 @@
 <div class="input-group">
   <input type="text" class="form-control" placeholder="Username">
 </div>
-<div class="input-group">
+<div class="input-group" id="searchBox">
   <span class="input-group-addon">#</span>
   <input type="text" class="form-control" placeholder="Event Tag">
 </div>
+<div id="target"></div>
+<script type="text/javascript">
+	new SearchBox("searchBox", "target", "articles feeds")
+</script>
 {% if article %}
 <ul>
 	{% for article in event.articles.all %}

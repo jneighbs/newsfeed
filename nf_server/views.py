@@ -4,6 +4,7 @@ from tasks import slowAdd, classify, trainClassifier
 from django.core.urlresolvers import reverse
 from django.views import generic
 from models import Article, NewsFeed, NewsSource, NewsEvent, NewsEventForm
+import json
 
 def index(request):
 	sources = NewsSource.objects.all()
@@ -55,6 +56,16 @@ def newEvent(request):
 def article(request, article_id):
 	article = get_object_or_404(Article, pk=article_id)
 	return HttpResponse("article %s - newsfeed.com/article" % article_id)
+
+def search(request, query):
+	print query
+	results = Article.objects.filter(title__contains=query)
+	responseData = {}
+	for result in results:
+		responseData[result.id] = result.title
+	#results.extend(Article.objects.filter(summary__contains=query))
+	print responseData
+	return HttpResponse(json.dumps(responseData), content_type="application/json")
 
 # Create your views here.
 def nf_server(request):
