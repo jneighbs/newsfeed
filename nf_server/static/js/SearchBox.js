@@ -22,6 +22,17 @@ function SearchBox(sbId, targetId, models)
 		var obj = this;
 		this.searchField.onkeyup = function(event)
 		{
+			// If user deletes everything in searchbox, make sure old
+			// results get cleared.
+			if(obj.searchField.value.length == 0)
+			{
+				while(obj.target.firstChild)
+				{
+					obj.target.removeChild(obj.target.firstChild);
+				}
+				obj.target.style.display = "none"
+				return;
+			}
 			var encQuery = encodeURIComponent(obj.searchField.value);
 			encQuery += "?models=" + encodeURIComponent(models);
 			console.log("Encoded query:" + encQuery);
@@ -36,7 +47,7 @@ function SearchBox(sbId, targetId, models)
 
 SearchBox.prototype.ajaxSuccessHandler = function(responseText)
 {
-	/*
+	
 	if(responseText.length != 0)
 	{
 		while(this.target.firstChild)
@@ -45,18 +56,36 @@ SearchBox.prototype.ajaxSuccessHandler = function(responseText)
 		}
 
 		var response = JSON.parse(responseText);
-		for(var i = 0; i < response.length; i++)
-		{
-			var link = document.createElement("a");
-			link.href = "/photos/index/" + response[i].user_id + "?topPhoto=" + response[i].photo_id;
-			link.className += " resultLink";
-			var img = document.createElement("img");
-			img.src = "/images/" + response[i].file_name;
-			img.className += " resultThumb";
-			link.appendChild(img);
-			this.target.appendChild(link);
-		}
+		this.articleHelper(response);
 		//console.log(response);
-	}*/
-	console.log(responseText)
+	}
+	//console.log(responseText)
+}
+
+SearchBox.prototype.articleHelper = function(response)
+{
+	var responseCount = 0;
+	for(var id in response)
+	{
+		var span = document.createElement("span");
+		span.classList.add("entry");
+		
+		var link = document.createElement("a");
+		link.href = "/article/" + id;
+		link.innerHTML = response[id];
+
+		var addButton = document.createElement("button");
+		addButton.classList.add("add_button");
+		addButton.innerHTML = "+";
+
+		span.appendChild(link);
+		span.appendChild(addButton);		
+		this.target.appendChild(span);
+		
+		console.log(response[id]);
+		responseCount++;
+	}	
+	//this.target.style.width="250px";
+	this.target.style.height= responseCount * 44 + 10 + "px";
+	this.target.style.display = "block";
 }

@@ -1,14 +1,16 @@
 {% extends "base.html" %}
-
 {% block content %}
+{% load staticfiles %}
+<link rel="stylesheet" type="text/css" href="{% static "css/test.css" %}" />
+
 <h1>YOLO</h1>
 
 <div class="input-group">
   <input type="text" class="form-control" placeholder="Username">
 </div>
 <div class="input-group" id="searchBox">
-  <span class="input-group-addon">#</span>
-  <input type="text" class="form-control" placeholder="Event Tag">
+  <span class="input-group-addon"></span>
+  <input type="text" class="form-control" placeholder="Search...">
 </div>
 <div id="target"></div>
 <script type="text/javascript">

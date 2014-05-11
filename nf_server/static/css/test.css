@@ -1,0 +1,41 @@
+div#target {
+	width: 600px;
+	max-height: 300px;
+	display: none;
+	overflow-y: scroll;
+	background-color: gray;
+	border-top-right-radius: 5px;
+	border-bottom-right-radius: 5px;
+	border-bottom-left-radius: 5px;
+	-moz-border-top-right-radius: 5px;
+	-moz-border-bottom-right-radius: 5px;
+	-moz-border-bottom-left-radius: 5px;
+}
+
+span.entry {
+	width: 580px;
+	display: block;
+	overflow-x: hidden;
+	white-space: nowrap;
+	margin: 10px;
+}
+
+span.entry a{
+	display: inline-block;
+	max-width: 520px;
+	overflow-x: hidden;
+	text-overflow: ellipsis;
+}
+
+button.add_button {
+	width: 34px;
+	height: 34px;
+	float: right;
+	border: none;
+	border-radius: 2px;
+	-moz-border-radius: 2px;
+}
+
+hgroup {
+	width: 800px;
+}
