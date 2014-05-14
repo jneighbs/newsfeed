@@ -5,6 +5,7 @@ from django.core.urlresolvers import reverse
 from django.views import generic
 from models import Article, NewsFeed, NewsSource, NewsEvent, NewsEventForm
 import json
+import utils
 
 def index(request):
 	sources = NewsSource.objects.all()
@@ -58,14 +59,21 @@ def article(request, article_id):
 	return HttpResponse("article %s - newsfeed.com/article" % article_id)
 
 def search(request, query):
-	print query
-	results = Article.objects.filter(title__contains=query)
-	responseData = {}
-	for result in results:
-		responseData[result.id] = result.title
-	#results.extend(Article.objects.filter(summary__contains=query))
-	print responseData
-	return HttpResponse(json.dumps(responseData), content_type="application/json")
+	validModels = ['articles', 'feeds', 'sources', 'events']
+	models = [model for model in request.GET.get('models', '').split() if model in validModels]	
+
+	query = query.lower()
+
+	responseData = utils.findExactMatches(models, query)
+
+	queryWords = set(query.split())
+
+	if len(queryWords) == 0:
+		return HttpResponse(json.dumps(responseData), content_type="application/json")
+
+	responseData = utils.findPartialMatches(models, queryWords, responseData, 0.5)
+
+	return HttpResponse(json.dumps(responseData['articles']), content_type="application/json")
 
 # Create your views here.
 def nf_server(request):

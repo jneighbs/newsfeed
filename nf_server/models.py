@@ -12,12 +12,18 @@ class NewsObject(models.Model):
 
 class NewsSource(NewsObject):
 	country = models.CharField(max_length=30)
+	description = models.TextField()
+
+	def allText(self):
+		return self.title + " " + self.description
 
 class NewsFeed(NewsObject):
 	# has many newsSources
 	newsSources = models.ManyToManyField(NewsSource)
 	# belongs to a user
 	owner = models.ForeignKey('User', related_name='ownedNewsFeeds')
+
+	description = models.TextField()
 	
 	# user_set
 	# tag_set
@@ -25,6 +31,9 @@ class NewsFeed(NewsObject):
 	# DO LATER
 	# has many topic filters
 	# has a user filter?
+
+	def allText(self):
+		return self.title + " " + self.description
 
 class User(models.Model):
 	# CHANGE THESE TWO LATER
@@ -46,6 +55,9 @@ class Article(NewsObject):
 	# photo / thumbnail
 	summaryText = models.TextField()
 
+	def allText(self):
+		return self.title + " " + self.summaryText
+
 class NewsEvent(NewsObject):
 	# has many articles
 	eventTag = models.CharField(max_length=33)
@@ -56,6 +68,9 @@ class NewsEvent(NewsObject):
 	owner = models.ForeignKey(User, related_name='owned_events')
 	leadEditors = models.ManyToManyField(User, related_name='lead_edited_events')
 	editors = models.ManyToManyField(User, related_name='edited_events')
+
+	def allText(self):
+		return self.title + " " + self.eventTag
 
 class TimelineEntry(models.Model):
 	text = models.TextField()
