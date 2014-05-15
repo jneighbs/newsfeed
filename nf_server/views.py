@@ -11,7 +11,7 @@ def index(request):
 	sources = NewsSource.objects.all()
 	feeds = NewsFeed.objects.all()
 	articles = Article.objects.all()
-	context = {'articles': articles, 'sources': sources, 'feeds': feeds}
+	context = {'articles': articles, 'sources': sources, 'feeds': feeds, 'request': request,}
 	return render(request, 'index.html', context)
 
 def source(request, source_id):
