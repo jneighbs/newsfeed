@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+{% block content %}
+
+<h2>About</h2>
+Newsfeed provides news from a bevy of reputable sources.<br/><br/>
+<table>
+	<tr>
+   <td>
+      {% load staticfiles %}
+      <img id="nyt" src="{% static "img/nytimes.png" %}"></img>
+    </td>
+    <td id = "left_table">
+		  <a href="nytimes.com" target="_blank">The New York Times</a>
+		is an American daily newspaper, founded and continuously published in New York City since September 18, 1851. It has won 112 Pulitzer Prizes, more than any other news organization.
+		</td>
+  </tr>
+  <tr>
+  <td>
+      {% load staticfiles %}
+      <img id="nyt" src="{% static "img/econ.jpg" %}"></img>
+    </td>
+    <td id = "left_table">
+      <a href="economist.com" target="_blank">The Economist</a>
+    is a London-based weekly newspaper. It aims "to take part in a severe contest between intelligence, which presses forward, and an unworthy, timid ignorance obstructing our progress."
+    </td>
+  </tr>
+  <tr>
+  <td>
+      {% load staticfiles %}
+      <img id="nyt" src="{% static "img/time.jpg" %}"></img>
+    </td>
+    <td id = "left_table">
+      <a href="time.com" target="_blank">Time Magazine</a>
+    is an American weekly news magazine published in New York City. Time has the world's largest circulation for a weekly news magazine, and has a readership of 25 million, 20 million of which are based in the United States.
+    </td>
+  </tr>
+  <tr>
+  <td>
+      {% load staticfiles %}
+      <img id="nyt" src="{% static "img/chan.jpeg" %}"></img>
+    </td>
+    <td id = "left_table">
+      <a href="4chan.com" target="_blank">4chan</a>
+    is an imageboard whose users believe their god's gift to mankind.
+    </td>
+  </tr>
+  <tr>
+  <td>
+      {% load staticfiles %}
+      <img id="nyt" src="{% static "img/reddit.png" %}"></img>
+    </td>
+    <td id = "left_table">
+      <a href="reddit.com" target="_blank">Reddit</a>
+    is an entertainment, social networking service and news website where registered community members can submit content, such as text posts or direct links. The goal is to acquire gold like leprechauns.
+    </td>
+  </tr>
+</table>
+{% endblock content %}

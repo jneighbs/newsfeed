@@ -35,8 +35,22 @@ def feed(request, feed_id):
 def event(request, event_id):
 	return HttpResponse("event %s - newsfeed.com/event" % event_id)
 
-def createEvent(request, event_id=None):
+# Create your views here.
+def about(request):
+	sources = NewsSource.objects.all()
+	feeds = NewsFeed.objects.all()
+	articles = Article.objects.all()
+	context = {'articles': articles, 'sources': sources, 'feeds': feeds, 'request': request,}
+	return render(request, 'about.html', context)
+	
+def edit (request, feed_id):
+	all_sources = NewsSource.objects.all()
+	feed = get_object_or_404(NewsFeed, pk=feed_id)
+	feeds_sources = feed.newsSources.all()
+	context = {'all_sources': all_sources, 'feeds_sources': feeds_sources}
+	return render(request, 'edit.html', context)
 
+def createEvent(request, event_id=None):
 	if event_id:
 		print "got an id"
 		event = get_object_or_404(NewsEvent, pk=event_id)
