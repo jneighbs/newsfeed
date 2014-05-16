@@ -58,7 +58,7 @@ def article(request, article_id):
 	article = get_object_or_404(Article, pk=article_id)
 	return HttpResponse("article %s - newsfeed.com/article" % article_id)
 
-def search(request, query):
+def fireSearch(request, query):
 	validModels = ['articles', 'feeds', 'sources', 'events']
 	models = [model for model in request.GET.get('models', '').split() if model in validModels]	
 
@@ -73,7 +73,10 @@ def search(request, query):
 
 	responseData = utils.findPartialMatches(models, queryWords, responseData, 0.5)
 
-	return HttpResponse(json.dumps(responseData['articles']), content_type="application/json")
+	return HttpResponse(json.dumps(responseData), content_type="application/json")
+
+def search(request):
+	return render(request, 'search.html', {})
 
 # Create your views here.
 def nf_server(request):

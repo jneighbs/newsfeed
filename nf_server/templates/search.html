@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% block content %}
+{% load staticfiles %}
+<link rel="stylesheet" type="text/css" href="{% static "css/test.css" %}" />
+<script type="text/javascript" src="{% static "js/SearchHelper.js" %}"></script>
+
+
+<h2>Search for something.</h2>
+<div class="input-group" id="searchBox">
+  <span class="input-group-addon"></span>
+  <input type="text" class="form-control" placeholder="e.g., 'Ukraine invasion'...">
+</div>
+
+
+
+<div class="btn-group" data-toggle="buttons">
+  <label class="btn btn-primary">
+    <input type="checkbox" checked="true" id="sources_checkbox"> Sources
+  </label>
+  <label class="btn btn-primary">
+    <input type="checkbox" checked="true" id="articles_checkbox"> Articles
+  </label>
+  <label class="btn btn-primary">
+    <input type="checkbox" checked="true" id="feeds_checkbox"> Feeds
+  </label>
+  <label class="btn btn-primary">
+    <input type="checkbox" checked="true" id="events_checkbox"> Events
+  </label>
+</div>
+<div id="all_target"></div>
+
+<script type="text/javascript">
+	//new SearchHelper("sources_checkbox")
+	var searchBox = new SearchBox("searchBox", "all_target", "articles feeds sources events");
+	searchBox.addCheckbox("sources_checkbox");
+	searchBox.addCheckbox("articles_checkbox");
+	searchBox.addCheckbox("feeds_checkbox");
+	searchBox.addCheckbox("events_checkbox");
+	searchBox.allMode();
+</script>
+
+{% endblock %}

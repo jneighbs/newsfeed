@@ -6,7 +6,7 @@ from nf_server.models import Article, NewsFeed, NewsSource, NewsEvent
 # returned object is a dictionary with models as keys and dictionaries
 # with model id as keys and titles as values.
 def findExactMatches(models, query):
-	print "finding exact match..."
+	print models
 
 	results = {}
 
@@ -32,7 +32,6 @@ def findExactMatches(models, query):
 #
 # Returns a response object of the same format as the findExactMatches methd
 def findPartialMatches(models, queryWords, responseData, threshold):
-	print "finding partial matches..."
 	for model in models:
 
 		if model not in responseData:
@@ -47,14 +46,10 @@ def findPartialMatches(models, queryWords, responseData, threshold):
 		elif model == 'events':
 			candidates = NewsEvent.objects.all()
 
-		print "got candidates for ", model
-		#print responseData
-		print len(candidates)
-
 		for candidate in candidates:
 			if candidate.id in responseData[model]:
 				continue
-			print candidate.allText()
+			#print candidate.allText()
 
 			queryWordCount = 0.0
 			for queryWord in queryWords:
@@ -63,5 +58,4 @@ def findPartialMatches(models, queryWords, responseData, threshold):
 
 			if queryWordCount / len(queryWords) >= threshold:
 				responseData[model][candidate.id] = candidate.title
-		print responseData
 	return responseData
