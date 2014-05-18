@@ -18,8 +18,35 @@
 		<script type="text/javascript" src="{% static "js/Ajaxy.js" %}"></script>
 		<script type="text/javascript" src="{% static "js/SearchBox.js" %}"></script>
 		<link rel="stylesheet" media="screen" href="{% static "css/style.css" %}" />
+		<link rel="stylesheet" media="screen" href="{% static "css/fonts.css" %}" />
+
     </head>
 	<body  class="open-menu">
+	<nav id="colorNav">
+	<ul>
+		<li class="green">
+			<a href="/">Home</span></a>
+		</li>
+		<li class="red">
+			<a href="/about">About</a>
+		</li>
+		<li class="blue">
+			<a href="/search">Search</a>
+		</li><!--
+		<li id="login-button" class="yellow">
+			{% block header %} {% endblock %}
+		</li>
+		
+		<li class="purple">
+			<a href="/chat" class="icon-comments"></a>
+		</li>
+		<li>
+			<div id="text-display">Storytime</div>
+		</li>
+		-->
+	</ul>
+	</nav>
+	
 	<section role="main">
 		<div id="logo-block" class="block-wrap ignore-shuffle" data-rowspan="2" data-colspan="1">
 			<div class="block text-only">
@@ -39,7 +66,6 @@
 						</li>
 					{% endfor %}
 				</ul>
-				<a href="/search/"><h2>Search</h2></a>
             </div>
         </div>
  		<header id="intro" class="block-wrap ignore-shuffle" data-rowspan="2" data-colspan="2">

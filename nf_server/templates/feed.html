@@ -1,6 +1,12 @@
 {% extends "base.html" %}
 
+{% block header %}
+
+<a href="/edit/{{ feed.id }}">Edit feed</a>
+{% endblock header %}
+
 {% block content %}
+
 <h2>{{ feed.title }}</h2>
 <ul>
 	{% for source in feeds_sources %}

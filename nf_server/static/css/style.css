@@ -1,6 +1,115 @@
 /*====================================================================
     Style
 ======================================================================
+*/
+#nyt {
+  border-radius: 3px !important;
+  height:50px !important;
+  width:50px !important;
+  display: inline-block;
+
+}
+#left_table {
+  width: 85%;
+}
+#login-button {
+  position: absolute;
+  right: 66px;
+  top: 70px;
+  padding: inherit;
+
+}
+/*----------------------------
+  The Navigation Menu
+-----------------------------*/
+#colorNav > ul, #text-display {
+  margin:0 auto !important;
+  padding: 10px;
+}
+#colorNav > ul > li { /* will style only the top level li */
+  list-style: none !important;
+  display: inline-block !important;
+  line-height: 1 !important;
+  margin: 1px !important;
+  border-radius: 0px !important;
+  padding: 20px;
+}
+#colorNav > ul > li > a {
+  color:inherit !important;
+  text-decoration:none !important;
+  font-size: 20px !important;
+}
+#colorNav li ul {
+  position:absolute  !important;
+  list-style:none;
+  text-align:center;
+  width:180px;
+  left:50%;
+  margin-left:-90px;
+  top:70px;
+  font:bold 12px 'Open Sans Condensed', sans-serif;
+  max-height:0px;
+  overflow:hidden;
+  -webkit-transition:max-height 0.4s linear;
+  -moz-transition:max-height 0.4s linear;
+  transition:max-height 0.4s linear;
+}
+#colorNav li ul li {
+  background-color:#313131;
+}
+#colorNav li ul li a {
+  padding:12px;
+  color:#fff !important;
+  text-decoration:none !important;
+  display:block;
+}
+#colorNav li ul li:nth-child(odd){ /* zebra stripes */
+  background-color:#363636;
+}
+#colorNav li ul li:hover{
+  background-color:#444;
+}
+#colorNav li ul li:first-child{
+  border-radius:3px 3px 0 0;
+  margin-top:25px;
+  position:relative;
+}
+#colorNav li ul li:first-child:before{ /* the pointer tip */
+  content:'';
+  position:absolute;
+  width:1px;
+  height:1px;
+  border:5px solid transparent;
+  border-bottom-color:#313131;
+  left:50%;
+  top:-10px;
+  margin-left:-5px;
+}
+#colorNav li ul li:last-child{
+  border-bottom-left-radius:3px;
+  border-bottom-right-radius:3px;
+}
+#colorNav li:hover ul{
+  max-height:200px; /* Increase when adding more dropdown items */
+}
+#colorNav li.title{
+  width: 100%; 
+  text-align: right;
+}
+/*----------------------------
+  Color Themes
+-----------------------------*/
+/*#colorNav li.green{ background-color:#00c08b !important; color:#127a5d !important;}
+#colorNav li.red{ background-color:#ea5080 !important;color:#aa2a52 !important;}
+#colorNav li.blue{ background-color:#53bfe2 !important;color:#2884a2 !important;}
+#colorNav li.yellow{ background-color:#f8c54d !important;color:#ab8426 !important;}
+#colorNav li.purple{ background-color:#df6dc2 !important;color:#9f3c85 !important;}
+*/
+#colorNav li.green{ background-color:#3a3a3a !important; color:#f2f2f2 !important;}
+#colorNav li.red{ background-color:#3a3a3a !important;color:#f2f2f2 !important;}
+#colorNav li.blue{ background-color:#3a3a3a !important;color:#f2f2f2 !important;}
+#colorNav li.yellow{ background-color:#3a3a3a !important;color:#f2f2f2 !important;}
+#colorNav li.purple{ background-color:#3a3a3a !important;color:#f2f2f2 !important;}
 
 ======================================================================
     Contents
