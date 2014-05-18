@@ -52,3 +52,5 @@ docs/_build/
 #Raw NYTimes Pickles
 raw_pickles/
 db.sqlite3
+
+db.sqlite3
