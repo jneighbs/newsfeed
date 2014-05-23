@@ -20,7 +20,6 @@ function SearchBox(sbId, targetId, models)
 
 	if(this.searchField)
 	{
-		// attach click handlers
 		var that = this;
 		this.searchField.onkeyup = function(event)
 		{

@@ -4,30 +4,42 @@
 <link rel="stylesheet" type="text/css" href="{% static "css/test.css" %}" />
 <script type="text/javascript" src="{% static "js/SearchHelper.js" %}"></script>
 
-<h1>YOLO</h1>
-
-<div class="input-group">
-  <input type="text" class="form-control" placeholder="Username">
-</div>
-<div class="input-group" id="searchBox">
-  <span class="input-group-addon"></span>
-  <input type="text" class="form-control" placeholder="Search...">
-</div>
-<div id="target"></div>
-<script type="text/javascript">
-	new SearchBox("searchBox", "target", "articles")
-</script>
-{% if article %}
-<ul>
-	{% for article in event.articles.all %}
-    	<li>{{ article.title }}</li>
-	{% endfor %}
-	<li>{{ event.id }}</li>
-</ul>
-{% endif %}
+<h2>Create an event</h1>
 
 <form action="/new_event/" method="post">{% csrf_token %}
-{{ form.as_p }}
-<input type="submit" value="Submit" />
+		  <input type="text" class="form-control" name="title" placeholder={{event.title|default:'Title'}}>
+
+		  <input type="text" class="form-control" id="eventTag" name="eventTag" placeholder={{event.eventTag|default:"Event&nbsp;Tag"}}>
+		  <script type="text/javascript">
+		  	new EventTag("eventTag");
+		  </script>
+
+	<h1>Tags</h1>
+	{% for tag in event.tag_set.all %}
+		<div class="tag">{{tag.text}}</div>
+	{% endfor %}
+	<input type="text" class="form-control" name="addTag" placeholder="Add&nbsp;tag...">
+
+	<h1>Articles</h1>
+	{% if event.articles %}
+	<ul>
+		{% for article in event.articles.all %}
+	    	<li>{{ article.title }}</li>
+		{% endfor %}
+		<li>{{ event.id }}</li>
+	</ul>
+	{% endif %}
+	<div class="input-group" id="searchBox">
+	  <span class="input-group-addon"></span>
+	  <input type="text" class="form-control" placeholder="Add an article...">
+	</div>
+	<div id="target"></div>
+	<script type="text/javascript">
+		new SearchBox("searchBox", "target", "articles")
+	</script>
+
+
+	<input type="submit" value="Save" />
+
 </form>
 {% endblock %}

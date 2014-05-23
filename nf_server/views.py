@@ -58,14 +58,22 @@ def createEvent(request, event_id=None):
 
 	else:
 		print "ain't got no event id"
+		event = NewsEvent(owner_id=1)
+		event.save()
 		form = NewsEventForm()
 	
 
-	return render(request, 'create_event.html', {'form': form})
+	return render(request, 'create_event.html', {'form': form, 'event': event})
 	#return HttpResponse("So you wanna create an event, eh?")
 
 def newEvent(request):
 	return HttpResponse("Making a new event for ya...")
+
+def checkEventTag(request, query):
+	print query
+	print "checking event tag..."
+	matchingEvents = NewsEvent.objects.filter(eventTag=query)
+	return HttpResponse(len(matchingEvents))
 
 # Create your views here.
 def article(request, article_id):
