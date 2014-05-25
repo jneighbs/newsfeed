@@ -53,7 +53,7 @@ class Article(NewsObject):
 	url = models.URLField(max_length=200)
 	pub_date = models.DateTimeField('date published')
 	# photo / thumbnail
-	summaryText = models.TextField()
+	summaryText = models.URLField(max_length=200)
 
 	def allText(self):
 		return self.title + " " + self.summaryText
