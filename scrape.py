@@ -23,7 +23,7 @@ def putInDB(entry, sourceName):
 
 	source = NewsSource.objects.get(title=sourceName)
 	#convert pub_date
-	a = Article(newsSource=source, url=entry.link, pub_date=timezone.now(), summaryText=entry.summary, title=entry.title)
+	a = Article(newsSource=source, url=entry.link, pub_date=timezone.now(), summaryText=entry.summary[0:199], title=entry.title)
 	a.save()
 
 #scrape Reddit data
