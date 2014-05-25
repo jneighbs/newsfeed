@@ -1,6 +1,6 @@
 function SearchBox(sbId, targetId, models)
 {
-	this.successHandler = this.articleHelper;
+	this.successHandler = this.singletonHelper;
 	this.target = document.getElementById(targetId);
 	this.models = models;
 	this.articlesList = null;
@@ -105,9 +105,9 @@ SearchBox.prototype.addCheckbox = function(id)
 // Switch witch handler we use when the AJAX call succeeds. The articleHelper
 // displays resulst in a neat little box of limited size with buttons (non-functional for now)
 // for adding articles to an event. The allHelper just displays errythang.
-SearchBox.prototype.articleMode = function()
+SearchBox.prototype.singletonMode = function()
 {
-	this.successHandler = this.articleHelper;
+	this.successHandler = this.singletonHelper;
 }
 
 SearchBox.prototype.allMode = function()
@@ -188,9 +188,9 @@ SearchBox.prototype.allHelper = function(response)
 // width & a max height, is scrollable if there are too many things to display,
 // and each entry is a link to the article and a button for adding it to
 // the event.
-SearchBox.prototype.articleHelper = function(response)
+SearchBox.prototype.singletonHelper = function(response)
 {
-	response = response['articles'];
+	response = response[this.models];
 	var responseCount = 0;
 	var ids = getArticleListIds(document.getElementById(this.articlesList).children);
 	for(var id in response)
@@ -201,31 +201,16 @@ SearchBox.prototype.articleHelper = function(response)
 			continue;
 		}
 
-		var span = document.createElement("span");
-		span.classList.add("entry");
-		
-		var link = document.createElement("a");
-		link.href = "/article/" + id;
-		link.innerHTML = response[id];
-
-		var addButton = document.createElement("button");
-		addButton.classList.add("add_button");
-		addButton.innerHTML = "+";
-
-		var that = this;
-		//avoid the JS for-loop trap
-		(function(id, title, addButton)
+		if(this.models == 'articles')
 		{
-			addButton.onclick = function(event)
-			{
-				event.preventDefault();
-				that.addButtonClickHandler(id, title);
-			}
-		})(id, response[id], addButton);
-
-
-		span.appendChild(link);
-		span.appendChild(addButton);		
+			var span = this.articleHelper(id, response);
+		}
+		else if(this.models == 'tags')
+		{
+			var span = this.tagHelper(id, response);
+		}
+		
+			
 		this.target.appendChild(span);
 		
 		responseCount++;
@@ -245,6 +230,51 @@ SearchBox.prototype.articleHelper = function(response)
 		}
 		return ids;
 	}
+}
+
+SearchBox.prototype.articleHelper = function(id, response)
+{
+	var span = document.createElement("span");
+	span.classList.add("entry");
+	
+	var link = document.createElement("a");
+	link.href = "/article/" + id;
+	link.innerHTML = response[id];
+
+	var addButton = document.createElement("button");
+	addButton.classList.add("add_button");
+	addButton.innerHTML = "+";
+
+	var that = this;
+	//avoid the JS for-loop trap
+	
+	(function(id, title, addButton)
+	{
+		addButton.onclick = function(event)
+		{
+			event.preventDefault();
+			that.addButtonClickHandler(id, title);
+		}
+	})(id, response[id], addButton);
+	/*addButton.onclick = function(event)
+	{
+		event.preventDefault();
+		that.addButtonClickHandler(id, response[id]);
+	}*/
+
+
+	span.appendChild(link);
+	span.appendChild(addButton);
+
+	return span;	
+}
+
+SearchBox.prototype.tagHelper = function(id, response)
+{
+	var span = document.createElement("span");
+	span.classList.add("entry");
+	span.innerHTML = response[id];
+	return span;
 }
 
 // On clicking the '+' button on a search result, add it to the articles list,
@@ -275,7 +305,7 @@ SearchBox.prototype.addButtonClickHandler = function(id, title)
 	var searchResults = this.target.children;
 	for(var i = 0; i < searchResults.length; i++)
 	{
-		if(searchResults[i].firstElementChild.innerText = title)
+		if(searchResults[i].firstElementChild.innerText == title)
 		{
 			var href = searchResults[i].firstElementChild.href;
 			var suffix = "article/" + id;

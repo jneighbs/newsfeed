@@ -113,7 +113,7 @@ def article(request, article_id):
 	return HttpResponse("article %s - newsfeed.com/article" % article_id)
 
 def fireSearch(request, query):
-	validModels = ['articles', 'feeds', 'sources', 'events']
+	validModels = ['articles', 'feeds', 'sources', 'events', 'tags']
 	models = [model for model in request.GET.get('models', '').split() if model in validModels]	
 
 	query = query.lower()

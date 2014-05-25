@@ -25,6 +25,23 @@
 		searchBox.articlesList = "id_articles";
 	</script>
 
+	<h1>Tags</h1>
+	<ul id="id_tags">
+	{% for tag in event.tag_set.all %}
+		<li>
+			<input type="checkbox" checked="checked" value={{tag.id}}>{{tag.text}}</input>
+		</li>
+	{% endfor %}
+	</ul>
+	<div id="tag_search_box">
+		<input type="text" placeholder="Add Tags...">
+		<div id="tag_result_box">
+	</div>
+	<script type="text/javascript">
+		var searchBox = new SearchBox("tag_search_box", "tag_result_box", "tags");
+		searchBox.articlesList = "id_tags";
+	</script>
+
 	<input type="submit" value="Save" />
 
 </form>
