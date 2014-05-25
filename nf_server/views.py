@@ -55,6 +55,8 @@ def createEvent(request, event_id=None):
 		print "got an id"
 		event = get_object_or_404(NewsEvent, pk=event_id)
 		form = NewsEventForm(instance=event)
+		print event.articles.all()
+		form.fields['articles'].queryset = event.articles.all()
 
 	else:
 		print "ain't got no event id"
@@ -67,6 +69,36 @@ def createEvent(request, event_id=None):
 	#return HttpResponse("So you wanna create an event, eh?")
 
 def newEvent(request):
+	print "lalalalal"
+	for param, val in request.POST.items():
+		print param, val
+	print request.POST.getlist('articles')
+	e = NewsEvent.objects.get(pk=request.POST['pk'])
+	print e.id
+	e.articles.clear()
+	for articleId in request.POST.getlist('articles'):
+		e.articles.add(articleId)
+	if 'title' in request.POST:
+		e.title = request.POST['title']
+	if 'eventTag' in request.POST:
+		e.eventTag = request.POST['eventTag']
+	e.save()
+	#form = NewsEventForm(request.POST, e)
+	#print "form", form
+	#if form.is_valid():
+	#	print "yay it's valid!"
+		#print form
+
+	#	updatedEvent = form.save(commit=False)
+	#	updatedEvent.id = request.POST['pk']
+	#	updatedEvent.save()
+	#	form.save_m2m()
+	#	print updatedEvent.id
+	#	print updatedEvent.eventTag
+	#	print updatedEvent.articles.all()
+	#else:
+	#	print form.errors
+
 	return HttpResponse("Making a new event for ya...")
 
 def checkEventTag(request, query):

@@ -3,6 +3,7 @@ function SearchBox(sbId, targetId, models)
 	this.successHandler = this.articleHelper;
 	this.target = document.getElementById(targetId);
 	this.models = models;
+	this.articlesList = null;
 
 	var searchBox = document.getElementById(sbId);
 	if(!searchBox)
@@ -191,8 +192,15 @@ SearchBox.prototype.articleHelper = function(response)
 {
 	response = response['articles'];
 	var responseCount = 0;
+	var ids = getArticleListIds(document.getElementById(this.articlesList).children);
 	for(var id in response)
 	{
+		// Don't display articles that are already part of the event.
+		if(id in ids)
+		{
+			continue;
+		}
+
 		var span = document.createElement("span");
 		span.classList.add("entry");
 		
@@ -204,6 +212,18 @@ SearchBox.prototype.articleHelper = function(response)
 		addButton.classList.add("add_button");
 		addButton.innerHTML = "+";
 
+		var that = this;
+		//avoid the JS for-loop trap
+		(function(id, title, addButton)
+		{
+			addButton.onclick = function(event)
+			{
+				event.preventDefault();
+				that.addButtonClickHandler(id, title);
+			}
+		})(id, response[id], addButton);
+
+
 		span.appendChild(link);
 		span.appendChild(addButton);		
 		this.target.appendChild(span);
@@ -212,4 +232,58 @@ SearchBox.prototype.articleHelper = function(response)
 	}	
 	this.target.style.height= responseCount * 44 + 10 + "px";
 	this.target.style.display = "block";
+
+	// Loop over the articlesList and return an object with all the
+	// article IDs from that list as its properties.
+	function getArticleListIds(list)
+	{
+		var ids = {};
+		for(var i = 0; i < list.length; i++)
+		{
+			var id = parseInt(list[i].firstElementChild.firstElementChild.value);
+			ids[id] = "lala";
+		}
+		return ids;
+	}
+}
+
+// On clicking the '+' button on a search result, add it to the articles list,
+// and remove it from the search results.
+SearchBox.prototype.addButtonClickHandler = function(id, title)
+{
+	var list = document.getElementById(this.articlesList);
+	if(!list)
+	{
+		return;
+	}
+	console.log(this.articlesList + " " + id + " " + title);
+
+	var li = document.createElement("li");
+	var label = document.createElement("label");
+	label.setAttribute("for", "id_articles_" + list.children.length);
+	var input = document.createElement("input");
+	input.setAttribute("checked", "checked");
+	input.id = "id_articles_" + list.children.length;
+	input.name = "articles";
+	input.type = "checkbox";
+	input.value = id;
+	label.appendChild(input);
+	label.innerHTML += title;
+	li.appendChild(label);
+	list.appendChild(li);
+
+	var searchResults = this.target.children;
+	for(var i = 0; i < searchResults.length; i++)
+	{
+		if(searchResults[i].firstElementChild.innerText = title)
+		{
+			var href = searchResults[i].firstElementChild.href;
+			var suffix = "article/" + id;
+			if(href.indexOf(suffix, href.length - suffix.length) !== -1)
+			{
+				this.target.removeChild(searchResults[i]);
+				break;
+			}
+		}
+	}
 }

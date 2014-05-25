@@ -126,9 +126,28 @@ class RecommendationBundle(models.Model):
 		return self.user.name + " A:" + str(self.articleRecommendations) + " NSR:" + str(self.newsSourceRecommendations) + " NFR:" + str(self.newsFeedRecommendations)
 
 class NewsEventForm(ModelForm):
+
+	articles = forms.ModelMultipleChoiceField(queryset=None, widget=forms.CheckboxSelectMultiple(), required=False)
+	pendingArticles = forms.ModelMultipleChoiceField(queryset=None, required=False)
+	leadEditors = forms.ModelMultipleChoiceField(queryset=None, required=False)
+	editors = forms.ModelMultipleChoiceField(queryset=None, widget=forms.CheckboxSelectMultiple(), required=False)
+
+	def __init__(self, *args, **kwargs):
+		super(NewsEventForm, self).__init__(*args, **kwargs)
+		for name, field in self.fields.items():
+			if field.widget.__class__ == forms.widgets.TextInput:
+				if field.widget.attrs.has_key('class'):
+					field.widget.attrs['class'] += ' form-control'
+				else:
+					field.widget.attrs.update({'class':'form-control'})
+			if field.label == 'EventTag':
+				field.widget.attrs.update({'placeholder':'Event Tag...'})
+			elif field.label == 'Title':
+				field.widget.attrs.update({'placeholder':'Title...'})
 	class Meta:
 		model = NewsEvent
 		fields = ['title', 'eventTag', 'articles', 'pendingArticles', 'owner', 'leadEditors', 'editors']
+
 	#timelineEntries = forms.ModelMultipleChoiceField(queryset=TimelineEntry.objects.filter(event=self.id))
 	#tags = forms.ModelMultipleChoiceField(queryset=Tag.objects.filter(tagee=self.id))
 
