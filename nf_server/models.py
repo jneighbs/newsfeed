@@ -47,6 +47,9 @@ class User(models.Model):
 
 	def __unicode__(self):
 		return self.name
+	
+	def allText(self):
+		return self.name;
 
 class Article(NewsObject):
 	newsSource = models.ForeignKey(NewsSource)
@@ -143,6 +146,11 @@ class NewsEventForm(ModelForm):
 					field.widget.attrs['class'] += ' form-control'
 				else:
 					field.widget.attrs.update({'class':'form-control'})
+			if field.widget.__class__ == forms.widgets.CheckboxSelectMultiple:
+				if field.widget.attrs.has_key('class'):
+					field.widget.attrs['class'] += ' saveList'
+				else:
+					field.widget.attrs.update({'class':'saveList'})
 			if field.label == 'EventTag':
 				field.widget.attrs.update({'placeholder':'Event Tag...'})
 			elif field.label == 'Title':

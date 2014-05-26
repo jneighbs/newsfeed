@@ -18,14 +18,14 @@
 	{{form.articles}}
 	<div id="article_search_box">
 		<input type="text" placeholder="Add Articles...">
-		<div id="article_result_box" />
 	</div>
+	<div id="article_result_box"></div>
 	<script type="text/javascript">
 		var aSearchBox = new ArticleSearchBox("article_search_box", "article_result_box", "id_articles", "articles");
 	</script>
 
 	<h1>Tags</h1>
-	<ul id="id_tags">
+	<ul id="id_tags" class="saveList">
 	{% for tag in event.tag_set.all %}
 		<li>
 			<input type="checkbox" checked="checked" value={{tag.id}}>{{tag.text}}</input>
@@ -40,6 +40,21 @@
 			var tagSearchBox = new TagSearchBox("tag_search_box", "tag_result_box", "id_tags", "tags");
 		</script>
 	</div>
+
+	<h1>Editors</h1>
+	{% if not form.editors %}
+		<ul id="id_editors" class="saveList">
+		</ul>
+	{% else %}
+		{{form.editors}}
+	{% endif %}
+	<div id="editor_search_box">
+		<input type="text" placeholder="Add an Editor...">
+	</div>
+	<div id="editor_result_box"></div>
+	<script type="text/javascript">
+		var edSearchBox = new EditorSearchBox("editor_search_box", "editor_result_box", "id_editors", "users");
+	</script>
 
 	<input type="submit" value="Save" />
 

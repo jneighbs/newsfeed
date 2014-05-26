@@ -57,6 +57,7 @@ def createEvent(request, event_id=None):
 		form = NewsEventForm(instance=event)
 		print event.articles.all()
 		form.fields['articles'].queryset = event.articles.all()
+		form.fields['editors'].queryset = event.editors.all()
 
 	else:
 		print "ain't got no event id"
@@ -113,7 +114,7 @@ def article(request, article_id):
 	return HttpResponse("article %s - newsfeed.com/article" % article_id)
 
 def fireSearch(request, query):
-	validModels = ['articles', 'feeds', 'sources', 'events', 'tags']
+	validModels = ['articles', 'feeds', 'sources', 'events', 'tags', 'users']
 	models = [model for model in request.GET.get('models', '').split() if model in validModels]	
 
 	query = query.lower()

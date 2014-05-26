@@ -39,8 +39,6 @@ ArticleSearchBox.prototype.createResultElement = function(id, response)
 // and remove it from the search results.
 ArticleSearchBox.prototype.addButtonClickHandler = function(id, title)
 {
-	//console.log(this.saveList + " " + id + " " + title);
-
 	this.addEntryToSaveList(id, title);
 
 	var searchResults = this.target.children;
@@ -57,14 +55,6 @@ ArticleSearchBox.prototype.addButtonClickHandler = function(id, title)
 			}
 		}
 	}
-
-	if(searchResults.length > 0)
-	{
-		this.target.style.height= searchResults.length * 44 + 10 + "px";
-		this.target.style.display = "block";	
-	}
-	else
-	{
-		this.target.style.display = "none";
-	}
+	this.keyupHandler();
+	//this.resizeResultBox();
 }

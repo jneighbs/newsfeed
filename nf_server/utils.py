@@ -1,4 +1,4 @@
-from nf_server.models import Article, NewsFeed, NewsSource, NewsEvent, Tag
+from nf_server.models import Article, NewsFeed, NewsSource, NewsEvent, Tag, User
 
 # Given a set of models and a query, returns all the instances
 # of all the models that contain that query in their title.
@@ -20,6 +20,8 @@ def findExactMatches(models, query):
 		results['events'] = NewsEvent.objects.filter(title__contains=query)
 	if 'tags' in models:
 		results['tags'] = Tag.objects.filter(text__contains=query)
+	if 'users' in models:
+		results['users'] = User.objects.filter(name__contains=query)
 	
 	print "survived result creation...", results
 	
@@ -28,10 +30,7 @@ def findExactMatches(models, query):
 	for model in results:
 		responseData[model] = {}
 		for result in results[model]:
-			if model == 'tags':
-				responseData[model][result.id] = result.text
-			else:
-				responseData[model][result.id] = result.title
+			responseData[model][result.id] = result.allText()
 	
 	print "exact match response data", responseData
 	
@@ -58,6 +57,8 @@ def findPartialMatches(models, queryWords, responseData, threshold):
 			candidates = NewsEvent.objects.all()
 		elif model == 'tags':
 			candidates = Tag.objects.all()
+		elif model == 'users':
+			candidates = User.objects.all()
 
 		for candidate in candidates:
 			if candidate.id in responseData[model]:

@@ -12,6 +12,14 @@ div#target {
 	-moz-border-bottom-left-radius: 5px;
 }
 
+ul li label {
+	overflow-x: hidden;
+	white-space: nowrap;
+	max-width: 520px;
+	text-overflow: ellipsis;
+	display: inline-block;
+}
+
 span.entry {
 	width: 580px;
 	display: block;

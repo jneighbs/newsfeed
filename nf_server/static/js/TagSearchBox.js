@@ -45,7 +45,8 @@ TagSearchBox.prototype.tagClickHandler = function(id, title)
 		this.target.style.display = "none";
 	}
 
-	this.searchBox.removeChild(this.createTagButton);
+	//this.searchBox.removeChild(this.createTagButton);
+	//this.createTagButton = null;
 }
 
 TagSearchBox.prototype.houseKeeping = function()
@@ -63,8 +64,8 @@ TagSearchBox.prototype.houseKeeping = function()
 			that.tagClickHandler(-1, that.searchField.value);
 			that.searchField.value = "";
 			that.keyupHandler();
-			that.searchBox.removeChild(that.createTagButton);
-			that.createTagButton = null;
+			//that.searchBox.removeChild(that.createTagButton);
+			//that.createTagButton = null;
 		}
 
 		this.searchBox.appendChild(this.createTagButton);
@@ -97,4 +98,10 @@ TagSearchBox.prototype.getSaveListTitles = function()
 		titles.push(this.saveList.children[i].firstElementChild.innerText);
 	}
 	return titles;
+}
+
+TagSearchBox.prototype.searchBoxEmptied = function()
+{
+	this.searchBox.removeChild(this.createTagButton);
+	this.createTagButton = null;
 }
