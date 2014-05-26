@@ -5,12 +5,12 @@ function SearchBox(sbId, targetId, models)
 	this.models = models;
 	this.articlesList = null;
 
-	var searchBox = document.getElementById(sbId);
+	this.searchBox = document.getElementById(sbId);
 	if(!searchBox)
 	{
 		return null;
 	}
-	var inputs = searchBox.getElementsByTagName("input");
+	var inputs = this.searchBox.getElementsByTagName("input");
 	for(var i = 0; i < inputs.length; i++)
 	{
 		if(inputs[i].type == "text")
@@ -203,20 +203,48 @@ SearchBox.prototype.singletonHelper = function(response)
 
 		if(this.models == 'articles')
 		{
-			var span = this.articleHelper(id, response);
+			var span = this.createArticle(id, response);
 		}
 		else if(this.models == 'tags')
 		{
-			var span = this.tagHelper(id, response);
+			var span = this.createTag(id, response);
 		}
 		
 			
 		this.target.appendChild(span);
+
+		if(this.models == 'tags' && !this.createTagButton)
+		{
+			this.createTagButton = document.createElement("input");
+			this.createTagButton.type = "button";
+			this.createTagButton.value = "Create";
+
+			var that = this;
+			this.createTagButton.onclick = function(event)
+			{
+				that.tagClickHandler(-1, that.searchField.value);
+				that.searchField.value = "";
+				that.keyupHandler();
+				that.searchBox.removeChild(that.createTagButton);
+				that.createTagButton = null;
+			}
+
+			this.searchBox.appendChild(this.createTagButton);
+
+		}
 		
 		responseCount++;
-	}	
-	this.target.style.height= responseCount * 44 + 10 + "px";
-	this.target.style.display = "block";
+	}
+	if(responseCount > 0)
+	{
+		this.target.style.height= responseCount * 44 + 10 + "px";
+		this.target.style.display = "block";	
+	}
+	else
+	{
+		this.target.style.display = "none";
+	}
+
 
 	// Loop over the articlesList and return an object with all the
 	// article IDs from that list as its properties.
@@ -232,7 +260,7 @@ SearchBox.prototype.singletonHelper = function(response)
 	}
 }
 
-SearchBox.prototype.articleHelper = function(id, response)
+SearchBox.prototype.createArticle = function(id, response)
 {
 	var span = document.createElement("span");
 	span.classList.add("entry");
@@ -247,7 +275,6 @@ SearchBox.prototype.articleHelper = function(id, response)
 
 	var that = this;
 	//avoid the JS for-loop trap
-	
 	(function(id, title, addButton)
 	{
 		addButton.onclick = function(event)
@@ -256,12 +283,6 @@ SearchBox.prototype.articleHelper = function(id, response)
 			that.addButtonClickHandler(id, title);
 		}
 	})(id, response[id], addButton);
-	/*addButton.onclick = function(event)
-	{
-		event.preventDefault();
-		that.addButtonClickHandler(id, response[id]);
-	}*/
-
 
 	span.appendChild(link);
 	span.appendChild(addButton);
@@ -269,11 +290,19 @@ SearchBox.prototype.articleHelper = function(id, response)
 	return span;	
 }
 
-SearchBox.prototype.tagHelper = function(id, response)
+SearchBox.prototype.createTag = function(id, response)
 {
 	var span = document.createElement("span");
 	span.classList.add("entry");
 	span.innerHTML = response[id];
+
+	var that = this;
+	span.onclick = function(event)
+	{
+		event.preventDefault();
+		that.tagClickHandler(id, response[id]);
+	}
+
 	return span;
 }
 
@@ -288,18 +317,7 @@ SearchBox.prototype.addButtonClickHandler = function(id, title)
 	}
 	console.log(this.articlesList + " " + id + " " + title);
 
-	var li = document.createElement("li");
-	var label = document.createElement("label");
-	label.setAttribute("for", "id_articles_" + list.children.length);
-	var input = document.createElement("input");
-	input.setAttribute("checked", "checked");
-	input.id = "id_articles_" + list.children.length;
-	input.name = "articles";
-	input.type = "checkbox";
-	input.value = id;
-	label.appendChild(input);
-	label.innerHTML += title;
-	li.appendChild(label);
+	var li = this.createLi(id, title, list);
 	list.appendChild(li);
 
 	var searchResults = this.target.children;
@@ -316,4 +334,62 @@ SearchBox.prototype.addButtonClickHandler = function(id, title)
 			}
 		}
 	}
+
+	if(searchResults.length > 0)
+	{
+		this.target.style.height= searchResults.length * 44 + 10 + "px";
+		this.target.style.display = "block";	
+	}
+	else
+	{
+		this.target.style.display = "none";
+	}
+}
+
+SearchBox.prototype.tagClickHandler = function(id, title)
+{
+	var list = document.getElementById(this.articlesList);
+	if(!list)
+	{
+		return;
+	}
+
+	var li = this.createLi(id, title, list);
+	list.appendChild(li);
+
+	var searchResults = this.target.children;
+	for(var i = 0; i < searchResults.length; i++)
+	{
+		if(searchResults[i].innerText == title)
+		{
+			this.target.removeChild(searchResults[i]);
+		}
+	}
+
+	if(searchResults.length > 0)
+	{
+		this.target.style.height= searchResults.length * 44 + 10 + "px";
+		this.target.style.display = "block";	
+	}
+	else
+	{
+		this.target.style.display = "none";
+	}
+}
+
+SearchBox.prototype.createLi = function(id, title, list)
+{
+	var li = document.createElement("li");
+	var label = document.createElement("label");
+	label.setAttribute("for", "id_articles_" + list.children.length);
+	var input = document.createElement("input");
+	input.setAttribute("checked", "checked");
+	input.id = "id_articles_" + list.children.length;
+	input.name = "articles";
+	input.type = "checkbox";
+	input.value = id;
+	label.appendChild(input);
+	label.innerHTML += title;
+	li.appendChild(label);
+	return li;
 }

@@ -95,6 +95,9 @@ class Tag(models.Model):
 
 	def __unicode__(self):
 		return self.text
+	
+	def allText(self):
+		return self.text
 
 class Topic(models.Model):
 	name = models.CharField(max_length=33)

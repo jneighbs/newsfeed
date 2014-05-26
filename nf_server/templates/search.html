@@ -31,12 +31,11 @@
 
 <script type="text/javascript">
 	//new SearchHelper("sources_checkbox")
-	var searchBox = new SearchBox("searchBox", "all_target", "articles feeds sources events");
+	var searchBox = new AllSearchBox("searchBox", "all_target", "articles feeds sources events");
 	searchBox.addCheckbox("sources_checkbox");
 	searchBox.addCheckbox("articles_checkbox");
 	searchBox.addCheckbox("feeds_checkbox");
 	searchBox.addCheckbox("events_checkbox");
-	searchBox.allMode();
 </script>
 
 {% endblock %}
