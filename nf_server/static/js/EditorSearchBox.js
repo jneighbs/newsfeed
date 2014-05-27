@@ -7,6 +7,12 @@ EditorSearchBox.prototype = new CompactSearchBox();
 
 EditorSearchBox.prototype.createResultElement = function(id, response)
 {
+	var ownerId = document.getElementById("id_owner_pk").value;
+	if(ownerId == id)
+	{
+		return null;
+	}
+	
 	var span = document.createElement("span");
 	span.classList.add("entry");
 

@@ -27,10 +27,12 @@ CompactSearchBox.prototype.successHelper = function(response)
 			continue;
 		}
 
-		var resultElement = this.createResultElement(id, response);			
-		this.target.appendChild(resultElement);
-		
-		this.resultCount++;
+		var resultElement = this.createResultElement(id, response);
+		if(resultElement)
+		{
+			this.target.appendChild(resultElement);
+			this.resultCount++;
+		}
 	}
 
 	this.resizeResultBox();

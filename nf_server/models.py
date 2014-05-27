@@ -54,7 +54,7 @@ class User(models.Model):
 class Article(NewsObject):
 	newsSource = models.ForeignKey(NewsSource)
 	url = models.URLField(max_length=200)
-	pub_date = models.DateTimeField('date published')
+	pub_date = models.DateTimeField('date published', auto_now_add=True)
 	# photo / thumbnail
 	summaryText = models.CharField(max_length=200)
 
@@ -77,14 +77,14 @@ class NewsEvent(NewsObject):
 
 class TimelineEntry(models.Model):
 	text = models.TextField()
-	date = models.DateTimeField('date updated')
+	date = models.DateTimeField('date updated', auto_now_add=True)
 	event = models.ForeignKey(NewsEvent)
 	def __unicode__(self):
 		return self.text
 
 class Comment(models.Model):
 	text = models.TextField()
-	date = models.DateTimeField('date posted')
+	date = models.DateTimeField('date posted', auto_now_add=True)
 	user = models.ForeignKey(User)
 	commentee = models.ForeignKey(NewsObject)
 

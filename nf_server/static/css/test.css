@@ -47,3 +47,36 @@ button.add_button {
 hgroup {
 	width: 800px;
 }
+
+div.timeline_entry {
+	display: inline-block;
+	width: 400px;
+	padding: 10px;
+	background-color: gray;
+	margin-top: 5px;
+}
+
+div.timeline_entry div.date {
+	display: inline;
+	float: left;
+}
+
+div.timeline_entry button {
+	display: inline;
+	float: right;
+	height: 20px;
+	font-size: 10px;
+	float: right;
+}
+
+div.timeline_entry button.add {
+	margin-top: 8px;
+}
+
+div.timeline_entry textarea {
+	width: 400px;
+	height: 100px;
+	padding: 0;
+	border: none;
+}
+

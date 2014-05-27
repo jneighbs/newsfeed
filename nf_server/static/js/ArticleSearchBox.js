@@ -56,5 +56,4 @@ ArticleSearchBox.prototype.addButtonClickHandler = function(id, title)
 		}
 	}
 	this.keyupHandler();
-	//this.resizeResultBox();
 }

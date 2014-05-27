@@ -59,14 +59,21 @@ def createEvent(request, event_id=None):
 		form.fields['articles'].queryset = event.articles.all()
 		form.fields['editors'].queryset = event.editors.all()
 
+		timelineEntries = []
+		for timelineEntry in event.timelineentry_set.all():
+			timelineEntries.append([timelineEntry.date.strftime('%b %d, %Y, %I:%M %p'), timelineEntry.text.encode('ascii','ignore')])
+			print timelineEntry.date.strftime('%Y-%m-%d %H:%M')
+		timelineEntries.sort()
+
 	else:
 		print "ain't got no event id"
 		event = NewsEvent(owner_id=1)
 		event.save()
 		form = NewsEventForm()
+		timelineEntries = []
 	
 
-	return render(request, 'create_event.html', {'form': form, 'event': event})
+	return render(request, 'create_event.html', {'form': form, 'event': event, 'timelineEntries': timelineEntries})
 	#return HttpResponse("So you wanna create an event, eh?")
 
 def newEvent(request):

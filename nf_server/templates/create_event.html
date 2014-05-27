@@ -10,9 +10,19 @@
 
 	<input type="hidden" name="pk" value={{event.id}}>
 	{{form.id}}
-	{{form.owner}}
-	{{form.title}}
-	{{form.eventTag}}
+	<label for="id_owner_name">Owner: {{event.owner.name}} </label>
+	<input type="hidden" id="id_owner_name" name="owner_name" value={{event.owner.name}}>
+	<input type="hidden" id="id_owner_pk" name="owner_pk" value={{event.owner.id}}>
+	<p>{{form.title}}
+	<p>{{form.eventTag}}
+
+	<div id="timeline">
+		<h1>Timeline</h1>
+	</div>
+	<script type="text/javascript">
+		var timelineEntries = {{timelineEntries|safe}};
+		var timeline = new Timeline("timeline", timelineEntries);
+	</script>
 
 	<h1>Articles</h1>
 	{{form.articles}}
