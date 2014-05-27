@@ -1,3 +1,14 @@
+// A generic search class. Takes the id of a div containing an input from
+// which to read search terms, and the id of a div to put results into. Also
+// takes a models parameter that is a space-separated string specifying all
+// the database models to search over, e.g. "articles tags".
+// Check utils.py for currently supported models; includes but is not
+// limited to articles, events, sources, feeds, users, and tags.
+//
+// NB: This is meant to be extended and not used directly. successHelper
+// needs to be filled in for any results to actually be displayed.
+// Also provides searchBoxEmptied as a hook in case you need to do sometihing
+// when that happens.
 function GenericSearchBox(sbId, targetId, models)
 {
 	this.target = document.getElementById(targetId);

@@ -1,3 +1,7 @@
+// For the main search page. Extends GenericSearchBox. Initial parameters
+// are unchanged; see successHelper comment for details on how things get
+// displayed.
+
 function AllSearchBox(sbId, targetId, models)
 {
 	GenericSearchBox.call(this, sbId, targetId, models);
@@ -5,7 +9,6 @@ function AllSearchBox(sbId, targetId, models)
 
 AllSearchBox.prototype = new GenericSearchBox();
 
-// For the main search page.
 // Display results for different model types under a header for the model
 // type. Each result is just a link to the appropriate page.
 AllSearchBox.prototype.successHelper = function(response)

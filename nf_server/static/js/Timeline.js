@@ -1,3 +1,11 @@
+// A class that creates / encapsulates a chronological series
+// of text entries. Entries can be added and edited. Just
+// requires a div to stick everything in and handles all
+// DOM object creation and rearranging. Can be initialized
+// with an array of timeline entries where each array element
+// is in turn an array of containing an already-formatted date string
+// and text.
+
 function Timeline(container_id, timelineEntries)
 {
 	this.containerElem = document.getElementById(container_id);
@@ -16,7 +24,7 @@ function Timeline(container_id, timelineEntries)
 		this.entryElems.push(entryElement);
 	}
 
-	this.newEntryElem = this.createAddElement();
+	this.newEntryElem = this.createNewEntryElement();
 	this.containerElem.appendChild(this.newEntryElem);
 }
 
@@ -51,7 +59,7 @@ Timeline.prototype.createEntryElement = function(date, text)
 	return outerDiv;
 }
 
-Timeline.prototype.createAddElement = function()
+Timeline.prototype.createNewEntryElement = function()
 {
 	var outerDiv = document.createElement("div");
 	outerDiv.classList.add("timeline_entry");
