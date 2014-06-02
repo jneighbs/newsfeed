@@ -1,6 +1,7 @@
 function ArticleSearchBox(sbId, targetId, saveListId, models)
 {
 	CompactSearchBox.call(this, sbId, targetId, saveListId, models);
+	this.sbType = "articles";
 }
 
 ArticleSearchBox.prototype = new CompactSearchBox();

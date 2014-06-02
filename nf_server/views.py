@@ -1,9 +1,9 @@
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404, get_list_or_404
 from tasks import slowAdd, classify, trainClassifier
 from django.core.urlresolvers import reverse
 from django.views import generic
-from models import Article, NewsFeed, NewsSource, NewsEvent, NewsEventForm
+from models import Article, NewsFeed, NewsSource, NewsEvent, NewsEventForm, TimelineEntry, Tag
 import json
 import utils
 
@@ -61,8 +61,8 @@ def createEvent(request, event_id=None):
 
 		timelineEntries = []
 		for timelineEntry in event.timelineentry_set.all():
-			timelineEntries.append([timelineEntry.date.strftime('%b %d, %Y, %I:%M %p'), timelineEntry.text.encode('ascii','ignore')])
-			print timelineEntry.date.strftime('%Y-%m-%d %H:%M')
+			timelineEntries.append([timelineEntry.date.strftime('%b %d, %Y, %I:%M %p'), timelineEntry.text.encode('ascii','ignore'), timelineEntry.id])
+			print timelineEntry.date.strftime('%Y-%m-%d %H:%M'), timelineEntry.id
 		timelineEntries.sort()
 
 	else:
@@ -77,37 +77,67 @@ def createEvent(request, event_id=None):
 	#return HttpResponse("So you wanna create an event, eh?")
 
 def newEvent(request):
-	print "lalalalal"
+	# some printout crap
 	for param, val in request.POST.items():
 		print param, val
-	print request.POST.getlist('articles')
+	print "articles:", request.POST.getlist('articles')
+	
+	# start doing actual work
 	e = NewsEvent.objects.get(pk=request.POST['pk'])
 	print e.id
+
 	e.articles.clear()
-	for articleId in request.POST.getlist('articles'):
-		e.articles.add(articleId)
+	if 'articles' in request.POST:
+		for articleId in request.POST.getlist('articles'):
+			e.articles.add(articleId)
+
 	if 'title' in request.POST:
 		e.title = request.POST['title']
+
 	if 'eventTag' in request.POST:
 		e.eventTag = request.POST['eventTag']
+
+	# handle TimelineEntries
+	if 'timelineEntry_add' in request.POST:
+		for timelineEntry in request.POST.getlist('timelineEntry_add'):
+			newTLEntry = TimelineEntry()
+			newTLEntry.text = timelineEntry
+			newTLEntry.event_id = request.POST['pk']
+			newTLEntry.save()
+	for param, val in request.POST.items():
+		index = param.find('timelineEntry_')
+		if index > -1 and param != 'timelineEntry_add':
+			tlEntryId = param[index+len('timelineEntry_'):]
+			tlEntry = TimelineEntry.objects.get(pk=tlEntryId)
+			tlEntry.text = val
+			tlEntry.save()
+
+	# Editors
+	e.editors.clear()
+	if 'editors' in request.POST:
+		print "handling editors..."
+		for editorId in request.POST.getlist('editors'):
+			print editorId
+			e.editors.add(editorId)
+
+
+	# tags
+	e.tag_set.clear()
+	if 'tags' in request.POST:
+		
+		for tagVal in request.POST.getlist('tags'):
+			try:
+				tagVal = int(tagVal)
+				e.tag_set.add(tagVal)
+			except ValueError:
+				newTag = Tag()
+				newTag.text = tagVal
+				newTag.save()
+				e.tag_set.add(newTag.id)
+
 	e.save()
-	#form = NewsEventForm(request.POST, e)
-	#print "form", form
-	#if form.is_valid():
-	#	print "yay it's valid!"
-		#print form
 
-	#	updatedEvent = form.save(commit=False)
-	#	updatedEvent.id = request.POST['pk']
-	#	updatedEvent.save()
-	#	form.save_m2m()
-	#	print updatedEvent.id
-	#	print updatedEvent.eventTag
-	#	print updatedEvent.articles.all()
-	#else:
-	#	print form.errors
-
-	return HttpResponse("Making a new event for ya...")
+	return HttpResponseRedirect("/edit_event/" + request.POST['pk'])
 
 def checkEventTag(request, query):
 	print query

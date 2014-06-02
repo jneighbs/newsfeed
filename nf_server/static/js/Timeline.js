@@ -19,7 +19,7 @@ function Timeline(container_id, timelineEntries)
 	for(var i = 0; i < timelineEntries.length; i++)
 	{
 		entry = timelineEntries[i];
-		var entryElement = this.createEntryElement(entry[0], entry[1]);
+		var entryElement = this.createEntryElement(entry[0], entry[1], entry[2]);
 		this.containerElem.appendChild(entryElement);
 		this.entryElems.push(entryElement);
 	}
@@ -28,7 +28,7 @@ function Timeline(container_id, timelineEntries)
 	this.containerElem.appendChild(this.newEntryElem);
 }
 
-Timeline.prototype.createEntryElement = function(date, text)
+Timeline.prototype.createEntryElement = function(date, text, pk)
 {
 	var outerDiv = document.createElement("div");
 	outerDiv.classList.add("timeline_entry");
@@ -48,7 +48,9 @@ Timeline.prototype.createEntryElement = function(date, text)
 	}
 
 	var textarea = document.createElement("textarea");
+	textarea.setAttribute("form", "event_form");
 	textarea.setAttribute("readonly", "readonly");
+	textarea.setAttribute("name", "timelineEntry_" + pk)
 	textarea.innerText = text;
 
 	outerDiv.appendChild(dateDiv);
@@ -98,7 +100,7 @@ Timeline.prototype.addButtonClickHandler = function()
 
 	if(text)
 	{
-		var entry = this.createEntryElement(PrettyDate(), text);
+		var entry = this.createEntryElement(PrettyDate(), text, "add");
 		this.containerElem.insertBefore(entry, this.newEntryElem);
 		this.entryElems.push(entry);
 	}

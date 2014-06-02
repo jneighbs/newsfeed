@@ -1,6 +1,7 @@
 function EditorSearchBox(sbId, targetId, saveListId, models)
 {
 	CompactSearchBox.call(this, sbId, targetId, saveListId, models);
+	this.sbType = "editors";
 }
 
 EditorSearchBox.prototype = new CompactSearchBox();

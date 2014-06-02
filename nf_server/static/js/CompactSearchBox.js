@@ -23,6 +23,7 @@ function CompactSearchBox(sbId, targetId, saveListId, models)
 	}
 	
 	this.resultCount = 0;
+	this.sbType = "";
 }
 
 CompactSearchBox.prototype = new GenericSearchBox();
@@ -90,7 +91,7 @@ CompactSearchBox.prototype.addEntryToSaveList = function(id, title)
 	var input = document.createElement("input");
 	input.setAttribute("checked", "checked");
 	input.id = "id_" + this.models + "_" + this.saveList.children.length;
-	input.name = "articles";
+	input.name = this.sbType;
 	input.type = "checkbox";
 	input.value = id;
 	label.appendChild(input);

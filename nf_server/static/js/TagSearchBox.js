@@ -1,6 +1,7 @@
 function TagSearchBox(sbId, targetId, saveListId, models)
 {
 	CompactSearchBox.call(this, sbId, targetId, saveListId, models);
+	this.sbType = "tags";
 }
 
 TagSearchBox.prototype = new CompactSearchBox();
@@ -24,7 +25,14 @@ TagSearchBox.prototype.createResultElement = function(id, response)
 TagSearchBox.prototype.tagClickHandler = function(id, title)
 {
 
-	this.addEntryToSaveList(id, title);
+	if(id == -1)
+	{
+		this.addEntryToSaveList(title, title);
+	}
+	else
+	{
+		this.addEntryToSaveList(id, title);
+	}
 
 	var searchResults = this.target.children;
 	for(var i = 0; i < searchResults.length; i++)

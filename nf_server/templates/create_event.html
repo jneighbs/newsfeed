@@ -6,7 +6,7 @@
 
 <h2>Create an event</h1>
 
-<form action="/new_event/" method="post">{% csrf_token %}
+<form action="/new_event/" method="post" id="event_form">{% csrf_token %}
 
 	<input type="hidden" name="pk" value={{event.id}}>
 	{{form.id}}
@@ -38,7 +38,9 @@
 	<ul id="id_tags" class="saveList">
 	{% for tag in event.tag_set.all %}
 		<li>
-			<input type="checkbox" checked="checked" value={{tag.id}}>{{tag.text}}</input>
+			<label for="id_tags_{{forloop.counter0}}">
+				<input type="checkbox" checked="checked" name="tags" value={{tag.id}}>{{tag.text}}</input>
+			</label>
 		</li>
 	{% endfor %}
 	</ul>
