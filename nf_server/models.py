@@ -54,8 +54,8 @@ class User(models.Model):
 class Article(NewsObject):
 	newsSource = models.ForeignKey(NewsSource)
 	url = models.URLField(max_length=200)
-	pub_date = models.DateTimeField('date published', auto_now_add=True)
-	# photo / thumbnail
+	pub_date = models.DateTimeField('date published')
+	thumbnail = models.CharField(max_length=200)
 	summaryText = models.CharField(max_length=200)
 
 	def allText(self):
