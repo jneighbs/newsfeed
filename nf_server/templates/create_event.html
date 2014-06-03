@@ -2,7 +2,9 @@
 {% block content %}
 {% load staticfiles %}
 <link rel="stylesheet" type="text/css" href="{% static "css/test.css" %}" />
+<link rel="stylesheet" type="text/css" href="{% static "css/event.css" %}" />
 <script type="text/javascript" src="{% static "js/SearchHelper.js" %}"></script>
+
 
 <h2>Create an event</h1>
 
@@ -68,7 +70,7 @@
 		var edSearchBox = new EditorSearchBox("editor_search_box", "editor_result_box", "id_editors", "users");
 	</script>
 
-	<input type="submit" value="Save" />
+	<input type="submit" id="save_button" value="Save" />
 
 </form>
 {% endblock %}
