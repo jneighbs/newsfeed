@@ -59,8 +59,13 @@ CompactSearchBox.prototype.successHelper = function(response)
 // IDs from that list as its properties.
 CompactSearchBox.prototype.getIdsToSkip = function()
 {
-	var list = this.saveList.children
 	var ids = {};
+	if(!this.saveList)
+	{
+		return ids;
+	}
+	var list = this.saveList.children
+	
 	for(var i = 0; i < list.length; i++)
 	{
 		var id = parseInt(list[i].firstElementChild.firstElementChild.value);

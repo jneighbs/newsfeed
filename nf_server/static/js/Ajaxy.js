@@ -24,7 +24,7 @@ context: the context within which to invoke the success or error callback
 
 */
 
-Ajaxy.request = function(URL, method, data, elementId, successCallback, errorCallback, context) {
+Ajaxy.request = function(URL, method, data, elementId, successCallback, errorCallback, context, csrf) {
 	// Check that method is valid
 	method = method.toUpperCase();
 	if(!methodIsValid(method))
@@ -39,13 +39,15 @@ Ajaxy.request = function(URL, method, data, elementId, successCallback, errorCal
 	}
 
 	var xhr = new XMLHttpRequest();
+	xhr.open(method, URL);
 	if(method == "POST" && typeof data !== 'undefined')
 	{
 		xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-		xhr.setRequestHeader("Content-length", data.length);
-		xhr.setRequestHeader("Connection", "close");
+		//xhr.setRequestHeader("Content-length", data.length);
+		//xhr.setRequestHeader("Connection", "close");
+		xhr.setRequestHeader("X-CSRFToken", csrf)
 	}
-	xhr.open(method, URL);
+
 	
 
 	xhr.onreadystatechange = function() {

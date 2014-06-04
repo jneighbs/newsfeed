@@ -23,6 +23,22 @@ def source(request, source_id):
 	context = {'source': source, 'articles': articles, 'sources': sources, 'feeds': feeds}
 	return render(request, 'source.html', context)
 
+def createSource(request):
+	return render(request, 'create_source.html', {})
+
+def newSource(request):
+	print "hi"
+	responseData = {"name": True, "description": True, "url": True}
+	requestData, val = request.POST.items()[0]
+	requestData = json.loads(requestData)
+
+	identicalSources = NewsSource.objects.filter(title=requestData["name"])
+	if len(identicalSources) > 0:
+		responseData["name"] = False
+
+	# do something about the URL later...
+	return HttpResponse(json.dumps(responseData), content_type="application/json")
+
 def feed(request, feed_id):
 	sources = NewsSource.objects.all()
 	feeds = NewsFeed.objects.all()
@@ -53,8 +69,8 @@ def edit (request, feed_id):
 
 def createEvent(request, event_id=None):
 	context = RequestContext(request, {'user': request.user})
-	print "ID: ", request.user.id, " Name: ", request.user.username
-	print dir(request.user)
+	#print "ID: ", request.user.id, " Name: ", request.user.username
+	#print dir(request.user)
 
 	if event_id:
 		print "got an id"
@@ -74,7 +90,12 @@ def createEvent(request, event_id=None):
 		print "ain't got no event id"
 		event = NewsEvent(owner_id=1)
 		event.save()
-		form = NewsEventForm()
+		print "asdfasdfasdfasdf", event.articles.all()
+		form = NewsEventForm(instance=event)
+		form.fields['articles'].queryset = event.articles.all()
+		form.fields['editors'].queryset = event.editors.all()
+		print "the form:", type(form), dir(form)
+		print form.is_bound
 		timelineEntries = []
 	
 

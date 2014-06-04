@@ -1,0 +1,28 @@
+div.cs_elem {
+	height: 100px;
+}
+
+div.cs_elem input {
+	float: right;
+	width: 60%;
+}
+
+div.cs_elem textarea {
+	float: right;
+	width: 60%;
+}
+
+div.error_field {
+	color: #ff6666;
+	margin-top: 5px;
+	display: none;
+}
+
+input#submit_button {
+	float: right;
+}
+
+h1.cs_header {
+	font-size: 6.0rem;
+	padding-bottom: 20px;
+}
