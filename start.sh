@@ -7,6 +7,7 @@
 python manage.py sqlclear nf_server | sqlite3 db.sqlite3
 python manage.py sql nf_server | sqlite3 db.sqlite3
 python load_sources.py
+# SAM! Maybe add 1-time stub data here?
 COUNTER=0
 while true; do
 	python scrape.py
