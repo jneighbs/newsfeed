@@ -19,7 +19,7 @@ pp = pprint.PrettyPrinter()
 #opener.addHeaders = [('User-agent', 'Mozilla/5.0')]
 
 
-# WORKING ON SCRAPE IMAGES AND PULLSUMMARY - READY TO TEST SCRAPE IMAGES
+# TODO: Take in entry instead of summary text. Parse something before summary text, if no img exists there, then parse summary text
 def scrapeImages(summaryText):
 	imgPat = re.compile('< *img.*?src=("(.*?)"|\'(.*?)\').*?>', re.DOTALL)
 	imgSrc = re.search(imgPat, summaryText)
@@ -42,7 +42,7 @@ def pullSummary(summaryText):
 	return text
 
 def formatTagName(unformattedTagName):
-	return unformattedTagName.lower().replace(" ", "").replace("_", "")
+	return unformattedTagName.lower().replace(" ", "").replace("_", "").replace("-", "")
 
 from django.utils import timezone
 def putInDB(entry, sourceName, tagName):
@@ -52,7 +52,7 @@ def putInDB(entry, sourceName, tagName):
 
 	# summaryText = pullSummary(entry.summary)
 	imgSrc = scrapeImages(entry.summary)
-	# print imgSrc
+	# TODO: pull tags
 
 	a = Article(newsSource=source, url=entry.link, pub_date=timezone.now(), summaryText="", thumbnail=imgSrc, title=entry.title)
 	a.save()
@@ -64,8 +64,12 @@ def putInDB(entry, sourceName, tagName):
 
 
 
+
+
 #scrape Reddit data
 def scrapeReddit():
+
+	print "##########\n# Reddit #\n##########"
 
 	# grab links
 	subredditListUrl = 'http://www.redditlist.com/'
@@ -82,7 +86,7 @@ def scrapeReddit():
 
 
 	# parse links/ try to put into db	
-	i = 0
+
 	for link in links:
 		print "link: " + link
 		redditFeed = feedparser.parse(link + '/.rss')
@@ -105,18 +109,39 @@ def scrapeReddit():
 
 
 def scrapeNYTimes():
-	nyFeed = feedparser.parse("http://rss.nytimes.com/services/xml/rss/nyt/CollegeBasketball.xml")
-	print "\n\n"
-	print len(nyFeed)
-	pp.pprint(nyFeed.entries[0])
+
+	print "###########\n# NYTimes #\n###########"
 	
-	# if len(Article.objects.filter(url=nyFeed.entries[0].link))==0:
-	# 	putInDB()
+	# grab links
+	nyTimesListUrl = 'http://www.nytimes.com/services/xml/rss/index.html'
+	page_source = opener.open(nyTimesListUrl).read()
+
+	linkFinder = re.compile('href="((http://www.nytimes.com/services/xml/rss/nyt/|http://feeds.nytimes.com/nyt/rss/)(.*?))"', re.DOTALL)
+	linkGroups = re.findall(linkFinder, page_source)
+
+	for link in linkGroups:
+		tag = link[2]
+		link = link[0]
+		if(link[-5:] != ".opml"):
+			print "link: " + link
+			if tag[-4:]==".xml":
+				tag = tag[0:-4]
+			# print "tag: " + tag
+			nyTimesFeed = feedparser.parse(link)
+			tagName = formatTagName(tag)
+			# print "tag: " + tagName
+
+			for entry in nyTimesFeed.entries:
+				# pp.pprint(entry)
+				if len(Article.objects.filter(url=entry.link))==0:
+					putInDB(entry, "NYTimes", tagName)
+
 
 def main():
 
+	# readFromFile()
 	scrapeReddit()
-	# scrapeNYTimes()
+	scrapeNYTimes()
 	#scrapeEconomist()
 
 
