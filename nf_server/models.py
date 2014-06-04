@@ -13,6 +13,7 @@ class NewsObject(models.Model):
 class NewsSource(NewsObject):
 	country = models.CharField(max_length=30)
 	description = models.TextField()
+	url = models.URLField()
 
 	def allText(self):
 		return self.title + " " + self.description

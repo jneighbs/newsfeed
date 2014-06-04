@@ -49,7 +49,7 @@ NewSourceValidator.prototype.keyupHandler = function()
 		"description": this.descriptionField.value,
 		"url": this.urlField.value,
 	};
-	Ajaxy.request("/new_source/", "POST", JSON.stringify(data), "", this.validateCallback, null, this, this.csrf);
+	Ajaxy.request("/validate_source/", "POST", JSON.stringify(data), "", this.validateCallback, null, this, this.csrf);
 }
 
 NewSourceValidator.prototype.validateCallback = function(response)
@@ -69,6 +69,7 @@ NewSourceValidator.prototype.validateCallback = function(response)
 			else
 			{
 				errorMessage.style.display = "block";
+				errorMessage.innerText = response[fieldName];
 				allGood = false;
 			}
 		}

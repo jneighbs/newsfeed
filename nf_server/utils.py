@@ -101,3 +101,7 @@ def tagSearch(models, query):
 				if query in tag.text.lower():
 					responseData[model][candidate.id] = candidate.title
 	return responseData
+
+def urlIsBroken(url):
+	print "testing url functionality"
+	return False

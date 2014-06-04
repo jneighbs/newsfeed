@@ -19,25 +19,46 @@ def source(request, source_id):
 	sources = NewsSource.objects.all()
 	feeds = NewsFeed.objects.all()
 	source = get_object_or_404(NewsSource, pk=source_id)
-	articles = get_list_or_404(Article, newsSource=source_id)
+	#articles = get_list_or_404(Article, newsSource=source_id)
+	articles = Article.objects.filter(newsSource=source_id)
 	context = {'source': source, 'articles': articles, 'sources': sources, 'feeds': feeds}
 	return render(request, 'source.html', context)
 
 def createSource(request):
 	return render(request, 'create_source.html', {})
 
-def newSource(request):
-	print "hi"
+def validateSource(request):
 	responseData = {"name": True, "description": True, "url": True}
+
 	requestData, val = request.POST.items()[0]
 	requestData = json.loads(requestData)
 
-	identicalSources = NewsSource.objects.filter(title=requestData["name"])
-	if len(identicalSources) > 0:
-		responseData["name"] = False
-
-	# do something about the URL later...
+	if len(requestData["name"]) == 0:
+		responseData["name"] = ""
+	else:
+		identicalSources = NewsSource.objects.filter(title=requestData["name"])
+		if len(identicalSources) > 0:
+			responseData["name"] = "That name is already taken."
+	
+	if len(requestData["url"]) == 0:
+		responseData["url"] = ""
+	elif utils.urlIsBroken(requestData["url"]):
+		responseData["url"] = "That URL appears to be broken."
+	else:
+		identicalUrls = NewsSource.objects.filter(url=requestData["url"])
+		if len(identicalUrls) > 0:
+			responseData["url"] = "That source already exists."
+	
 	return HttpResponse(json.dumps(responseData), content_type="application/json")
+
+def newSource(request):
+	source = NewsSource()
+	source.title = request.POST["name"]
+	source.description = request.POST["description"]
+	source.url = request.POST["url"]
+	source.save()
+
+	return HttpResponseRedirect("/source/" + str(source.id))
 
 def feed(request, feed_id):
 	sources = NewsSource.objects.all()
