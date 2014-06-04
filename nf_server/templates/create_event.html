@@ -3,7 +3,10 @@
 {% load staticfiles %}
 <link rel="stylesheet" type="text/css" href="{% static "css/test.css" %}" />
 <link rel="stylesheet" type="text/css" href="{% static "css/event.css" %}" />
+<link rel="stylesheet" type="text/css" href="{% static "css/create_source.css" %}" />
+
 <script type="text/javascript" src="{% static "js/SearchHelper.js" %}"></script>
+<script type="text/javascript" src="{% static "js/FieldValidator.js" %}"></script>
 
 {% if user %}
 	{% if user.id == event.owner_id %}
@@ -26,7 +29,13 @@
 	<input type="hidden" id="id_owner_name" name="owner_name" value={{event.owner.name}}>
 	<input type="hidden" id="id_owner_pk" name="owner_pk" value={{event.owner.id}}>
 	<p>{{form.title}}
+	<div class="error_field" id="id_title_error">An event needs a name.</div>
 	<p>{{form.eventTag}}
+	<div class="error_field" id="id_eventTag_error">An event needs a unique event tag.</div>
+
+	<script type="text/javascript">
+		var validator = new FieldValidator(["title", "eventTag"], "/validate_event/", "{{csrf_token}}");
+	</script>
 
 	<div id="timeline">
 		<h1>Timeline</h1>

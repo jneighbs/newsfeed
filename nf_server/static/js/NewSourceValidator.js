@@ -75,7 +75,7 @@ NewSourceValidator.prototype.validateCallback = function(response)
 		}
 	}
 
-	var submitButton = document.getElementById("submit_button");
+	var submitButton = document.getElementById("save_button");
 	if(submitButton)
 	{
 		if(allGood)

@@ -6,6 +6,7 @@ from django.views import generic
 from models import Article, NewsFeed, NewsSource, NewsEvent, NewsEventForm, TimelineEntry, Tag
 import json
 import utils
+import re
 from django.template.context import RequestContext
 
 def index(request):
@@ -185,6 +186,35 @@ def newEvent(request):
 	e.save()
 
 	return HttpResponseRedirect("/edit_event/" + request.POST['pk'])
+
+def validateEvent(request):
+	print "hi"
+	requestData, val = request.POST.items()[0]
+	requestData = json.loads(requestData)
+	print requestData, type(requestData)
+	
+	responseData = {}
+	for name in requestData:
+		value = requestData[name]
+		if name == "title":
+			if len(value) == 0:
+				responseData[name] = "An event needs a name."
+			else:
+				responseData[name] = True
+		elif name == "eventTag":
+			if len(value) == 0:
+				responseData[name] = "An even needs an event tag."
+			elif " " in value:
+				responseData[name] = "No spaces allowed in event tags."
+			elif re.match('^[\w-]+$', value) is None:
+				responseData[name] = "Only letters and numbers in event tags."
+			else:
+				responseData[name] = True
+		else:
+			responseData[name] = True
+	print responseData
+
+	return HttpResponse(json.dumps(responseData), content_type="application/json")
 
 def checkEventTag(request, query):
 	print query

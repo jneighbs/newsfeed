@@ -2,7 +2,7 @@
 {% block content %}
 {% load staticfiles %}
 <link rel="stylesheet" type="text/css" href="{% static "css/create_source.css" %}" />
-<script type="text/javascript" src="{% static "js/NewSourceValidator.js" %}"></script>
+<script type="text/javascript" src="{% static "js/FieldValidator.js" %}"></script>
 <h1 class="cs_header">Create a New Source</h1>
 
 <form action="new_source" method="post" id="create_source_form">
@@ -20,10 +20,10 @@
 			<label class="cs_label" for="url">RSS URL: </label><input type="text" name="url" id="id_url">
 			<div class="error_field" id="id_url_error">That URL appears to be broken. Sorry.</div>
 		</div>
-		<input type="submit" value="Create" id="submit_button">
+		<input type="submit" value="Create" id="save_button">
 	</div>
 	<script type="text/javascript">
-		var validator = new NewSourceValidator("id_name", "id_description", "id_url", "{{csrf_token}}");
+		var validator = new FieldValidator(["name", "description", "url"], "/validate_source/", "{{csrf_token}}");
 	</script>
 </form>
 {% endblock %}
