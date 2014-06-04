@@ -14,6 +14,7 @@
 
 
 <div class="btn-group" data-toggle="buttons">
+  Search over:&nbsp;&nbsp;
   <label class="btn btn-primary">
     <input type="checkbox" checked="true" id="sources_checkbox"> Sources
   </label>
@@ -26,6 +27,11 @@
   <label class="btn btn-primary">
     <input type="checkbox" checked="true" id="events_checkbox"> Events
   </label>
+
+  <br>Return results with matching tags:&nbsp;&nbsp;
+  <label class="btn btn-primary">
+    <input type="checkbox" checked="false" id="tags_checkbox"> Tags
+  </label>
 </div>
 <div id="all_target"></div>
 
@@ -36,6 +42,7 @@
 	searchBox.addCheckbox("articles_checkbox");
 	searchBox.addCheckbox("feeds_checkbox");
 	searchBox.addCheckbox("events_checkbox");
+  searchBox.addTagCheckbox("tags_checkbox");
 </script>
 
 {% endblock %}

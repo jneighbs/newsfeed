@@ -15,5 +15,6 @@ urlpatterns = patterns('',
     url(r'^article/(?P<article_id>\d+)/', views.article, name='article'), 
     url(r'^search/', views.search, name='search'),
     url(r'^fire_search/(?P<query>.+)/', views.fireSearch, name='fire_search'),
+    url(r'^fire_tag_search/(?P<query>.+)/', views.fireTagSearch, name='fire_tag_search'),
     url(r'^check_event_tag/(?P<query>.+)/', views.checkEventTag, name='check_event_tag'),
 )

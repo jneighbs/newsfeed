@@ -6,7 +6,6 @@ from nf_server.models import Article, NewsFeed, NewsSource, NewsEvent, Tag, User
 # returned object is a dictionary with models as keys and dictionaries
 # with model id as keys and titles as values.
 def findExactMatches(models, query):
-	print models
 
 	results = {}
 
@@ -23,7 +22,6 @@ def findExactMatches(models, query):
 	if 'users' in models:
 		results['users'] = User.objects.filter(name__contains=query)
 	
-	print "survived result creation...", results
 	
 	responseData = {}
 	
@@ -31,9 +29,7 @@ def findExactMatches(models, query):
 		responseData[model] = {}
 		for result in results[model]:
 			responseData[model][result.id] = result.allText()
-	
-	print "exact match response data", responseData
-	
+		
 	return responseData
 
 # Given a list of models, a set of words, and a threshold, finds all instances
@@ -72,4 +68,36 @@ def findPartialMatches(models, queryWords, responseData, threshold):
 
 			if queryWordCount / len(queryWords) >= threshold:
 				responseData[model][candidate.id] = candidate.title
+	return responseData
+
+def tagSearch(models, query):
+	print models
+	print query
+
+	responseData = {}
+
+	for model in models:
+		responseData[model] = {}
+
+		if model not in responseData:
+			responseData[model] = {}
+
+		if model == 'articles':
+			candidates = Article.objects.order_by('pub_date').all()
+		elif model == 'feeds':
+			candidates = NewsFeed.objects.all()
+		elif model == 'sources':
+			candidates = NewsSource.objects.all()
+		elif model == 'events':
+			candidates = NewsEvent.objects.all()
+		elif model == 'tags':
+			candidates = Tag.objects.all()
+		elif model == 'users':
+			candidates = User.objects.all()
+
+		for candidate in candidates:
+
+			for tag in candidate.tag_set.all():
+				if query in tag.text.lower():
+					responseData[model][candidate.id] = candidate.title
 	return responseData

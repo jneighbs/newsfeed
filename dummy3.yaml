@@ -310,3 +310,12 @@
     owner: 1
     newsSources:
       - 5  
+- model: nf_server.newsobject
+  pk: 29
+  fields:
+    title: "Malaysian Plane Vanishes"
+- model: nf_server.newsevent
+  pk: 29
+  fields:
+    eventTag: "MH370"
+    owner: 1

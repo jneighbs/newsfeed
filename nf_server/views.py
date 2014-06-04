@@ -6,6 +6,7 @@ from django.views import generic
 from models import Article, NewsFeed, NewsSource, NewsEvent, NewsEventForm, TimelineEntry, Tag
 import json
 import utils
+from django.template.context import RequestContext
 
 def index(request):
 	sources = NewsSource.objects.all()
@@ -51,6 +52,10 @@ def edit (request, feed_id):
 	return render(request, 'edit.html', context)
 
 def createEvent(request, event_id=None):
+	context = RequestContext(request, {'user': request.user})
+	print "ID: ", request.user.id, " Name: ", request.user.username
+	print dir(request.user)
+
 	if event_id:
 		print "got an id"
 		event = get_object_or_404(NewsEvent, pk=event_id)
@@ -165,6 +170,16 @@ def fireSearch(request, query):
 
 	responseData = utils.findPartialMatches(models, queryWords, responseData, 0.5)
 
+	return HttpResponse(json.dumps(responseData), content_type="application/json")
+
+def fireTagSearch(request, query):
+	print "searching over tags..."
+	validModels = ['articles', 'feeds', 'sources', 'events', 'tags', 'users']
+	models = [model for model in request.GET.get('models', '').split() if model in validModels]	
+
+	query = query.lower()
+
+	responseData = utils.tagSearch(models, query)
 	return HttpResponse(json.dumps(responseData), content_type="application/json")
 
 def search(request):
