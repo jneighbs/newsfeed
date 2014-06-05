@@ -48,6 +48,14 @@ AllSearchBox.prototype.tagSearchHandler = function(response)
 // type. Each result is just a link to the appropriate page.
 AllSearchBox.prototype.displayResults = function()
 {
+	// Move delete old results.
+	// Replicating from GenericSearchBox's ajaxSuccessHandler b/c of
+	// interleaving issues.
+	while(this.target.firstChild)
+	{
+		this.target.removeChild(this.target.firstChild);
+	}
+
 	var response = this.responseData;
 	for(var model in response)
 	{
