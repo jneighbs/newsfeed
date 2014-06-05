@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+{% block content %}
+{% load staticfiles %}
+<link rel="stylesheet" type="text/css" href="{% static "css/event.css" %}" />
+
+
+<h2>{{event.title}}</h2>
+
+<div class="tag_block">
+	<div class="tag_label">
+		Tags: &nbsp;&nbsp;
+	</div>
+	{% for tag in event.tag_set.all %}
+		<div class="tag">
+			{{tag.text}}
+		</div>
+	{% endfor %}
+</div>
+
+<br />
+
+<div class="timeline_block">
+	<h1>Timeline</h1>
+	{% for timelineEntry in event.timelineentry_set.all %}
+	<div class="timeline_entry">
+		<div class="date">{{timelineEntry.date}}</div>
+		<div class="timeline_entry_text">
+			{{timelineEntry.text}}
+		</div>
+	</div>
+	{% endfor %}
+</div>
+
+<div class="article_block">
+	<h1>Articles</h1>
+	{% for article in event.articles.all %}
+		<div class="article_entry">
+			<a href="{{article.url}}">{{article.title}}</a>
+		</div>
+	{% endfor %}
+</div>
+
+{% endblock %}

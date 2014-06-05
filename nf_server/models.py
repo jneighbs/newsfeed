@@ -83,6 +83,9 @@ class TimelineEntry(models.Model):
 	def __unicode__(self):
 		return self.text
 
+	class Meta:
+		ordering =['date']
+
 class Comment(models.Model):
 	text = models.TextField()
 	date = models.DateTimeField('date posted', auto_now_add=True)

@@ -72,7 +72,9 @@ def feed(request, feed_id):
 
 # Create your views here.
 def event(request, event_id):
-	return HttpResponse("event %s - newsfeed.com/event" % event_id)
+	event = NewsEvent.objects.get(id=event_id)
+	context = {'event': event}
+	return render(request, 'event.html', context)
 
 # Create your views here.
 def about(request):
