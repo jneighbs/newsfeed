@@ -17,15 +17,15 @@
 	<script type="text/javascript" src="{% static "js/PrettyDate.js" %}"></script>
 	<script type="text/javascript" src="{% static "js/Timeline.js" %}"></script>
 	<script type="text/javascript" src="{% static "js/EventTag.js" %}"></script>
+	<link rel="stylesheet" type="text/css" href="{% static "bootstrap/css/bootstrap.css" %}" />
 	<link rel="stylesheet" media="screen" href="{% static "css/style.css" %}" />
 </head>
 <body onload="loadDate()">
-
 	<div id="top-nav">
 		<div id="date"></div>
 		<ul class="nav-ul">
-			<li class="nav-li"><a href="/about">About</a></li>
-			<li class="nav-li"><a href="/search">Search</a></li>
+<!-- 			<li class="nav-li"><a href="/about">About</a></li>
+ -->			<li class="nav-li"><a href="/search">Search</a></li>
 			<li class="nav-li"><a href="/create_source">Add Source</a></li>
 			{% if user and not user.is_anonymous %}
 	 			<li>
@@ -35,7 +35,7 @@
 	   				<a href="{% url 'auth:logout' %}?next={{ request.path }}">Logout</a>
 	 			</li>
 			{% else %}
-				<li class="nav-li"><a href="/siteLogin">Login</a></li>
+				<li class="nav-li"><a href="/get_login">Login</a></li>
 			{% endif %}
 			{% block header %} {% endblock header %} 
 		</ul>
@@ -44,53 +44,7 @@
 	<section role="main">
 		{% block leftbar %} {% endblock leftbar %} 
 		{% block content %} {% endblock content %} 
-		<div id="right-bar-block" class="block-wrap ignore-shuffle" data-rowspan="2" data-colspan="1">
-			<div class="block text-only">
-				<link rel="stylesheet" type="text/css" href="{% static "css/test.css" %}" />
-<script type="text/javascript" src="{% static "js/SearchHelper.js" %}"></script>
-
-
-<h2>Search for something.</h2>
-<div class="input-group" id="searchBox">
-  <span class="input-group-addon"></span>
-  <input type="text" class="form-control" placeholder="e.g., 'Ukraine invasion'...">
-</div>
-
-
-
-<div class="btn-group" data-toggle="buttons">
-  Search over:&nbsp;&nbsp;
-  <label class="btn btn-primary">
-    <input type="checkbox" checked="true" id="sources_checkbox"> Sources
-  </label>
-  <label class="btn btn-primary">
-    <input type="checkbox" checked="true" id="articles_checkbox"> Articles
-  </label>
-  <label class="btn btn-primary">
-    <input type="checkbox" checked="true" id="feeds_checkbox"> Feeds
-  </label>
-  <label class="btn btn-primary">
-    <input type="checkbox" checked="true" id="events_checkbox"> Events
-  </label>
-
-  <br>Return results with matching tags:&nbsp;&nbsp;
-  <label class="btn btn-primary">
-    <input type="checkbox" checked="false" id="tags_checkbox"> Tags
-  </label>
-</div>
-<div id="all_target"></div>
-
-<script type="text/javascript">
-	//new SearchHelper("sources_checkbox")
-	var searchBox = new AllSearchBox("searchBox", "all_target", "articles feeds sources events");
-	searchBox.addCheckbox("sources_checkbox");
-	searchBox.addCheckbox("articles_checkbox");
-	searchBox.addCheckbox("feeds_checkbox");
-	searchBox.addCheckbox("events_checkbox");
-  searchBox.addTagCheckbox("tags_checkbox");
-</script>
-			</div>
-		</div>
+		{% block rightbar %} {% endblock rightbar %}
 	</section>
 	<script>
 	function loadDate() {	

@@ -3,46 +3,48 @@
 {% load staticfiles %}
 <link rel="stylesheet" type="text/css" href="{% static "css/test.css" %}" />
 <script type="text/javascript" src="{% static "js/SearchHelper.js" %}"></script>
-
-
-<h2>Search for something.</h2>
-<div class="input-group" id="searchBox">
-  <span class="input-group-addon"></span>
-  <input type="text" class="form-control" placeholder="e.g., 'Ukraine invasion'...">
-</div>
-
-
-
-<div class="btn-group" data-toggle="buttons">
-  Search over:&nbsp;&nbsp;
-  <label class="btn btn-primary">
-    <input type="checkbox" checked="true" id="sources_checkbox"> Sources
-  </label>
-  <label class="btn btn-primary">
-    <input type="checkbox" checked="true" id="articles_checkbox"> Articles
-  </label>
-  <label class="btn btn-primary">
-    <input type="checkbox" checked="true" id="feeds_checkbox"> Feeds
-  </label>
-  <label class="btn btn-primary">
-    <input type="checkbox" checked="true" id="events_checkbox"> Events
-  </label>
-
-  <br>Return results with matching tags:&nbsp;&nbsp;
-  <label class="btn btn-primary">
-    <input type="checkbox" checked="false" id="tags_checkbox"> Tags
-  </label>
-</div>
-<div id="all_target"></div>
-
+<header id="intro" class="block-wrap ignore-shuffle" data-rowspan="2" data-colspan="2">
+  <hgroup style="overflow:scroll;" class="block text-only">
+    <div class="input-group" id="searchBox">
+      <span class="input-group-addon"><span class="glyphicon glyphicon-search"></span></span>
+      <input type="text" class="form-control" placeholder="Search">
+    </div>
+    <div id="checkbox-label">Include:</div>
+    <div id="checkbox-sources" class="checkbox">
+    <label>
+      <input type="checkbox" checked="true" id="sources_checkbox"><span class="checkbox-text"> Sources</span>
+    </label>
+    </div>
+    <div id="checkbox-articles" class="checkbox">
+    <label>
+      <input type="checkbox" checked="true" id="articles_checkbox"><span class="checkbox-text"> Articles</span>
+    </label>
+    </div>
+    <div id="checkbox-feeds" class="checkbox">
+    <label>
+      <input type="checkbox" checked="true" id="feeds_checkbox"><span class="checkbox-text"> Feeds</span>
+    </label>
+    </div>
+    <div id="checkbox-events" class="checkbox">
+    <label>
+      <input type="checkbox" checked="true" id="events_checkbox"><span class="checkbox-text"> Events</span>
+    </label>
+    </div>
+    <div id="checkbox-tags" class="checkbox">
+    <label>
+      <input type="checkbox" checked="true" id="tags_checkbox"><span class="checkbox-text"> Tags</span>
+    </label>
+    </div>
+    <div id="all_target"></div>
+  </hgroup>
+</header>
 <script type="text/javascript">
-	//new SearchHelper("sources_checkbox")
-	var searchBox = new AllSearchBox("searchBox", "all_target", "articles feeds sources events");
-	searchBox.addCheckbox("sources_checkbox");
-	searchBox.addCheckbox("articles_checkbox");
-	searchBox.addCheckbox("feeds_checkbox");
-	searchBox.addCheckbox("events_checkbox");
+  //new SearchHelper("sources_checkbox")
+  var searchBox = new AllSearchBox("searchBox", "all_target", "articles feeds sources events");
+  searchBox.addCheckbox("sources_checkbox");
+  searchBox.addCheckbox("articles_checkbox");
+  searchBox.addCheckbox("feeds_checkbox");
+  searchBox.addCheckbox("events_checkbox");
   searchBox.addTagCheckbox("tags_checkbox");
 </script>
-
-{% endblock %}
+{% endblock content %}

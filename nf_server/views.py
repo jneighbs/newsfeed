@@ -30,6 +30,9 @@ def source(request, source_id):
 def createSource(request):
 	return render(request, 'create_source.html', {})
 
+def getLogin(request):
+	return render(request, 'get_login.html', {})
+
 def validateSource(request):
 	responseData = {"name": True, "description": True, "url": True}
 

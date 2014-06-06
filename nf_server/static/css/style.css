@@ -2,6 +2,9 @@
     Style
 ======================================================================
 */
+ul#login-list{
+  padding-left:30px;
+}
 #nyt {
   border-radius: 3px !important;
   height:50px !important;
@@ -3159,6 +3162,7 @@ section {
   #intro hgroup {
     height: 660px !important;
     padding: 20px !important;
+    width: 595px !important;
   }
   #edit-feed-link {
     position: absolute !important;

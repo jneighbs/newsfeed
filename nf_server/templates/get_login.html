@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block content %}
+<header id="intro" class="block-wrap ignore-shuffle" data-rowspan="2" data-colspan="2">
+<hgroup style="overflow:scroll;" class="block text-only">
+<h3>Welcome to Newsfeed:8000</h3>
+  <ul id="login-list"> 
+    {% if user and not user.is_anonymous %}
+      <li><a>Hello {{ user.get_full_name|default:user.username }}!</a></li>
+      <li><a href="{% url 'auth:logout' %}?next={{ request.path }}">Logout</a></li>
+    {% else %}
+      <li><a href="{% url 'social:begin' 'facebook' %}?next={{ request.path }}">Login with Facebook</a></li>
+      <li><a href="{% url 'social:begin' 'google-oauth2' %}?next={{ request.path }}">Login with Google</a></li>
+      <li><a href="{% url 'social:begin' 'twitter' %}?next={{ request.path }}">Login with Twitter</a></li>
+    {% endif %}
+  </ul>
+</hgroup>
+</header>
+{% endblock %} 
