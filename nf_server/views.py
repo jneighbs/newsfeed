@@ -13,7 +13,8 @@ def index(request):
 	sources = NewsSource.objects.all()
 	feeds = NewsFeed.objects.all()
 	articles = Article.objects.all()
-	context = {'articles': articles, 'sources': sources, 'feeds': feeds, 'request': request,}
+	topEvents = NewsEvent.objects.all().order_by("score")[:5]
+	context = {'articles': articles, 'sources': sources, 'feeds': feeds, 'request': request, 'topEvents': topEvents}
 	return render(request, 'index.html', context)
 
 def source(request, source_id):
@@ -255,9 +256,6 @@ def fireSearch(request, query):
 		return HttpResponse(json.dumps(responseData), content_type="application/json")
 
 	responseData = utils.findPartialMatches(models, queryWords, responseData, 0.5)
-	
-	for model in models:
-		print model, len(responseData[model])
 
 	return HttpResponse(json.dumps(responseData), content_type="application/json")
 

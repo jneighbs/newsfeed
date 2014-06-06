@@ -1,12 +1,14 @@
 from django.db import models
 from django.forms import ModelForm
 from django import forms
+import operator
 # Create your models here.
 
 # An abstract object that has a title and has many comments and tags and ratings
 class NewsObject(models.Model):
 	title = models.CharField(max_length=200)
 	viewCount = models.IntegerField(default=0)
+	score = models.IntegerField(default=0)
 
 	def __unicode__(self):
 		return self.title
@@ -18,6 +20,7 @@ class NewsSource(NewsObject):
 
 	def allText(self):
 		return self.title + " " + self.description
+
 
 class NewsFeed(NewsObject):
 	# has many newsSources
@@ -36,6 +39,7 @@ class NewsFeed(NewsObject):
 
 	def allText(self):
 		return self.title + " " + self.description
+
 
 class User(models.Model):
 	# CHANGE THESE TWO LATER
@@ -76,6 +80,7 @@ class NewsEvent(NewsObject):
 
 	def allText(self):
 		return self.title + " " + self.eventTag
+
 
 class TimelineEntry(models.Model):
 	text = models.TextField()
