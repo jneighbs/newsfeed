@@ -12,7 +12,7 @@ from django.template.context import RequestContext
 def index(request):
 	sources = NewsSource.objects.all()
 	feeds = NewsFeed.objects.all()
-	articles = Article.objects.all()
+	articles = Article.objects.all()[:20]
 	topEvents = NewsEvent.objects.all().order_by("score")[:5]
 	context = {'articles': articles, 'sources': sources, 'feeds': feeds, 'request': request, 'topEvents': topEvents}
 	return render(request, 'index.html', context)

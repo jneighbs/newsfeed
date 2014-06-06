@@ -28,8 +28,9 @@
 <!-- 			<li class="nav-li"><a href="/about">About</a></li>
  -->			<li class="nav-li"><a href="/search">Search</a></li>
 			<li class="nav-li"><a href="/create_source">Add Source</a></li>
-			<li class="nav-li"><a href="create_event">Add Event</a></li>
+			
 			{% if user and not user.is_anonymous %}
+				<li class="nav-li"><a href="create_event">Add Event</a></li>
 	 			<li>
 	   				<a>Hello {{ user.get_full_name|default:user.username }}!</a>
 	 			</li>
