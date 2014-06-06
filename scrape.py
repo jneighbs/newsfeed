@@ -64,9 +64,9 @@ def addTags(article, entry, tagNameFromURL):
 	for tagName in tagArray:
 
 		tagName = formatTagName(tagName)
-		print tagName
 		t, created = Tag.objects.get_or_create(text=tagName)
 		if(created): 
+			print "tag created: " + tagName
 			t.save()
 		t.tagees.add(article)
 
