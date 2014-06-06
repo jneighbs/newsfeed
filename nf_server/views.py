@@ -20,6 +20,8 @@ def source(request, source_id):
 	sources = NewsSource.objects.all()
 	feeds = NewsFeed.objects.all()
 	source = get_object_or_404(NewsSource, pk=source_id)
+	source.viewCount += 1
+	source.save()
 	#articles = get_list_or_404(Article, newsSource=source_id)
 	articles = Article.objects.filter(newsSource=source_id)
 	context = {'source': source, 'articles': articles, 'sources': sources, 'feeds': feeds}
@@ -65,6 +67,8 @@ def feed(request, feed_id):
 	sources = NewsSource.objects.all()
 	feeds = NewsFeed.objects.all()
 	feed = get_object_or_404(NewsFeed, pk=feed_id)
+	feed.viewCount += 1
+	feed.save()
 	feeds_sources = feed.newsSources.all()
 	articles = Article.objects.all()
 	context = {'articles': articles, 'feed': feed, 'feeds_sources': feeds_sources, 'sources': sources, 'feeds': feeds}
@@ -73,6 +77,8 @@ def feed(request, feed_id):
 # Create your views here.
 def event(request, event_id):
 	event = NewsEvent.objects.get(id=event_id)
+	event.viewCount += 1
+	event.save()
 	context = {'event': event}
 	return render(request, 'event.html', context)
 
@@ -227,6 +233,9 @@ def checkEventTag(request, query):
 # Create your views here.
 def article(request, article_id):
 	article = get_object_or_404(Article, pk=article_id)
+	article.viewCount += 1
+	article.save()
+	return HttpResponseRedirect(article.url)
 	return HttpResponse("article %s - newsfeed.com/article" % article_id)
 
 def fireSearch(request, query):

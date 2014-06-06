@@ -6,6 +6,7 @@ from django import forms
 # An abstract object that has a title and has many comments and tags and ratings
 class NewsObject(models.Model):
 	title = models.CharField(max_length=200)
+	viewCount = models.IntegerField(default=0)
 
 	def __unicode__(self):
 		return self.title
