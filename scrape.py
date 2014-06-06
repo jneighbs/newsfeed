@@ -6,6 +6,7 @@ import urllib2
 import re
 import cookielib
 from cookielib import CookieJar
+from django.utils import timezone
 
 import os
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "newsfeed_site.settings")
@@ -20,14 +21,22 @@ pp = pprint.PrettyPrinter()
 
 
 # TODO: Take in entry instead of summary text. Parse something before summary text, if no img exists there, then parse summary text
-def scrapeImages(summaryText):
-	imgPat = re.compile('< *img.*?src=("(.*?)"|\'(.*?)\').*?>', re.DOTALL)
-	imgSrc = re.search(imgPat, summaryText)
-	if imgSrc is None:
-		imgSrc = ""
-	if imgSrc:	
-		imgSrc = imgSrc.group(1)
-	return imgSrc
+def scrapeImages(entry):
+
+	thumbnail = ""
+	if "media_content" in entry:
+		if "url" in entry.media_content:
+			thumbnail = entry.media_content.url
+
+	else:
+
+		imgPat = re.compile('<img .*?src="(.*?)"', re.DOTALL)
+		thumbnail = re.search(imgPat, entry.summary)
+		if thumbnail is None:
+			thumbnail = ""
+		if thumbnail:	
+			thumbnail = thumbnail.group(1)
+	return thumbnail
 
 def pullSummary(summaryText):
 	pPat = re.compile('<p>(.*?)</p>', re.DOTALL)
@@ -44,25 +53,47 @@ def pullSummary(summaryText):
 def formatTagName(unformattedTagName):
 	return unformattedTagName.lower().replace(" ", "").replace("_", "").replace("-", "")
 
-from django.utils import timezone
-def putInDB(entry, sourceName, tagName):
+def addTags(article, entry, tagNameFromURL):
 
-	source = NewsSource.objects.get(title=sourceName)
-	#TODO convert pub_date
+	tagArray = [tagNameFromURL]
 
-	# summaryText = pullSummary(entry.summary)
-	imgSrc = scrapeImages(entry.summary)
-	# TODO: pull tags
+	if "tags" in entry:
+		for tag in entry.tags:
+			tagArray.append(tag.term)
 
-	a = Article(newsSource=source, url=entry.link, pub_date=timezone.now(), summaryText="", thumbnail=imgSrc, title=entry.title)
-	a.save()
+	for tagName in tagArray:
 
-	t, created = Tag.objects.get_or_create(text=tagName)
-	if(created): 
-		t.save()
-	t.tagees.add(a)
+		tagName = formatTagName(tagName)
+		print tagName
+		t, created = Tag.objects.get_or_create(text=tagName)
+		if(created): 
+			t.save()
+		t.tagees.add(article)
+
+	return tagArray
 
 
+
+def addArticle(entry, sourceName):
+
+	# TODO convert pub_date
+	# TODO add summaries
+	# summaryText = pullSummary(entry)
+	
+	thumbnail = scrapeImages(entry)
+	newsSource = NewsSource.objects.get(title=sourceName)
+
+	article = Article(newsSource=newsSource, url=entry.link, pub_date=timezone.now(), summaryText="", thumbnail=thumbnail, title=entry.title)
+	article.save()
+
+	return article
+
+
+
+def putInDB(entry, sourceName, tagNameFromURL):
+
+	article = addArticle(entry, sourceName)
+	tags = addTags(article, entry, tagNameFromURL)
 
 
 
@@ -93,23 +124,17 @@ def scrapeReddit():
 
 		tagFinder = re.compile('http://reddit.com/r/(.*)/')
 		tag = re.match(tagFinder, link)
-		tagName = formatTagName(tag.group(1))
+		tagNameFromURL = formatTagName(tag.group(1))
 
 		for entry in redditFeed.entries:
 			# pp.pprint(entry.title)
 			if len(Article.objects.filter(url=entry.link))==0:
-				putInDB(entry, "Reddit", tagName)
-
-	# redditFeed = feedparser.parse('http://www.reddit.com/r/coding' + '/.rss')
-	# # pp.pprint(redditFeed.entries[0])
-	# for entry in redditFeed.entries:
-	# 	if len(Article.objects.filter(url=entry.link))==0:
-	# 		putInDB(entry, "Reddit")
-	
+				putInDB(entry, "Reddit", tagNameFromURL)	
 
 
 def scrapeNYTimes():
 
+	# http://rss.nytimes.com/services/xml/rss/nyt/World.xml
 	print "###########\n# NYTimes #\n###########"
 	
 	# grab links
@@ -126,15 +151,14 @@ def scrapeNYTimes():
 			print "link: " + link
 			if tag[-4:]==".xml":
 				tag = tag[0:-4]
-			# print "tag: " + tag
+			
 			nyTimesFeed = feedparser.parse(link)
-			tagName = formatTagName(tag)
-			# print "tag: " + tagName
+			tagNameFromURL = formatTagName(tag)
 
 			for entry in nyTimesFeed.entries:
-				# pp.pprint(entry)
+
 				if len(Article.objects.filter(url=entry.link))==0:
-					putInDB(entry, "NYTimes", tagName)
+					putInDB(entry, "NYTimes", tagNameFromURL)
 
 
 def main():
@@ -142,7 +166,7 @@ def main():
 	# readFromFile()
 	scrapeReddit()
 	scrapeNYTimes()
-	#scrapeEconomist()
+	# scrapeEconomist()
 
 
 
