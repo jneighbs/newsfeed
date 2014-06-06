@@ -93,12 +93,12 @@ def about(request):
 	context = {'articles': articles, 'sources': sources, 'feeds': feeds, 'request': request,}
 	return render(request, 'about.html', context)
 	
-def edit (request, feed_id):
+def editFeed (request, feed_id):
 	all_sources = NewsSource.objects.all()
 	feed = get_object_or_404(NewsFeed, pk=feed_id)
 	feeds_sources = feed.newsSources.all()
-	context = {'all_sources': all_sources, 'feeds_sources': feeds_sources}
-	return render(request, 'edit.html', context)
+	context = {'all_sources': all_sources, 'feeds_sources': feeds_sources, 'feed': feed}
+	return render(request, 'edit_feed.html', context)
 
 def createEvent(request, event_id=None):
 	context = RequestContext(request, {'user': request.user})

@@ -2,6 +2,13 @@
     Style
 ======================================================================
 */
+.source-checklist {
+  font-weight: 100 !important;
+  font-size:16px;
+  position: relative;
+top: -5px;
+}
+
 .create-source {
   font-size: 16px !important;
   font-weight: 200;
@@ -3179,9 +3186,18 @@ section {
   #edit-feed-link {
     position: absolute !important;
 padding: inherit;
+margin-right:5px;
 right: 0px !important;
-top:0px !important;
-  }
+top:25px !important;
+font-size: 15px;
+z-index:10;
+}
+.rating-input {
+  position: absolute !important;
+  padding: inherit;
+  right: 0px !important;
+  top:0px !important;
+}
   #logo-block, #bottom-left-block {
     display: block;
     left: 0px !important;

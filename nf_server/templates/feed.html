@@ -25,7 +25,8 @@
 {% block content %}
 <header id="intro" class="block-wrap ignore-shuffle" data-rowspan="2" data-colspan="2">
   <hgroup style="overflow:scroll;" class="block text-only">
-  	<div id="edit-feed-link"><a href="/edit/{{ feed.id }}">Edit feed</a></div>
+  	<div id="edit-feed-link"><a href="/edit_feed/{{ feed.id }}">Edit feed</a></div>
+    <input id="rating-stars" type="number" name="rating" id="feed_rating" class="rating" />
 	<h2>{{ feed.title }}</h2>
 	<ul>
 		{% for source in feeds_sources %}
