@@ -110,7 +110,7 @@ def createEvent(request, event_id=None):
 	#print dir(request.user)
 
 	if (not request.user) or request.user.is_anonymous():
-		return HttpResponseRedirect("/event/" + str(event_id))
+		#return HttpResponseRedirect("/event/" + str(event_id))
 		print "bad user! not logged in! not your event!"
 
 	if event_id:
@@ -119,7 +119,7 @@ def createEvent(request, event_id=None):
 		
 		if request.user.id != event.owner_id and len(event.editors.filter(id=request.user.id)) == 0:
 			print "not your event, kiddo"
-			return HttpResponseRedirect("/event/" + str(event_id))
+			#return HttpResponseRedirect("/event/" + str(event_id))
 
 		form = NewsEventForm(instance=event)
 		form.fields['articles'].queryset = event.articles.all()
@@ -132,15 +132,17 @@ def createEvent(request, event_id=None):
 		timelineEntries.sort()
 
 	else:
+
+		if (not request.user) or request.user.is_anonymous():
+			#return HttpResponseRedirect("/event/" + str(event_id))
+			print "bad user! not logged in! not your event!"
+
 		print "ain't got no event id"
-		event = NewsEvent(owner_id=1)
+		event = NewsEvent(owner_id=request.user.id)
 		event.save()
-		print "asdfasdfasdfasdf", event.articles.all()
 		form = NewsEventForm(instance=event)
 		form.fields['articles'].queryset = event.articles.all()
 		form.fields['editors'].queryset = event.editors.all()
-		print "the form:", type(form), dir(form)
-		print form.is_bound
 		timelineEntries = []
 	
 
