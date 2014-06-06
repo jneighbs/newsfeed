@@ -3,27 +3,52 @@
 {% load staticfiles %}
 <link rel="stylesheet" type="text/css" href="{% static "css/create_source.css" %}" />
 <script type="text/javascript" src="{% static "js/FieldValidator.js" %}"></script>
-<h1 class="cs_header">Create a New Source</h1>
+<header id="intro" class="block-wrap ignore-shuffle" data-rowspan="2" data-colspan="2">
+<hgroup style="overflow:scroll;" class="block text-only">
+<form action="new_source" method="post" id="create_source_form" class="form-horizontal">
+{% csrf_token %}
+<fieldset>
 
-<form action="new_source" method="post" id="create_source_form">
-	{% csrf_token %}
-	<div class="cs_container">
-		<div class="cs_elem">
-			<label class="cs_label" for="name">Name: </label><input type="text" name="name" id="id_name">
-			<div class="error_field" id="id_name_error">Your source needs a unique name.</div>
-		</div>
-		<div class="cs_elem">
-			<label class="cs_label" for="description">Description: </label><textarea form="create_source_form" id="id_description" name="description"></textarea>
-			<div class="error_field" id="id_description_error">There's actually nothing wrong here.</div>
-		</div>
-		<div class="cs_elem">
-			<label class="cs_label" for="url">RSS URL: </label><input type="text" name="url" id="id_url">
-			<div class="error_field" id="id_url_error">That URL appears to be broken. Sorry.</div>
-		</div>
-		<input type="submit" value="Create" id="save_button">
-	</div>
+<!-- Form Name -->
+<legend>Create a new source</legend>
+
+<!-- Text input-->
+<div class="form-group">
+	<label class="col-md-4 control-label create-source" for="name">Source name</label>  
+  	<div class="col-md-4">
+  		<input id="id_name" name="name" type="text" placeholder="" class="form-control input-md" required="">
+    	<div class="error_field" id="id_name_error">Your source needs a unique name.</div>
+  	</div>
+</div>
+
+<!-- Textarea -->
+<div class="form-group">
+  <label class="col-md-4 control-label create-source" for="description">Description</label>
+  <div class="col-md-4">                     
+    <textarea form="create_source_form" class="form-control" id="id_description" name="description"></textarea>
+    <div class="error_field" id="id_description_error">There's actually nothing wrong here.</div>
+  </div>
+</div>
+
+<!-- Text input-->
+<div class="form-group">
+  <label class="col-md-4 control-label create-source" for="url">RSS URL</label>  
+  <div class="col-md-4">
+  <input name="url" id="id_url" type="text" class="form-control input-md">
+  <div class="error_field" id="id_url_error">That URL appears to be broken. Sorry.</div>
+  </div>
+</div>
+
+<div class="form-group">
+  <input type="submit" class="btn btn-default create-button" value="Create" id="save_button">
+</div>
+
+</fieldset>
+
 	<script type="text/javascript">
 		var validator = new FieldValidator(["name", "description", "url"], "/validate_source/", "{{csrf_token}}");
 	</script>
 </form>
-{% endblock %}
+</hgroup>
+</header>
+{% endblock content%}

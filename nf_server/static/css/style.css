@@ -2,6 +2,17 @@
     Style
 ======================================================================
 */
+.create-source {
+  font-size: 16px !important;
+  font-weight: 200;
+}
+.create-button {
+  margin-left: 36%;
+  margin-right: 64%;
+  position: relative;
+  width: 165px;
+}
+
 ul#login-list{
   padding-left:30px;
 }
@@ -368,6 +379,7 @@ legend {
   /* 1 */
   padding: 0;
   /* 2 */
+  color: #ccc !important;
 }
 /*
  * 1. Corrects font family not being inherited in all browsers.
@@ -3162,7 +3174,7 @@ section {
   #intro hgroup {
     height: 660px !important;
     padding: 20px !important;
-    width: 595px !important;
+    width: 635px !important;
   }
   #edit-feed-link {
     position: absolute !important;
@@ -3183,8 +3195,8 @@ top:0px !important;
     height: 250px !important;
   }
   #bottom-left-block {
-    top: 355px !important;
-    height: 395px;
+    top: 315px !important;
+    height: 435px;
   }
   #right-bar-block {
        display: block;
