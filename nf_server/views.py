@@ -31,7 +31,7 @@ def createSource(request):
 	return render(request, 'create_source.html', {})
 
 def getLogin(request):
-	return render(request, 'get_login.html', {})
+	return render(request, 'get_login.html', {'request':request})
 
 def validateSource(request):
 	responseData = {"name": True, "description": True, "url": True}
@@ -255,6 +255,9 @@ def fireSearch(request, query):
 		return HttpResponse(json.dumps(responseData), content_type="application/json")
 
 	responseData = utils.findPartialMatches(models, queryWords, responseData, 0.5)
+	
+	for model in models:
+		print model, len(responseData[model])
 
 	return HttpResponse(json.dumps(responseData), content_type="application/json")
 
