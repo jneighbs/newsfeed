@@ -1,89 +1,106 @@
 <!doctype html>
-<!-- HTML5 Boilerplate -->
-<!--[if lt IE 7]><html class="no-js lt-ie9 lt-ie8 lt-ie7" lang="en"> <![endif]-->
-<!--[if (IE 7)&!(IEMobile)]><html class="no-js lt-ie9 lt-ie8" lang="en"><![endif]-->
-<!--[if (IE 8)&!(IEMobile)]><html class="no-js lt-ie9" lang="en"><![endif]-->
-<!--[if gt IE 8]><!--> <html class="no-js" lang="en"><!--<![endif]-->
-		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /> 
-		<meta name="description" content="Newsfeed" />
-		<meta name="HandheldFriendly" content="True">
-        <meta name="MobileOptimized" content="320">	
-        <meta http-equiv="cleartype" content="on">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">	
-		<meta id="viewport" name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-		<title>Newsfeed</title>
-		{% load staticfiles %}
-		<script type="text/javascript" src="{% static "js/custom.js" %}"></script>
-		<script type="text/javascript" src="{% static "js/modern.js" %}"></script>
-		<script type="text/javascript" src="{% static "js/Ajaxy.js" %}"></script>
-		<script type="text/javascript" src="{% static "js/GenericSearchBox.js" %}"></script>
-		<script type="text/javascript" src="{% static "js/AllSearchBox.js" %}"></script>
-		<script type="text/javascript" src="{% static "js/CompactSearchBox.js" %}"></script>
-		<script type="text/javascript" src="{% static "js/ArticleSearchBox.js" %}"></script>
-		<script type="text/javascript" src="{% static "js/TagSearchBox.js" %}"></script>
-		<script type="text/javascript" src="{% static "js/EditorSearchBox.js" %}"></script>
-		<script type="text/javascript" src="{% static "js/PrettyDate.js" %}"></script>
-		<script type="text/javascript" src="{% static "js/Timeline.js" %}"></script>
-		<script type="text/javascript" src="{% static "js/EventTag.js" %}"></script>
-		<link rel="stylesheet" media="screen" href="{% static "css/style.css" %}" />
-		<link rel="stylesheet" media="screen" href="{% static "css/fonts.css" %}" />
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /> 
+	<meta name="description" content="Newsfeed" />
+	<meta id="viewport" name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+	<title>Newsfeed:8000</title>
+	{% load staticfiles %}
+	<script type="text/javascript" src="{% static "js/custom.js" %}"></script>
+	<script type="text/javascript" src="{% static "js/modern.js" %}"></script>
+	<script type="text/javascript" src="{% static "js/Ajaxy.js" %}"></script>
+	<script type="text/javascript" src="{% static "js/GenericSearchBox.js" %}"></script>
+	<script type="text/javascript" src="{% static "js/AllSearchBox.js" %}"></script>
+	<script type="text/javascript" src="{% static "js/CompactSearchBox.js" %}"></script>
+	<script type="text/javascript" src="{% static "js/ArticleSearchBox.js" %}"></script>
+	<script type="text/javascript" src="{% static "js/TagSearchBox.js" %}"></script>
+	<script type="text/javascript" src="{% static "js/EditorSearchBox.js" %}"></script>
+	<script type="text/javascript" src="{% static "js/PrettyDate.js" %}"></script>
+	<script type="text/javascript" src="{% static "js/Timeline.js" %}"></script>
+	<script type="text/javascript" src="{% static "js/EventTag.js" %}"></script>
+	<link rel="stylesheet" media="screen" href="{% static "css/style.css" %}" />
+</head>
+<body onload="loadDate()">
 
-    </head>
-	<body  class="open-menu">
-	<nav id="colorNav">
-	<ul>
-		<li class="green">
-			<a href="/">Home</span></a>
-		</li>
-		<li class="red">
-			<a href="/about">About</a>
-		</li>
-		<li class="blue">
-			<a href="/search">Search</a>
-		</li>
-		<li class="yellow">
-			<a href="/create_source">Add a Source</a>
-		</li><!--
-		<li id="login-button" class="yellow">
-			{% block header %} {% endblock %}
-		</li>
-		
-		<li class="purple">
-			<a href="/chat" class="icon-comments"></a>
-		</li>
-		<li>
-			<div id="text-display">Storytime</div>
-		</li>
-		-->
-	</ul>
-	</nav>
-	
+	<div id="top-nav">
+		<div id="date"></div>
+		<ul class="nav-ul">
+			<li class="nav-li"><a href="/about">About</a></li>
+			<li class="nav-li"><a href="/search">Search</a></li>
+			<li class="nav-li"><a href="/create_source">Add Source</a></li>
+			{% if user and not user.is_anonymous %}
+	 			<li>
+	   				<a>Hello {{ user.get_full_name|default:user.username }}!</a>
+	 			</li>
+	 			<li>
+	   				<a href="{% url 'auth:logout' %}?next={{ request.path }}">Logout</a>
+	 			</li>
+			{% else %}
+				<li class="nav-li"><a href="/siteLogin">Login</a></li>
+			{% endif %}
+			{% block header %} {% endblock header %} 
+		</ul>
+		<div id="home-title"><a href="/">Newsfeed:8000</a></div>	
+	</div>
 	<section role="main">
-		<div id="logo-block" class="block-wrap ignore-shuffle" data-rowspan="2" data-colspan="1">
+		{% block leftbar %} {% endblock leftbar %} 
+		{% block content %} {% endblock content %} 
+		<div id="right-bar-block" class="block-wrap ignore-shuffle" data-rowspan="2" data-colspan="1">
 			<div class="block text-only">
-                <h2>Newsfeeds</h2>
-		    	<ul>
-		        	{% for feed in feeds %}
-						<li>
-							<a href="/feed/{{ feed.id }}">{{ feed.title }}</a>
-						</li>
-					{% endfor %}
-				</ul>
-                <h2>Newssources</h2>
-		    	<ul>
-		        	{% for source in sources %}
-						<li>
-							<a href="/source/{{ source.id }}">{{ source.title }}</a>
-						</li>
-					{% endfor %}
-				</ul>
-            </div>
-        </div>
- 		<header id="intro" class="block-wrap ignore-shuffle" data-rowspan="2" data-colspan="2">
-            <hgroup style="overflow:scroll;" class="block text-only">
-                {% block content %}{% endblock content %}
-        	</hgroup>
-        </header>
-    </section>		
-	</body>
+				<link rel="stylesheet" type="text/css" href="{% static "css/test.css" %}" />
+<script type="text/javascript" src="{% static "js/SearchHelper.js" %}"></script>
+
+
+<h2>Search for something.</h2>
+<div class="input-group" id="searchBox">
+  <span class="input-group-addon"></span>
+  <input type="text" class="form-control" placeholder="e.g., 'Ukraine invasion'...">
+</div>
+
+
+
+<div class="btn-group" data-toggle="buttons">
+  Search over:&nbsp;&nbsp;
+  <label class="btn btn-primary">
+    <input type="checkbox" checked="true" id="sources_checkbox"> Sources
+  </label>
+  <label class="btn btn-primary">
+    <input type="checkbox" checked="true" id="articles_checkbox"> Articles
+  </label>
+  <label class="btn btn-primary">
+    <input type="checkbox" checked="true" id="feeds_checkbox"> Feeds
+  </label>
+  <label class="btn btn-primary">
+    <input type="checkbox" checked="true" id="events_checkbox"> Events
+  </label>
+
+  <br>Return results with matching tags:&nbsp;&nbsp;
+  <label class="btn btn-primary">
+    <input type="checkbox" checked="false" id="tags_checkbox"> Tags
+  </label>
+</div>
+<div id="all_target"></div>
+
+<script type="text/javascript">
+	//new SearchHelper("sources_checkbox")
+	var searchBox = new AllSearchBox("searchBox", "all_target", "articles feeds sources events");
+	searchBox.addCheckbox("sources_checkbox");
+	searchBox.addCheckbox("articles_checkbox");
+	searchBox.addCheckbox("feeds_checkbox");
+	searchBox.addCheckbox("events_checkbox");
+  searchBox.addTagCheckbox("tags_checkbox");
+</script>
+			</div>
+		</div>
+	</section>
+	<script>
+	function loadDate() {	
+		var today = new Date();
+    	var dd = today.getDate();
+    	var mm = today.getMonth()+1; //January is 0!
+    	var yyyy = today.getFullYear();
+    	if(dd<10){dd='0'+dd} if(mm<10){mm='0'+mm} var today = mm+'.'+dd+'.'+yyyy;
+    	document.getElementById("date").innerHTML = today;	
+    };
+	</script>	
+</body>
 </html>
