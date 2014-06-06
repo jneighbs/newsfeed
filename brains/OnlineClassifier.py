@@ -250,6 +250,6 @@ class OnlineClassifier:
 		#print tokens
 		return tokens
 
-
+myClassifier = OnlineClassifier()
 
 
