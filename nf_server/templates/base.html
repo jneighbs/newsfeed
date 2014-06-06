@@ -33,10 +33,9 @@
  -->		<li class="nav-li"><a href="/search">Search</a></li>
 			<li class="nav-li"><a href="/create_source">Add Source</a></li>
 <!-- 			<li class="nav-li"><a href="/create_feed">Add Feed</a></li>
- -->			{% if user and not user.is_anonymous %}
-	 			<li class="nav-li">
-	   				<a href="{% url 'auth:logout' %}?next={{ request.path }}">Logout</a>
-	 			</li>
+ -->		{% if user and not user.is_anonymous %}
+	 			<li class="nav-li"><a href="create_event">Add Event</a></li>
+	 			<li class="nav-li"><a href="{% url 'auth:logout' %}?next={{ request.path }}">Logout</a></li>
 			{% else %}
 				<li class="nav-li"><a href="/get_login">Login</a></li>
 			{% endif %}

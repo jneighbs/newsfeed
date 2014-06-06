@@ -3,6 +3,11 @@
 <div id="logo-block" class="block-wrap ignore-shuffle" data-rowspan="2" data-colspan="1">
   <div class="block text-only">
     <h2>Breaking News</h2>
+    <ul>
+    {% for event in topEvents %}
+    <li><a href="/event/{{event.id}}">{{ event.title }} </a></li>
+    {% endfor %}
+    </ul>
   </div>
 </div>
 <div id="bottom-left-block" class="block-wrap ignore-shuffle" data-rowspan="2" data-colspan="1">

@@ -12,8 +12,9 @@ from django.template.context import RequestContext
 def index(request):
 	sources = NewsSource.objects.all()
 	feeds = NewsFeed.objects.all()
-	articles = Article.objects.all()
-	context = {'articles': articles, 'sources': sources, 'feeds': feeds, 'request': request,}
+	articles = Article.objects.all()[:20]
+	topEvents = NewsEvent.objects.all().order_by("score")[:5]
+	context = {'articles': articles, 'sources': sources, 'feeds': feeds, 'request': request, 'topEvents': topEvents}
 	return render(request, 'index.html', context)
 
 def source(request, source_id):
@@ -21,6 +22,7 @@ def source(request, source_id):
 	feeds = NewsFeed.objects.all()
 	source = get_object_or_404(NewsSource, pk=source_id)
 	source.viewCount += 1
+	source.score += 1
 	source.save()
 	#articles = get_list_or_404(Article, newsSource=source_id)
 	articles = Article.objects.filter(newsSource=source_id)
@@ -31,7 +33,7 @@ def createSource(request):
 	return render(request, 'create_source.html', {})
 
 def getLogin(request):
-	return render(request, 'get_login.html', { 'request': request})
+	return render(request, 'get_login.html', {'request':request})
 
 def validateSource(request):
 	responseData = {"name": True, "description": True, "url": True}
@@ -70,6 +72,7 @@ def feed(request, feed_id):
 	feeds = NewsFeed.objects.all()
 	feed = get_object_or_404(NewsFeed, pk=feed_id)
 	feed.viewCount += 1
+	feed.score += 1
 	feed.save()
 	feeds_sources = feed.newsSources.all()
 	articles = Article.objects.all()
@@ -102,6 +105,7 @@ def newFeed(request):
 def event(request, event_id):
 	event = NewsEvent.objects.get(id=event_id)
 	event.viewCount += 1
+	event.score += 1
 	event.save()
 	context = {'event': event}
 	return render(request, 'event.html', context)
@@ -127,14 +131,22 @@ def createFeed(request):
 
 def createEvent(request, event_id=None):
 	context = RequestContext(request, {'user': request.user})
-	#print "ID: ", request.user.id, " Name: ", request.user.username
+	print "ID: ", request.user.id, " Name: ", request.user.username, request.user.is_anonymous()
 	#print dir(request.user)
+
+	if (not request.user) or request.user.is_anonymous():
+		return HttpResponseRedirect("/event/" + str(event_id))
+		print "bad user! not logged in! not your event!"
 
 	if event_id:
 		print "got an id"
 		event = get_object_or_404(NewsEvent, pk=event_id)
+		
+		if request.user.id != event.owner_id and len(event.editors.filter(id=request.user.id)) == 0:
+			print "not your event, kiddo"
+			return HttpResponseRedirect("/event/" + str(event_id))
+
 		form = NewsEventForm(instance=event)
-		print event.articles.all()
 		form.fields['articles'].queryset = event.articles.all()
 		form.fields['editors'].queryset = event.editors.all()
 
@@ -262,6 +274,7 @@ def checkEventTag(request, query):
 def article(request, article_id):
 	article = get_object_or_404(Article, pk=article_id)
 	article.viewCount += 1
+	article.score += 1
 	article.save()
 	return HttpResponseRedirect(article.url)
 	return HttpResponse("article %s - newsfeed.com/article" % article_id)

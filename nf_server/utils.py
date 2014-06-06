@@ -24,11 +24,13 @@ def findExactMatches(models, query):
 	
 	
 	responseData = {}
-	
+
 	for model in results:
 		responseData[model] = {}
 		for result in results[model]:
 			responseData[model][result.id] = result.allText()
+			if len(responseData[model]) > 14:
+				break
 		
 	return responseData
 
@@ -68,6 +70,9 @@ def findPartialMatches(models, queryWords, responseData, threshold):
 
 			if queryWordCount / len(queryWords) >= threshold:
 				responseData[model][candidate.id] = candidate.title
+			
+			if len(responseData[model]) > 14:
+				break
 	return responseData
 
 def tagSearch(models, query):
@@ -100,6 +105,9 @@ def tagSearch(models, query):
 			for tag in candidate.tag_set.all():
 				if query in tag.text.lower():
 					responseData[model][candidate.id] = candidate.title
+
+			if len(responseData[model]) > 14:
+				break;
 	return responseData
 
 def urlIsBroken(url):

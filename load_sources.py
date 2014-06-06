@@ -17,9 +17,9 @@ def main():
 	addSource("Reddit", "Front page of the internet, bitchez", "United States")
 
 	#add NYTimes NewsSource	
-	addSource("NYTimes", "New York Times, blah blah", "United States")
+	addSource("The New York Times", "New York Times, blah blah", "United States")
 
 	#add the Economist NewsSource	
-	addSource("Economist", "The economy and money and stuff", "United States")
+	addSource("The Economist", "The economy and money and stuff", "United States")
 
 main()

@@ -251,7 +251,7 @@ class KeywordClassifier:
 			plt.title(topic)
 			plt.show()
 
-#clf = KeywordClassifier()
-#clf.analyze(singleVsRest=True, targetTopic='business')
+clf = KeywordClassifier()
+clf.analyze(singleVsRest=True, targetTopic='business')
 
 
