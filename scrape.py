@@ -158,7 +158,7 @@ def scrapeNYTimes():
 			for entry in nyTimesFeed.entries:
 
 				if len(Article.objects.filter(url=entry.link))==0:
-					putInDB(entry, "NYTimes", tagNameFromURL)
+					putInDB(entry, "The New York Times", tagNameFromURL)
 
 
 def main():
