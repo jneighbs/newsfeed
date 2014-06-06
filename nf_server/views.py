@@ -3,7 +3,7 @@ from django.shortcuts import render, get_object_or_404, get_list_or_404
 from tasks import slowAdd, classify, trainClassifier
 from django.core.urlresolvers import reverse
 from django.views import generic
-from models import Article, NewsFeed, NewsSource, NewsEvent, NewsEventForm, TimelineEntry, Tag
+from models import Article, NewsFeed, NewsSource, NewsEvent, NewsEventForm, TimelineEntry, Tag, Rating
 import json
 import utils
 import re
@@ -65,7 +65,6 @@ def newSource(request):
 	source.description = request.POST["description"]
 	source.url = request.POST["url"]
 	source.save()
-
 	return HttpResponseRedirect("/source/" + str(source.id))
 
 def feed(request, feed_id):
@@ -79,6 +78,28 @@ def feed(request, feed_id):
 	articles = Article.objects.all()
 	context = {'articles': articles, 'feed': feed, 'feeds_sources': feeds_sources, 'sources': sources, 'feeds': feeds}
 	return render(request, 'feed.html', context)
+
+def saveRating(request, feed_id):
+	print "hi"
+	print request.POST["rating"]
+	feed = get_object_or_404(NewsFeed, pk=feed_id)
+	if (request.POST["rating"] >= 1):
+		print request.POST["rating"]
+		rating = Rating()
+		rating.rating = request.POST["rating"];
+		rating.save()
+		feed.ratings.add(rating);
+		feed.save()
+		print feed
+	return HttpResponseRedirect("/feed/" + str(feed.id))
+
+def newFeed(request):
+	feed = NewsFeed()
+	feed.title = request.POST["name"]
+	feed.description = request.POST["description"]
+	feed.newsSources = request.POST["checkboxes"]
+	feed.save()
+	return HttpResponseRedirect("/feed/" + str(feed.id))
 
 # Create your views here.
 def event(request, event_id):
@@ -103,6 +124,10 @@ def editFeed (request, feed_id):
 	feeds_sources = feed.newsSources.all()
 	context = {'all_sources': all_sources, 'feeds_sources': feeds_sources, 'feed': feed}
 	return render(request, 'edit_feed.html', context)
+
+def createFeed(request):
+	all_sources = NewsSource.objects.all()
+	return render(request, 'create_feed.html', {'all_sources': all_sources})
 
 def createEvent(request, event_id=None):
 	context = RequestContext(request, {'user': request.user})

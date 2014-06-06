@@ -23,20 +23,19 @@
 </head>
 <body onload="loadDate()">
 	<div id="top-nav">
-		<div id="date"></div>
+		<div id="date">
+			{% if user and not user.is_anonymous %}
+				<li class="nav-li name">Hi {{ user.get_full_name|default:user.username }}</li>
+			{% endif %}
+		</div>
 		<ul class="nav-ul">
 <!-- 			<li class="nav-li"><a href="/about">About</a></li>
- -->			<li class="nav-li"><a href="/search">Search</a></li>
+ -->		<li class="nav-li"><a href="/search">Search</a></li>
 			<li class="nav-li"><a href="/create_source">Add Source</a></li>
-			
-			{% if user and not user.is_anonymous %}
-				<li class="nav-li"><a href="create_event">Add Event</a></li>
-	 			<li>
-	   				<a>Hello {{ user.get_full_name|default:user.username }}!</a>
-	 			</li>
-	 			<li>
-	   				<a href="{% url 'auth:logout' %}?next={{ request.path }}">Logout</a>
-	 			</li>
+<!-- 			<li class="nav-li"><a href="/create_feed">Add Feed</a></li>
+ -->		{% if user and not user.is_anonymous %}
+	 			<li class="nav-li"><a href="create_event">Add Event</a></li>
+	 			<li class="nav-li"><a href="{% url 'auth:logout' %}?next={{ request.path }}">Logout</a></li>
 			{% else %}
 				<li class="nav-li"><a href="/get_login">Login</a></li>
 			{% endif %}
@@ -55,8 +54,11 @@
     	var dd = today.getDate();
     	var mm = today.getMonth()+1; //January is 0!
     	var yyyy = today.getFullYear();
-    	if(dd<10){dd='0'+dd} if(mm<10){mm='0'+mm} var today = mm+'.'+dd+'.'+yyyy;
-    	document.getElementById("date").innerHTML = today;	
+    	if(dd<10){dd='0'+dd} 
+		if(mm<10){mm='0'+mm}
+		var today = mm+'.'+dd+'.'+yyyy;
+    	var attach = "<li class=\"nav-li date\">" + today + "</li>"
+    	$("#date").append(attach);
     };
 	</script>	
 </body>

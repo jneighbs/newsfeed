@@ -61,6 +61,17 @@ ul#login-list{
   top: 0px;
   z-index: 10;
 }
+.date {
+  padding-right: 10px !important;
+}
+#name-login {
+  position: absolute;
+  padding: 10px;
+  margin: 0px;
+  right: 0px;
+  top: 0px;
+  z-index: 10;
+}
 .nav-ul {
   list-style-type: none;
   position: absolute;
@@ -70,6 +81,9 @@ ul#login-list{
 .nav-li {
   display:inline;
   padding: 10px;
+}
+.date {
+  padding: 0px !important;
 }
 .search-button {
   padding-right: 10px;
@@ -3184,19 +3198,28 @@ section {
     width: 635px !important;
   }
   #edit-feed-link {
+  position: absolute !important;
+  padding: inherit;
+  margin-right:5px;
+  right: 0px !important;
+  top:0px !important;
+  font-size: 15px;
+  z-index:10;
+}
+  #save-feed-link {
     position: absolute !important;
 padding: inherit;
 margin-right:5px;
 right: 0px !important;
-top:25px !important;
+top:15px !important;
 font-size: 15px;
 z-index:10;
 }
 .rating-input {
-  position: absolute !important;
+/*  position: absolute !important;
   padding: inherit;
   right: 0px !important;
-  top:0px !important;
+  top:0px !important;*/
 }
   #logo-block, #bottom-left-block {
     display: block;
