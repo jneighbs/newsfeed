@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+{% block content %}
+{% load staticfiles %}
+<link rel="stylesheet" type="text/css" href="{% static "css/create_source.css" %}" />
+<script type="text/javascript" src="{% static "js/FieldValidator.js" %}"></script>
+<header id="intro" class="block-wrap ignore-shuffle" data-rowspan="2" data-colspan="2">
+<hgroup style="overflow:scroll;" class="block text-only">
+<form action="new_feed/" method="post" id="create_source_form" class="form-horizontal">
+{% csrf_token %}
+<fieldset>
+
+<!-- Form Name -->
+<legend>Create a new feed</legend>
+
+<!-- Text input-->
+<div class="form-group">
+	<label class="col-md-4 control-label create-source" for="name">Feed name</label>  
+  	<div class="col-md-4">
+  		<input id="id_name" name="name" type="text" placeholder="" class="form-control input-md" required="">
+    	<div class="error_field" id="id_name_error">Your feed needs a unique name.</div>
+  	</div>
+</div>
+
+<!-- Textarea -->
+<div class="form-group">
+  <label class="col-md-4 control-label create-source" for="description">Description</label>
+  <div class="col-md-4">                     
+    <textarea form="create_source_form" class="form-control" id="id_description" name="description"></textarea>
+    <div class="error_field" id="id_description_error">There's actually nothing wrong here.</div>
+  </div>
+</div>
+<!-- Source input-->
+<div class="form-group">
+  <label class="col-md-4 control-label create-source" for="checkboxes">Sources</label>
+  <div class="col-md-4">
+  	{% for source in all_sources %}
+		<div class="checkbox">
+		    <label class="source-checklist">
+		      <input type="checkbox" name="checkboxes" value="{{ source.id }}">
+		      {{ source.title }}
+		    </label>
+		</div>
+	{% endfor%}
+  </div>
+</div>
+<!-- Tag input-->
+<!-- <div class="form-group">
+  <label class="col-md-4 control-label create-source" for="tags">Tags with spaces</label>  
+  <div class="col-md-4">
+  <input name="tag" id="id_tag" type="text" class="form-control input-md">
+  </div>
+</div> -->
+
+<div class="form-group">
+  <input type="submit" class="btn btn-default create-button" value="Create" id="save_button">
+</div>
+
+</fieldset>
+</form>
+</hgroup>
+</header>
+{% endblock content%}

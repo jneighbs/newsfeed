@@ -25,8 +25,11 @@
 {% block content %}
 <header id="intro" class="block-wrap ignore-shuffle" data-rowspan="2" data-colspan="2">
   <hgroup style="overflow:scroll;" class="block text-only">
-  	<div id="edit-feed-link"><a href="/edit_feed/{{ feed.id }}">Edit feed</a></div>
-    <input id="rating-stars" type="number" name="rating" id="feed_rating" class="rating" />
+    <form action="new_source" method="post" id="create_source_form" class="form-horizontal">
+       <input id="rating-stars" data-max="5" data-min="1" type="number" name="rating" id="feed_rating" class="rating" />
+     </form>
+<!--     <div id="save-feed-link"><a href="/feed/{{ feed.id }}">Save feed rating</a></div>
+ -->  	<div id="edit-feed-link"><a href="/edit_feed/{{ feed.id }}">Edit feed</a></div>   
 	<h2>{{ feed.title }}</h2>
 	<ul>
 		{% for source in feeds_sources %}
@@ -44,6 +47,11 @@
 	</ul>
 </hgroup>
 </header>
+<script>
+  $( ".rating-input" ).click(function() {
+  alert( "Handler for .click() called." );
+});
+</script>
 {% endblock content %}
 {% block rightbar %}
 <div id="right-bar-block" class="block-wrap ignore-shuffle" data-rowspan="2" data-colspan="1">
