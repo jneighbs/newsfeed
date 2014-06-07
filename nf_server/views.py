@@ -83,6 +83,8 @@ def saveRating(request, feed_id):
 	print "hi"
 	print request.POST["rating"]
 	feed = get_object_or_404(NewsFeed, pk=feed_id)
+	for param, val in request.POST.items():
+		print param, val
 	if (request.POST["rating"] >= 1):
 		print request.POST["rating"]
 		rating = Rating()
