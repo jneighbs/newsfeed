@@ -1,4 +1,4 @@
-from nf_server.models import Article, NewsFeed, NewsSource, NewsEvent, Tag, User
+from nf_server.models import Article, NewsFeed, NewsSource, NewsEvent, Tag, User, Rating
 
 # Given a set of models and a query, returns all the instances
 # of all the models that contain that query in their title.
@@ -113,3 +113,16 @@ def tagSearch(models, query):
 def urlIsBroken(url):
 	print "testing url functionality"
 	return False
+
+
+def getRating(objectId, user):
+	if user.id and not user.is_anonymous:
+		rating = Rating.objects.filter(ratee_id=objectId, rater_id=user.id)
+		if len(rating) > 0:
+			ratingValue = rating[0].rating
+		else:
+			ratingValue = 0
+	else:
+		ratingValue = 0
+
+	return ratingValue

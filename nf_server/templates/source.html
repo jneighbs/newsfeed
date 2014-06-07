@@ -2,7 +2,7 @@
 {% block leftbar %}
 <div id="logo-block" class="block-wrap ignore-shuffle" data-rowspan="2" data-colspan="1">
   <div class="block text-only">
-    <h2>Breaking News</h2>
+    {% include "breaking_news.html" %}
   </div>
 </div>
 <div id="bottom-left-block" class="block-wrap ignore-shuffle" data-rowspan="2" data-colspan="1">
@@ -25,7 +25,7 @@
 {% block content %}
 <header id="intro" class="block-wrap ignore-shuffle" data-rowspan="2" data-colspan="2">
   <hgroup style="overflow:scroll;" class="block text-only">
-  <input id="rating-stars" type="number" name="rating" id="feed_rating" class="rating" />
+  {% include "rating.html" %}
 	<h2>{{ source.title }}</h2>
 	<ul>
 	{% for article in articles %}

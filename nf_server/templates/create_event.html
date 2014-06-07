@@ -8,16 +8,6 @@
 <script type="text/javascript" src="{% static "js/SearchHelper.js" %}"></script>
 <script type="text/javascript" src="{% static "js/FieldValidator.js" %}"></script>
 
-{% if user and not user.is_anonymous %}
-	{% if user.id == event.owner_id %}
-		<p>Hey, it's your event</p>
-	{% elif user.id in event.editors.all %}
-		<p>You're an editor for this event</p>
-	{% endif %}
-{% else %}
-	<p>This ain't your event, Jack.</p>
-{% endif %}
-
 
 <h2>Create an event</h1>
 

@@ -2,7 +2,7 @@
 {% block leftbar %}
 <div id="logo-block" class="block-wrap ignore-shuffle" data-rowspan="2" data-colspan="1">
   <div class="block text-only">
-    <h2>Breaking News</h2>
+    {% include "breaking_news.html" %}
   </div>
 </div>
 <div id="bottom-left-block" class="block-wrap ignore-shuffle" data-rowspan="2" data-colspan="1">
@@ -25,10 +25,9 @@
 {% block content %}
 <header id="intro" class="block-wrap ignore-shuffle" data-rowspan="2" data-colspan="2">
   <hgroup style="overflow:scroll;" class="block text-only">
-    <form action="save_rating" method="post">
-      {% csrf_token %}
-       <input id="rating-stars" data-max="5" data-min="1" type="number" name="rating" id="feed_rating" class="rating" />
-     </form>
+
+     {% include "rating.html" %}
+
    	<div id="edit-feed-link"><a href="/edit_feed/{{ feed.id }}">Edit feed</a></div>   
 	<h2>{{ feed.title }}</h2>
 	<ul>
@@ -47,11 +46,7 @@
 	</ul>
 </hgroup>
 </header>
-<script>
-  $( ".rating-input" ).click(function() {
-  alert( "Handler for .click() called." );
-});
-</script>
+
 {% endblock content %}
 {% block rightbar %}
 <div id="right-bar-block" class="block-wrap ignore-shuffle" data-rowspan="2" data-colspan="1">

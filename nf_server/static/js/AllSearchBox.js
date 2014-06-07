@@ -74,6 +74,7 @@ AllSearchBox.prototype.displayResults = function()
 			var span = document.createElement("span");
 			span.classList.add("entry");
 			var link = document.createElement("a");
+			link.setAttribute("target", "blank");
 
 			switch(model)
 			{

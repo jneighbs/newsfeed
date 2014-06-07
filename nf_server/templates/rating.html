@@ -1,0 +1,13 @@
+<form action="save_rating" method="post">
+  {% csrf_token %}
+   <input id="rating-stars" data-max="5" data-min="1" type="number" name="rating" id="feed_rating" class="rating" />
+ </form>
+
+<script>
+  $("#rating-stars").val(1).trigger("change");
+  $("#rating-stars").change(function() {
+    var data = { 'userID':  '{{user.id}}', 'rating': $("#rating-stars").val(), 'csrfmiddlewaretoken': '{{csrf_token}}'};
+    $.post( "/save_rating/{{feed.id}}/", data );
+  });
+  $("#rating-stars").val({{rating}});
+</script>

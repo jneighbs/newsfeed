@@ -24,9 +24,10 @@ def source(request, source_id):
 	source.viewCount += 1
 	source.score += 1
 	source.save()
-	#articles = get_list_or_404(Article, newsSource=source_id)
+	rating = utils.getRating(source_id, request.user)
+	topEvents = NewsEvent.objects.all().order_by("score")[:5]
 	articles = Article.objects.filter(newsSource=source_id)
-	context = {'source': source, 'articles': articles, 'sources': sources, 'feeds': feeds}
+	context = {'source': source, 'articles': articles, 'sources': sources, 'feeds': feeds, 'rating': rating, 'topEvents': topEvents,}
 	return render(request, 'source.html', context)
 
 def createSource(request):
@@ -76,24 +77,49 @@ def feed(request, feed_id):
 	feed.save()
 	feeds_sources = feed.newsSources.all()
 	articles = Article.objects.all()
-	context = {'articles': articles, 'feed': feed, 'feeds_sources': feeds_sources, 'sources': sources, 'feeds': feeds}
+
+	ratingValue = utils.getRating(feed_id, request.user)
+	topEvents = NewsEvent.objects.all().order_by("score")[:5]
+
+	context = {'articles': articles, 'feed': feed, 'feeds_sources': feeds_sources, 'sources': sources, 'feeds': feeds, 'rating': ratingValue, 'topEvents': topEvents,}
 	return render(request, 'feed.html', context)
 
 def saveRating(request, feed_id):
-	print "hi"
-	print request.POST["rating"]
-	feed = get_object_or_404(NewsFeed, pk=feed_id)
-	for param, val in request.POST.items():
-		print param, val
-	if (request.POST["rating"] >= 1):
-		print request.POST["rating"]
-		rating = Rating()
-		rating.rating = request.POST["rating"];
-		rating.save()
-		feed.ratings.add(rating);
-		feed.save()
-		print feed
-	return HttpResponseRedirect("/feed/" + str(feed.id))
+	#print "saving rating"
+
+	if request.POST["userID"] == "None":
+		userID = -1
+	else:
+		userID = request.POST["userID"]
+
+	if request.POST["rating"] >= 1:
+		#print request.POST["rating"]
+		ratings = Rating.objects.filter(ratee_id=feed_id, rater_id=userID)
+		feed = NewsFeed.objects.get(id=feed_id)
+		if len(ratings) > 0:
+			#print "getting old rating"
+			rating = ratings[0]
+			
+			feed.score -= rating.rating
+			
+		else:
+			#print "creating new rating"
+			rating = Rating()
+
+		rating.rating = request.POST["rating"]
+		rating.rater_id = userID
+		rating.ratee_id = feed_id
+		feed.score += request.POST["rating"]
+
+		#print "done setting fields"
+
+		if userID != -1:
+			rating.save()
+		#else:
+		#	print "just kidding"
+
+		#print rating
+	return HttpResponse("woohoo")
 
 def newFeed(request):
 	feed = NewsFeed()
@@ -109,7 +135,9 @@ def event(request, event_id):
 	event.viewCount += 1
 	event.score += 1
 	event.save()
-	context = {'event': event}
+	rating = utils.getRating(event_id, request.user)
+	topEvents = NewsEvent.objects.all().order_by("score")[:5]
+	context = {'event': event, 'rating': rating, 'topEvents': topEvents}
 	return render(request, 'event.html', context)
 
 # Create your views here.

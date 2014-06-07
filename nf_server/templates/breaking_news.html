@@ -1,0 +1,6 @@
+ <h2>Breaking News</h2>
+ <ul>
+    {% for event in topEvents %}
+    <li><a href="/event/{{event.id}}">{{ event.title }} </a></li>
+    {% endfor %}
+</ul>
