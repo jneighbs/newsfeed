@@ -126,3 +126,17 @@ def getRating(objectId, user):
 		ratingValue = 0
 
 	return ratingValue
+
+def canEdit(eventId, user):
+	if (not user) or user.is_anonymous():
+		return False
+
+	event = NewsEvent.objects.get(id=eventId)
+	if user.id != event.owner_id and len(event.editors.filter(id=user.id)) == 0:
+		return False
+
+	return True
+
+
+
+

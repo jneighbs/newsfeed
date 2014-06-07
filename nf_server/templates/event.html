@@ -5,6 +5,9 @@
 
 {% include "rating.html" %}
 <h2>{{event.title}}</h2>
+{% if canEdit %}
+<a href="/edit_event/{{event.id}}">Edit</a>
+{% endif %}
 
 <div class="tag_block">
 	<div class="tag_label">

@@ -136,8 +136,9 @@ def event(request, event_id):
 	event.score += 1
 	event.save()
 	rating = utils.getRating(event_id, request.user)
+	canEdit = utils.canEdit(event_id, request.user)
 	topEvents = NewsEvent.objects.all().order_by("score")[:5]
-	context = {'event': event, 'rating': rating, 'topEvents': topEvents}
+	context = {'event': event, 'rating': rating, 'topEvents': topEvents, 'canEdit': canEdit,}
 	return render(request, 'event.html', context)
 
 # Create your views here.
