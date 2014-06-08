@@ -154,6 +154,7 @@ class NewsEventForm(ModelForm):
 			if field.widget.__class__ == forms.widgets.TextInput:
 				if field.widget.attrs.has_key('class'):
 					field.widget.attrs['class'] += ' form-control'
+					field.widget.attrs['class'] += ' input-md'
 				else:
 					field.widget.attrs.update({'class':'form-control'})
 			if field.widget.__class__ == forms.widgets.CheckboxSelectMultiple:
@@ -161,10 +162,10 @@ class NewsEventForm(ModelForm):
 					field.widget.attrs['class'] += ' saveList'
 				else:
 					field.widget.attrs.update({'class':'saveList'})
-			if field.label == 'EventTag':
-				field.widget.attrs.update({'placeholder':'Event Tag...'})
-			elif field.label == 'Title':
-				field.widget.attrs.update({'placeholder':'Title...'})
+			# if field.label == 'EventTag':
+			# 	field.widget.attrs.update({'placeholder':'Event Tag...'})
+			# elif field.label == 'Title':
+			# 	field.widget.attrs.update({'placeholder':'Title...'})
 	class Meta:
 		model = NewsEvent
 		fields = ['title', 'eventTag', 'articles', 'pendingArticles', 'owner', 'leadEditors', 'editors']

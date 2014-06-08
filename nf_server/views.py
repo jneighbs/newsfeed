@@ -136,6 +136,10 @@ def newFeed(request):
 
 # Create your views here.
 def event(request, event_id):
+	sources = NewsSource.objects.all()
+	feeds = NewsFeed.objects.all()
+	articles = Article.objects.all()[:20]
+	topEvents = NewsEvent.objects.all().order_by("score")[:5]
 	event = NewsEvent.objects.get(id=event_id)
 	event.viewCount += 1
 	event.score += 1
@@ -143,7 +147,7 @@ def event(request, event_id):
 	rating = utils.getRating(event_id, request.user)
 	canEdit = utils.canEdit(event_id, request.user)
 	topEvents = NewsEvent.objects.all().order_by("score")[:5]
-	context = {'event': event, 'rating': rating, 'topEvents': topEvents, 'canEdit': canEdit,}
+	context = {'articles': articles, 'sources': sources, 'feeds': feeds, 'event': event, 'rating': rating, 'topEvents': topEvents, 'canEdit': canEdit,}
 	return render(request, 'event.html', context)
 
 # Create your views here.
@@ -289,7 +293,7 @@ def validateEvent(request):
 				responseData[name] = True
 		elif name == "eventTag":
 			if len(value) == 0:
-				responseData[name] = "An even needs an event tag."
+				responseData[name] = "An event needs an event tag."
 			elif " " in value:
 				responseData[name] = "No spaces allowed in event tags."
 			elif re.match('^[\w-]+$', value) is None:
