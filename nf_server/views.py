@@ -8,6 +8,9 @@ import json
 import utils
 import re
 from django.template.context import RequestContext
+from itertools import chain
+from operator import attrgetter
+import datetime
 
 def index(request):
 	sources = NewsSource.objects.all()
@@ -26,7 +29,7 @@ def source(request, source_id):
 	source.save()
 	rating = utils.getRating(source_id, request.user)
 	topEvents = NewsEvent.objects.all().order_by("score")[:5]
-	articles = Article.objects.filter(newsSource=source_id)
+	articles = Article.objects.filter(newsSource=source_id)[:20]
 	context = {'source': source, 'articles': articles, 'sources': sources, 'feeds': feeds, 'rating': rating, 'topEvents': topEvents,}
 	return render(request, 'source.html', context)
 
@@ -75,13 +78,15 @@ def feed(request, feed_id):
 	feed.viewCount += 1
 	feed.score += 1
 	feed.save()
-	feeds_sources = feed.newsSources.all()
-	articles = Article.objects.all()
+	feed_sources = feed.newsSources.all()
+
+	sourceIds = [source.id for source in feed_sources]
+	articles = Article.objects.filter(newsSource_id__in=sourceIds).order_by("pub_date").reverse()[:20]
 
 	ratingValue = utils.getRating(feed_id, request.user)
 	topEvents = NewsEvent.objects.all().order_by("score")[:5]
 
-	context = {'articles': articles, 'feed': feed, 'feeds_sources': feeds_sources, 'sources': sources, 'feeds': feeds, 'rating': ratingValue, 'topEvents': topEvents,}
+	context = {'articles': articles, 'feed': feed, 'feed_sources': feed_sources, 'sources': sources, 'feeds': feeds, 'rating': ratingValue, 'topEvents': topEvents,}
 	return render(request, 'feed.html', context)
 
 def saveRating(request, feed_id):
@@ -341,6 +346,38 @@ def fireTagSearch(request, query):
 
 def search(request):
 	return render(request, 'search.html', {})
+
+def loadMore(request):
+	for param, val in request.GET.items():
+		print param, val
+	chunksLoaded = int(request.GET['chunksLoaded'])
+
+	if request.GET['model'] == "feed":
+		obj = NewsFeed.objects.get(id=request.GET["id"])
+		print "got feed"
+		sourceIds = [source.id for source in obj.newsSources.all()]
+		print "got list of sources"
+		results = Article.objects.filter(newsSource_id__in=sourceIds).order_by("pub_date").reverse()
+	elif request.GET["model"] == "source":
+		obj = NewsSource.objects.get(id=request.GET["id"])
+		results = obj.article_set.all().order_by("pub_date").reverse()
+	print "so far so good"
+	results = results[chunksLoaded*20:(chunksLoaded+1)*20]
+	print "sliced fine"
+	responseData = []
+	for result in results:
+		responseObj = {
+		"id": result.id,
+		"title": result.title,
+		"url": result.url,
+		"pubDate": result.pub_date.strftime('%b %d, %Y, %I:%M %p'),
+		"sourceTitle": result.newsSource.title,
+		"summaryText": result.summaryText
+		}
+		responseData.append(responseObj)
+	print "packed up response data"
+	print responseData
+	return HttpResponse(json.dumps(responseData), content_type="application/json")
 
 # Create your views here.
 def nf_server(request):

@@ -27,7 +27,7 @@
   <hgroup style="overflow:scroll;" class="block text-only">
   {% include "rating.html" %}
 	<h2>{{ source.title }}</h2>
-	<ul>
+	<ul id="articles_list">
 	{% for article in articles %}
 	<li>
 		<a href="{{ article.url }}" target="_blank">{{ article.title }}</a>
@@ -37,8 +37,12 @@
 	</li>
  	{%endfor%}
 	</ul>	
+  <button id="load_button">Load More</button>
 </hgroup>
 </header>
+<script type="text/javascript">
+  var loader = new ExtraArticlesFetcher("source", {{source.id}});
+</script>
 {% endblock content %}
 {% block rightbar %}
 <div id="right-bar-block" class="block-wrap ignore-shuffle" data-rowspan="2" data-colspan="1">

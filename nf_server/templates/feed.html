@@ -30,22 +30,22 @@
 
    	<div id="edit-feed-link"><a href="/edit_feed/{{ feed.id }}">Edit feed</a></div>   
 	<h2>{{ feed.title }}</h2>
-	<ul>
-		{% for source in feeds_sources %}
-	 		{% for article in articles %}
-				{% if source.id == article.newsSource.id %}
+	<ul id="articles_list">
+		{% for article in articles %}
 					<li>
 						<a href="{{ article.url }}" target="_blank">{{ article.title }}</a>
 						<div class="date">{{article.pub_date}} | {{ article.newsSource }}</div>
 						{{article.summaryText}}
 						<br/><br/>
 					</li>
-				{% endif %}
-			{%endfor%}
 	 	{%endfor%}
 	</ul>
+  <button id="load_button">Load More</button>
 </hgroup>
 </header>
+<script type="text/javascript">
+  var loader = new ExtraArticlesFetcher("feed", {{feed.id}});
+</script>
 
 {% endblock content %}
 {% block rightbar %}
