@@ -5,7 +5,7 @@
 <script type="text/javascript" src="{% static "js/FieldValidator.js" %}"></script>
 <header id="intro" class="block-wrap ignore-shuffle" data-rowspan="2" data-colspan="2">
 <hgroup style="overflow:scroll;" class="block text-only">
-<form action="new_feed" method="post" class="form-horizontal">
+<form action="/save_feed/" method="post" class="form-horizontal">
 {% csrf_token %}
 <fieldset>
 
@@ -26,9 +26,9 @@
 
 <!-- Text input-->
 <div class="form-group">
-	<label class="col-md-4 control-label create-source" for="name">Feed name</label>  
+	<label class="col-md-4 control-label create-source" for="title">Feed name</label>  
   	<div class="col-md-4">
-  		<input id="id_name" name="name" type="text" placeholder="" class="form-control input-md" required="">
+  		<input id="id_name" name="title" type="text" placeholder="" class="form-control input-md" required="">
     	<div class="error_field" id="id_name_error">Your feed needs a unique name.</div>
   	</div>
 </div>

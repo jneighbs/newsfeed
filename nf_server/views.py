@@ -126,24 +126,7 @@ def saveRating(request, feed_id):
 		#print rating
 	return HttpResponse("woohoo")
 
-def newFeed(request):
-	# start doing actual work
-	f = NewsFeed.objects.get(pk=request.POST['pk'])
-	print f.id
 
-	f.newsSources.clear()
-	if 'checkboxes' in request.POST:
-		for newsSourceId in request.POST.getlist('checkboxes'):
-			f.newsSources.add(newsSourceId)
-
-	if 'title' in request.POST:
-		f.title = request.POST['title']
-
-	if 'description' in request.POST:
-		f.description = request.POST['description']
-
-	f.save()
-	return HttpResponseRedirect("/feed/" + request.POST['pk'])
 
 # Create your views here.
 def event(request, event_id):
@@ -220,6 +203,25 @@ def createFeed(request, feed_id=None):
 	#return HttpResponse("So you wanna create an event, eh?")
 	all_sources = NewsSource.objects.all()
 	return render(request, 'create_feed.html', {'all_sources': all_sources, 'feed':feed })
+
+def newFeed(request):
+	# start doing actual work
+	f = NewsFeed.objects.get(pk=request.POST['pk'])
+	print f.id
+
+	f.newsSources.clear()
+	if 'checkboxes' in request.POST:
+		for newsSourceId in request.POST.getlist('checkboxes'):
+			f.newsSources.add(newsSourceId)
+
+	if 'title' in request.POST:
+		f.title = request.POST['title']
+
+	if 'description' in request.POST:
+		f.description = request.POST['description']
+
+	f.save()
+	return HttpResponseRedirect("/feed/" + request.POST['pk'])
 
 def createEvent(request, event_id=None):
 	context = RequestContext(request, {'user': request.user})
