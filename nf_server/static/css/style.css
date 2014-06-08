@@ -3241,7 +3241,21 @@ z-index:10;
        display: block;
   right: 0px !important;
     position: absolute;
-    height: 680px; 
+    height: 280px; 
+  }
+   #right-bar-block-nf {
+       display: block;
+        position: absolute;
+  right: 0px !important;
+  top: 345px;
+    height: 205px; 
+  }
+   #right-bar-block-source {
+       display: block;
+  right: 0px !important;
+  top: 545px;
+    position: absolute;
+    height: 205px; 
   }
   .ethos .block-wrap {
     width: 50%;

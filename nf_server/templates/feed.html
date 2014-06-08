@@ -38,9 +38,8 @@
      {% endif %} 
 						<a href="{{ article.url }}" target="_blank">{{ article.title }}</a>
 						<div class="date">{{article.pub_date}} | {{ article.newsSource }}</div>
-						      {% if article.summaryText %}
-        {{article.summaryText}}
-      {% endif %} <br/><br/>
+            {{article.summaryText}}
+            <br/><br/>
 					</li>
 	 	{%endfor%}
 	</ul>
@@ -56,6 +55,16 @@
 <div id="right-bar-block" class="block-wrap ignore-shuffle" data-rowspan="2" data-colspan="1">
   <div class="block text-only">
     <h2>Social</h2>
+  </div>
+</div>
+<div id="right-bar-block-nf" class="block-wrap ignore-shuffle" data-rowspan="2" data-colspan="1">
+  <div class="block text-only">
+    <h2>Recommended Newsfeeds</h2>
+  </div>
+</div>
+<div id="right-bar-block-source" class="block-wrap ignore-shuffle" data-rowspan="2" data-colspan="1">
+  <div class="block text-only">
+    <h2>Recommended Newssources</h2>
   </div>
 </div>
 {% endblock rightbar %}
