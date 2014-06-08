@@ -25,7 +25,7 @@ span.entry {
 	display: block;
 	overflow-x: hidden;
 	white-space: nowrap;
-	margin: 10px;
+	margin-left: 10px;
 }
 
 span.entry a{
@@ -100,27 +100,27 @@ div#checkbox-sources {
 div#checkbox-articles {
 	position: absolute;
 	top: 65px;
-	left: 220px;		
+	left: 210px;		
 }
 div#checkbox-feeds {
 	position: absolute;
 	top: 65px;
-	left: 310px;
+	left: 287px;
 }
 div#checkbox-events {
 	position: absolute;
 	top: 65px;
-	left: 400px;
+	left: 355px;
 }
 div#checkbox-tags {
 	position: absolute;
 	top: 65px;
-	left: 490px;
+	left: 430px;
 }
 div#checkbox-label {
 	position: absolute;
 	top: 60px;
-	left: 70px;
+	left: 72px;
 	font-size: 16px !important;
 	font-weight: 200;
 }

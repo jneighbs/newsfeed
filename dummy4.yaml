@@ -249,13 +249,23 @@
     newsSources:
       - 4
 - model: nf_server.newsobject
+  pk: 22
+  fields:
+    title: "I<3NY"
+- model: nf_server.newsfeed
+  pk: 22
+  fields:
+    owner: 102
+    newsSources:
+      - 1
+- model: nf_server.newsobject
   pk: 25
   fields:
     title: "Tracy Morgan"
 - model: nf_server.newsevent
   pk: 25
   fields:
-    eventTag: "Tracy Morgan"
+    eventTag: "Comedian"
     owner: 100
     articles:
       - 26
@@ -365,7 +375,7 @@
 - model: nf_server.newsevent
   pk: 39
   fields:
-    eventTag: "NBA"
+    eventTag: "Basketball"
     owner: 101
     articles:
       - 40

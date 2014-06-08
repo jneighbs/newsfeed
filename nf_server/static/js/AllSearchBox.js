@@ -63,7 +63,7 @@ AllSearchBox.prototype.displayResults = function()
 		if(Object.keys(response[model]).length > 0)
 		{
 			//console.log(model);
-			var header = document.createElement("h1");
+			var header = document.createElement("h2");
 			header.textContent = model.charAt(0).toUpperCase() + model.slice(1);
 			this.target.appendChild(header);
 		}

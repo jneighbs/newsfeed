@@ -403,7 +403,12 @@ def fireTagSearch(request, query):
 	return HttpResponse(json.dumps(responseData), content_type="application/json")
 
 def search(request):
-	return render(request, 'search.html', {})
+	sources = NewsSource.objects.all()
+	feeds = NewsFeed.objects.all()
+	articles = Article.objects.all()[:20]
+	topEvents = NewsEvent.objects.all().order_by("score")[:5]
+	context = {'articles': articles, 'sources': sources, 'feeds': feeds, 'request': request, 'topEvents': topEvents}
+	return render(request, 'search.html', context)
 
 def loadMore(request):
 	for param, val in request.GET.items():

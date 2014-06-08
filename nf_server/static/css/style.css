@@ -3225,7 +3225,7 @@ z-index:10;
   right: 0px !important;
   top:0px !important;*/
 }
-  #logo-block, #bottom-left-block {
+  #logo-block, #bottom-left-block, #bottom-left-block-bottom {
     display: block;
     left: 0px !important;
     position: absolute;
@@ -3239,7 +3239,11 @@ z-index:10;
   }
   #bottom-left-block {
     top: 315px !important;
-    height: 435px;
+    height: 220px;
+  }
+   #bottom-left-block-bottom {
+    top: 530px !important;
+    height: 220px;
   }
   #right-bar-block {
        display: block;
