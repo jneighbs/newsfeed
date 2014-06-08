@@ -23,10 +23,11 @@ pp = pprint.PrettyPrinter()
 def parseLink(url, source, tagNameFromUrl):
 	
 	feed = feedparser.parse(url)
-	for entry in feed.entries:
-		if len(Article.objects.filter(url=entry.link))==0:
-			article_id = source+"."+entry.id
-			putInDB(entry, source, tagNameFromUrl)
+	if 'entries' in feed and len(feed.entries) > 0:
+		for entry in feed.entries:
+			if len(Article.objects.filter(url=entry.link))==0:
+				article_id = source+"."+entry.id
+				putInDB(entry, source, tagNameFromUrl)
 
 
 def scrapeImages(entry):
@@ -59,7 +60,7 @@ def scrapeImages(entry):
 	return thumbnail
 
 def pullSummary(summaryText):
-	replacedText = re.sub('(<(.*?)>|\[link])', "", summaryText)
+	replacedText = re.sub('(<(.*?)>|\[link]|&.{1,8};)', "", summaryText)
 	return replacedText
 
 def formatTagName(unformattedTagName):
@@ -181,9 +182,19 @@ def scrapeNYTimes():
 					putInDB(entry, sourceName, tagNameFromURL)
 
 
+def scrapeTwitter():
+
+	twitterURL = "http://api.twitter.com/1.1/search/tweets.json?q=%23freebandnames&since_id=24012619984051000&max_id=250126199840518145&result_type=mixed&count=4"
+	req = urllib2.Request(twitterURL)
+	res = urllib2.urlopen(req)
+	print res.read()
+
+
 def main():
 
 	# readFromFile()
+
+	# scrapeTwitter()
 
 	print "###############\n# Tech Crunch #\n###############"
 	parseLink("http://feeds.feedburner.com/TechCrunch/", "Tech Crunch", "")

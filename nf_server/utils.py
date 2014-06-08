@@ -1,3 +1,12 @@
+import feedparser
+import urllib2
+import cookielib
+from cookielib import CookieJar
+
+cj = CookieJar()
+opener = urllib2.build_opener(urllib2.HTTPCookieProcessor(cj))
+
+
 from nf_server.models import Article, NewsFeed, NewsSource, NewsEvent, Tag, User, Rating
 
 # Given a set of models and a query, returns all the instances
@@ -111,8 +120,9 @@ def tagSearch(models, query):
 	return responseData
 
 def urlIsBroken(url):
-	print "testing url functionality"
-	return False
+
+	feed = feedparser.parse(url)
+	return 'entries' in feed and len(feed.entries) > 0
 
 
 def getRating(objectId, user):
