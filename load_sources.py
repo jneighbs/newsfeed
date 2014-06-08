@@ -14,12 +14,18 @@ def addSource(title, description, country):
 def main():
 
 	#add Reddit NewsSource	
-	addSource("Reddit", "Front page of the internet, bitchez", "United States")
+	addSource("Reddit", "", "United States")
 
 	#add NYTimes NewsSource	
-	addSource("The New York Times", "New York Times, blah blah", "United States")
+	addSource("The New York Times", "", "United States")
 
 	#add the Economist NewsSource	
-	addSource("The Economist", "The economy and money and stuff", "United States")
+	addSource("Tech Crunch", "", "United States")
+
+	#add the ScienceDaily NewsSource	
+	addSource("ScienceDaily", "", "United States")
+
+	#add the Time Magazine NewsSource	
+	addSource("Time Magazine", "", "United States")
 
 main()

@@ -63,6 +63,7 @@ class Article(NewsObject):
 	pub_date = models.DateTimeField('date published')
 	thumbnail = models.CharField(max_length=200)
 	summaryText = models.CharField(max_length=200)
+	article_id = models.CharField(max_length=500)
 
 	def allText(self):
 		return self.title + " " + self.summaryText
