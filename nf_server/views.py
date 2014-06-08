@@ -3,7 +3,7 @@ from django.shortcuts import render, get_object_or_404, get_list_or_404
 from tasks import slowAdd, classify, trainClassifier
 from django.core.urlresolvers import reverse
 from django.views import generic
-from models import Article, NewsFeed, NewsSource, NewsEvent, NewsEventForm, TimelineEntry, Tag, Rating
+from models import Article, NewsFeed, NewsSource, NewsEvent, NewsEventForm, TimelineEntry, Tag, Rating, User
 import json
 import utils
 import re
@@ -127,12 +127,23 @@ def saveRating(request, feed_id):
 	return HttpResponse("woohoo")
 
 def newFeed(request):
-	feed = NewsFeed()
-	feed.title = request.POST["name"]
-	feed.description = request.POST["description"]
-	feed.newsSources = request.POST["checkboxes"]
-	feed.save()
-	return HttpResponseRedirect("/feed/" + str(feed.id))
+	# start doing actual work
+	f = NewsFeed.objects.get(pk=request.POST['pk'])
+	print f.id
+
+	f.newsSources.clear()
+	if 'checkboxes' in request.POST:
+		for newsSourceId in request.POST.getlist('checkboxes'):
+			f.newsSources.add(newsSourceId)
+
+	if 'title' in request.POST:
+		f.title = request.POST['title']
+
+	if 'description' in request.POST:
+		f.description = request.POST['description']
+
+	f.save()
+	return HttpResponseRedirect("/feed/" + request.POST['pk'])
 
 # Create your views here.
 def event(request, event_id):
@@ -165,9 +176,50 @@ def editFeed (request, feed_id):
 	context = {'all_sources': all_sources, 'feeds_sources': feeds_sources, 'feed': feed}
 	return render(request, 'edit_feed.html', context)
 
-def createFeed(request):
+def saveFeed(request):
+	# start doing actual work
+	f = NewsFeed.objects.get(pk=request.POST['pk'])
+	print f.id
+
+	f.newsSources.clear()
+	if 'checkboxes' in request.POST:
+		for newsSourceId in request.POST.getlist('checkboxes'):
+			f.newsSources.add(newsSourceId)
+
+	if 'title' in request.POST:
+		f.title = request.POST['title']
+
+	f.save()
+	return HttpResponseRedirect("/feed/" + request.POST['pk'])
+
+def createFeed(request, feed_id=None):
+	context = RequestContext(request, {'user': request.user})
+	print "ID: ", request.user.id, " Name: ", request.user.username, request.user.is_anonymous()
+	#print dir(request.user)
+
+	if (not request.user) or request.user.is_anonymous():
+		#return HttpResponseRedirect("/event/" + str(event_id))
+		print "bad user! not logged in! not your event!"
+
+	if feed_id:
+		print "got an id"
+		feed = get_object_or_404(NewsFeed, pk=feed_id)
+		
+		if request.user.id != feed.owner_id:
+			print "not your event, kiddo"
+			#return HttpResponseRedirect("/event/" + str(event_id))
+	else:
+
+		if (not request.user) or request.user.is_anonymous():
+			#return HttpResponseRedirect("/event/" + str(event_id))
+			print "bad user! not logged in! not your event!"
+
+		print "ain't got no event id"
+		feed = NewsFeed(owner_id=request.user.id)
+		feed.save()
+	#return HttpResponse("So you wanna create an event, eh?")
 	all_sources = NewsSource.objects.all()
-	return render(request, 'create_feed.html', {'all_sources': all_sources})
+	return render(request, 'create_feed.html', {'all_sources': all_sources, 'feed':feed })
 
 def createEvent(request, event_id=None):
 	context = RequestContext(request, {'user': request.user})

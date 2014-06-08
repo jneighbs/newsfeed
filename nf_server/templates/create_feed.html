@@ -5,12 +5,24 @@
 <script type="text/javascript" src="{% static "js/FieldValidator.js" %}"></script>
 <header id="intro" class="block-wrap ignore-shuffle" data-rowspan="2" data-colspan="2">
 <hgroup style="overflow:scroll;" class="block text-only">
-<form action="new_feed/" method="post" id="create_source_form" class="form-horizontal">
+<form action="new_feed" method="post" class="form-horizontal">
 {% csrf_token %}
 <fieldset>
 
 <!-- Form Name -->
 <legend>Create a new feed</legend>
+
+<input type="hidden" name="pk" value={{feed.id}}>
+
+  <!-- Text input-->
+<!-- <div class="form-group">
+  <label class="col-md-4 control-label create-source" for="id_owner_name">Owner</label>
+    <div class="col-md-4">{{feed.owner.name}}</div>
+</div> -->
+
+  <input type="hidden" id="id_owner_name" name="owner_name" value={{feed.owner.name}}>
+  <input type="hidden" id="id_owner_pk" name="owner_pk" value={{feed.owner.id}}>
+
 
 <!-- Text input-->
 <div class="form-group">
