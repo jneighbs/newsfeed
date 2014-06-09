@@ -2,12 +2,49 @@
     Style
 ======================================================================
 */
+#id_articles {
+font-size: 16px;
+font-weight: 100;
+}
+#id_articles li label {
+font-size: 16px;
+font-weight: 100;
+}
+#id_tags {
+font-size: 16px;
+font-weight: 100;
+}
+#id_tags li label {
+font-size: 16px;
+font-weight: 100;
+}
+.create-button-tag {
+  top: 5px;
+  position: relative;
+  width: 165px;
+}
+.add-events {
+font-size: 16px;
+font-weight: 100;
+left: 60px;
+position: relative;
+top: 5px;
+}
+.timeline_entry {
+left: 198px;
+float: inherit;
+}
+.new_timeline_entry {
+  padding-top:15px;
+
+}
 #article_result_box {
 width: 700px;
 display: block;
 left: -200px;
 position: relative;
 font-size: 12px;
+height:inherit;
 }
 .tag {
   font-size: 16px;

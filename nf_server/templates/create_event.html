@@ -4,7 +4,7 @@
 <script type="text/javascript" src="{% static "js/SearchHelper.js" %}"></script>
 <script type="text/javascript" src="{% static "js/FieldValidator.js" %}"></script>
 <header id="intro" class="block-wrap ignore-shuffle" data-rowspan="2" data-colspan="2">
-<hgroup style="overflow:scroll;" class="block text-only">
+<hgroup style="overflow-y:scroll;" class="block text-only">
 <form action="/new_event/" method="post" id="event_form" class="form-horizontal">{% csrf_token %}
 	<fieldset>
 	<legend>Create a new event</legend>
@@ -35,7 +35,8 @@
 
 	<!-- Text input-->
 	<div id="timeline" class="form-group">
-		<label class="col-md-4 control-label create-source" for="id_timeline">Timeline</label>  
+		<label class="col-md-4 control-label create-source" for="id_timeline">Timeline</label> 
+			<div class="add-events">Add events</div> 
 	    	<script type="text/javascript">
 			var timelineEntries = {{timelineEntries|safe}};
 			var timeline = new Timeline("timeline", timelineEntries);

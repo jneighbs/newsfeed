@@ -8,7 +8,7 @@ TagSearchBox.prototype = new CompactSearchBox();
 
 TagSearchBox.prototype.createResultElement = function(id, response)
 {
-	var span = document.createElement("span");
+	var span = document.createElement("div");
 	span.classList.add("entry");
 	span.innerHTML = response;
 
@@ -64,6 +64,9 @@ TagSearchBox.prototype.houseKeeping = function()
 		this.createTagButton = document.createElement("input");
 		this.createTagButton.type = "button";
 		this.createTagButton.value = "Create";
+		this.createTagButton.classList.add("btn");
+		this.createTagButton.classList.add("btn-group");
+		this.createTagButton.classList.add("create-button-tag");
 
 		var that = this;
 		this.createTagButton.onclick = function(event)

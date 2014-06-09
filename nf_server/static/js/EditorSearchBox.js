@@ -14,11 +14,13 @@ EditorSearchBox.prototype.createResultElement = function(id, response)
 		return null;
 	}
 	
-	var span = document.createElement("span");
+	var span = document.createElement("div");
 	span.classList.add("entry");
 
 	var addButton = document.createElement("button");
 	addButton.classList.add("add_button");
+	addButton.classList.add("btn");
+	addButton.classList.add("btn-default");
 	addButton.innerHTML = "+";
 
 	var that = this;

@@ -8,7 +8,7 @@ ArticleSearchBox.prototype = new CompactSearchBox();
 
 ArticleSearchBox.prototype.createResultElement = function(id, response)
 {
-	var span = document.createElement("span");
+	var span = document.createElement("div");
 	span.classList.add("entry");
 	
 	var link = document.createElement("a");
@@ -18,6 +18,8 @@ ArticleSearchBox.prototype.createResultElement = function(id, response)
 
 	var addButton = document.createElement("button");
 	addButton.classList.add("add_button");
+/*	addButton.classList.add("btn");
+	addButton.classList.add("btn-default");*/
 	addButton.innerHTML = "+";
 
 	var that = this;

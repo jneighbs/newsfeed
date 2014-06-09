@@ -33,7 +33,6 @@ Timeline.prototype.createEntryElement = function(date, text, pk)
 	var outerDiv = document.createElement("div");
 	outerDiv.classList.add("timeline_entry");
 	outerDiv.classList.add("col-md-4");
-	outerDiv.classList.add("form-group");
 	
 	var dateDiv = document.createElement("div");
 	dateDiv.classList.add("date");
@@ -63,6 +62,10 @@ Timeline.prototype.createEntryElement = function(date, text, pk)
 	outerDiv.appendChild(textarea);
 	outerDiv.appendChild(editButton);
 
+/*	var outerOuterDiv = document.createElement("div");
+	outerOuterDiv.classList.add("form-group");
+	outerOuterDiv.appendChild(outerDiv);*/
+
 	return outerDiv;
 }
 
@@ -89,6 +92,10 @@ Timeline.prototype.createNewEntryElement = function()
 	}
 
 	outerDiv.appendChild(button);
+
+/*	var outerOuterDiv = document.createElement("div");
+	outerOuterDiv.classList.add("form-group");
+	outerOuterDiv.appendChild(outerDiv);*/
 
 	return outerDiv;
 }
