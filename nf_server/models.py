@@ -40,23 +40,6 @@ class NewsFeed(NewsObject):
 	def allText(self):
 		return self.title + " " + self.description
 
-
-class User(models.Model):
-	# CHANGE THESE TWO LATER
-	# first name / last name
-	name = models.CharField(max_length=60)
-	# password
-	password = models.CharField(max_length=200)
-
-	# follows many news feeds
-	followedNewsFeeds = models.ManyToManyField(NewsFeed, related_name='followers')
-
-	def __unicode__(self):
-		return self.name
-	
-	def allText(self):
-		return self.name;
-
 class Article(NewsObject):
 	newsSource = models.ForeignKey(NewsSource)
 	url = models.URLField(max_length=200)
@@ -68,10 +51,30 @@ class Article(NewsObject):
 	def allText(self):
 		return self.title + " " + self.summaryText
 
+class User(models.Model):
+	# CHANGE THESE TWO LATER
+	# first name / last name
+	name = models.CharField(max_length=60)
+	# password
+	password = models.CharField(max_length=200)
+
+	# follows many news feeds
+	followedNewsFeeds = models.ManyToManyField(NewsFeed, related_name='followers')
+	readArticles = models.ManyToManyField(Article, related_name='read_list')
+
+	def __unicode__(self):
+		return self.name
+	
+	def allText(self):
+		return self.name;
+
+
+
 class Tweet(NewsObject):
 	pub_date = models.DateTimeField('date published')
 	text = models.CharField(max_length=200)
 	tweet_id = models.CharField(max_length=500)
+	searchTerm = models.CharField(max_length=100)
 
 
 class NewsEvent(NewsObject):
@@ -137,23 +140,31 @@ class RecommendationBundle(models.Model):
 
 	# THESE ARE OBVIOUSLY DUMMY METHODS RITE DOODS?
 	def articleRecommendations(self):
-		count = 0
-		recs = []
-		for article in Article.objects.all():
-			recs.append(article)
-			count += 1
-			if count == 5:
-				break
+# <<<<<<< HEAD
+# 		count = 0
+# 		recs = []
+# 		for article in Article.objects.all():
+# 			recs.append(article)
+# 			count += 1
+# 			if count == 5:
+# 				break
+# 		return recs
+
+# 	def newsSourceRecommendations(self):
+# 		count = 0
+# 		recs = []
+# 		for source in NewsSource.objects.all():
+# 			recs.append(source)
+# 			count += 1
+# 			if count == 3:
+# 				break;
+# =======
+		recs = Article.objects.all().order_by("score", "pub_date")[:5]
 		return recs
 
 	def newsSourceRecommendations(self):
-		count = 0
-		recs = []
-		for source in NewsSource.objects.all():
-			recs.append(source)
-			count += 1
-			if count == 3:
-				break;
+		recs = NewsSource.objects.all().order_by("score")[:5]
+# >>>>>>> FETCH_HEAD
 		return recs
 
 	def newsFeedRecommendations(self):

@@ -197,6 +197,29 @@ def canEditFeed(feedId, user):
 def getRecommendations(user):
 	if user and not user.is_anonymous():
 		userId = user.id
+		recBundle = RecommendationBundle.objects.get(user_id=userId)
+		user = User(id=userId)
+		tags = Tag.objects.filter(tagees__in=user.readArticles.all())
+
+		tagCounts = {}
+		for article in user.readArticles.all():
+			for tag in article.tag_set.all():
+				tagCounts[tag] = tagCounts.get(tag, 0) + 1
+
+		countList = []
+		for tag in tagCounts:
+			countList.append((tagCounts[tag], tag))
+		countList.sort()
+		countList.reverse()
+		countList = countList[:5]
+		articles = []
+		for tag, count in countList:
+			article = Article.objects.filter(tag__in=[tag]).order_by("score", "pub_date").reverse()[:1]
+			articles.append(article)
+		articles.extend(recBundle.articleRecommendations())
+		articles = articles[:5]
+
+		return (articles, recBundle.newsSourceRecommendations())
 	else:
 		userId = -1
 

@@ -25,10 +25,10 @@ EditorSearchBox.prototype.createResultElement = function(id, response)
 	addButton.onclick = function(event)
 	{
 		event.preventDefault();
-		that.addButtonClickHandler(id, response[id]);
+		that.addButtonClickHandler(id, response);
 	}
 
-	span.innerText = response[id];
+	span.innerText = response;
 	span.appendChild(addButton);
 
 	return span;

@@ -27,4 +27,5 @@ urlpatterns = patterns('',
     url(r'^save_rating_event/(?P<event_id>\d+)/', views.saveRatingEvent, name='save_rating_event'),
     url(r'^save_rating_source/(?P<source_id>\d+)/', views.saveRatingSource, name='save_rating_source'),
     url(r'^load_more/', views.loadMore, name='load_more'),
+    url(r'^load_tweets/', views.loadTweets, name='load_tweets'),
 )

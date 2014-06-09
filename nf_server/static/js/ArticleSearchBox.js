@@ -29,7 +29,7 @@ ArticleSearchBox.prototype.createResultElement = function(id, response)
 			event.preventDefault();
 			that.addButtonClickHandler(id, title);
 		}
-	})(id, response[id], addButton);
+	})(id, response.title, addButton);
 
 	span.appendChild(link);
 	span.appendChild(addButton);

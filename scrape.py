@@ -215,19 +215,19 @@ def main():
 
 	print "###############\n# Tech Crunch #\n###############"
 	parseLink("http://feeds.feedburner.com/TechCrunch/", "Tech Crunch", "")
-
+	scrapeDB()
 	print "#################\n# Time Magazine #\n#################"
 	parseLink("http://time.com/newsfeed/feed/", "Time Magazine", "all")
-	
+	scrapeDB()
 	print "################\n# ScienceDaily #\n################"
 	parseLink("http://feeds.sciencedaily.com/sciencedaily?format=xml", "ScienceDaily", "all")
 	parseLink("http://feeds.sciencedaily.com/sciencedaily/top_news?format=xml", "ScienceDaily", "topnews")
 	parseLink("http://feeds.sciencedaily.com/sciencedaily/most_popular?format=xml", "ScienceDaily", "mostpopular")
-
 	scrapeDB()
-
 	scrapeNYTimes()
+	scrapeDB()
 	scrapeReddit()
+	scrapeDB()
 
 main()
 

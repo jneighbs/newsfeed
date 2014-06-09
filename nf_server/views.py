@@ -8,14 +8,19 @@ import json
 import utils
 import re
 from django.template.context import RequestContext
+from itertools import chain
+from operator import attrgetter
+import datetime
+import streamTwitterData
 
 def index(request):
 	sources = NewsSource.objects.all()
 	feeds = NewsFeed.objects.all()
-	articles = Article.objects.all()[:20]
-	topEvents = NewsEvent.objects.all().order_by("score")[:5]
-	tweets = Tweet.objects.all()[-5:]
-	context = {'tweets':tweets, 'articles': articles, 'sources': sources, 'feeds': feeds, 'request': request, 'topEvents': topEvents}
+	articles = Article.objects.all().order_by("pub_date").reverse()[:20]
+	topEvents = NewsEvent.objects.all().order_by("score").reverse()[:5]
+	tweets = Tweet.objects.all().order_by("pub_date").reverse()[:5]
+	recArticles, recSources = utils.getRecommendations(request.user)
+	context = {'tweets':tweets, 'articles': articles, 'sources': sources, 'feeds': feeds, 'request': request, 'topEvents': topEvents, 'recArticles': recArticles, 'recSources': recSources}
 	return render(request, 'index.html', context)
 
 def source(request, source_id):
@@ -25,10 +30,11 @@ def source(request, source_id):
 	source.viewCount += 1
 	source.score += 1
 	source.save()
-	#articles = get_list_or_404(Article, newsSource=source_id)
-	articles = Article.objects.filter(newsSource=source_id)
-	tweets = Tweet.objects.all()[-5:]
-	context = {'source': source, 'tweets':tweets, 'articles': articles, 'sources': sources, 'feeds': feeds}
+	rating = utils.getRating(source_id, request.user)
+	topEvents = NewsEvent.objects.all().order_by("score").reverse()[:5]
+	articles = Article.objects.filter(newsSource=source_id).order_by("pub_date").reverse()[:20]
+	tweets = Tweet.objects.all().reverse()[:5]
+	context = {'tweets':tweets, 'source': source, 'articles': articles, 'sources': sources, 'feeds': feeds, 'rating': rating, 'topEvents': topEvents,}
 	return render(request, 'source.html', context)
 
 def createSource(request):
@@ -76,10 +82,18 @@ def feed(request, feed_id):
 	feed.viewCount += 1
 	feed.score += 1
 	feed.save()
-	feeds_sources = feed.newsSources.all()
-	articles = Article.objects.all()
-	tweets = Tweet.objects.all()[-5:]
-	context = {'tweets':tweets, 'articles': articles, 'feed': feed, 'feeds_sources': feeds_sources, 'sources': sources, 'feeds': feeds}
+	feed_sources = feed.newsSources.all()
+
+	sourceIds = [source.id for source in feed_sources]
+	articles = Article.objects.filter(newsSource_id__in=sourceIds).order_by("pub_date").reverse()[:20]
+	tweets = Tweet.objects.all().reverse()[:5]
+
+	ratingValue = utils.getRating(feed_id, request.user)
+	topEvents = NewsEvent.objects.all().order_by("score").reverse()[:5]
+	context = RequestContext(request, {'user': request.user})
+	canEdit = utils.canEditFeed(feed_id, request.user)
+
+	context = {'tweets':tweets, 'articles': articles, 'feed': feed, 'feed_sources': feed_sources, 'sources': sources, 'feeds': feeds, 'rating': ratingValue, 'topEvents': topEvents, 'canEdit': canEdit}
 	return render(request, 'feed.html', context)
 
 def saveRating(request, feed_id):
@@ -106,11 +120,20 @@ def newFeed(request):
 
 # Create your views here.
 def event(request, event_id):
+	sources = NewsSource.objects.all()
+	feeds = NewsFeed.objects.all()
+	articles = Article.objects.all()[:20]
+	topEvents = NewsEvent.objects.all().order_by("score").reverse()[:5]
 	event = NewsEvent.objects.get(id=event_id)
 	event.viewCount += 1
 	event.score += 1
 	event.save()
-	context = {'event': event}
+	rating = utils.getRating(event_id, request.user)
+	print rating
+	canEdit = utils.canEdit(event_id, request.user)
+	topEvents = NewsEvent.objects.all().order_by("score").reverse()[:5]
+	tweets = Tweet.objects.all().reverse()[:5]
+	context = {'tweets':tweets, 'articles': articles, 'sources': sources, 'feeds': feeds, 'event': event, 'rating': rating, 'topEvents': topEvents, 'canEdit': canEdit,}
 	return render(request, 'event.html', context)
 
 # Create your views here.
@@ -165,9 +188,12 @@ def createEvent(request, event_id=None):
 		if (not request.user) or request.user.is_anonymous():
 			#return HttpResponseRedirect("/event/" + str(event_id))
 			print "bad user! not logged in! not your event!"
+			userId = -1
+		else:
+			userId = request.user.id
 
 		print "ain't got no event id"
-		event = NewsEvent(owner_id=request.user.id)
+		event = NewsEvent(owner_id=userId)
 		event.save()
 		form = NewsEventForm(instance=event)
 		form.fields['articles'].queryset = event.articles.all()
@@ -282,6 +308,12 @@ def article(request, article_id):
 	article.viewCount += 1
 	article.score += 1
 	article.save()
+
+	if request.user and not request.user.is_anonymous():
+		user = User.objects.get(id=request.user.id)
+		user.readArticles.add(article)
+		user.save()
+		
 	return HttpResponseRedirect(article.url)
 	return HttpResponse("article %s - newsfeed.com/article" % article_id)
 
@@ -313,7 +345,66 @@ def fireTagSearch(request, query):
 	return HttpResponse(json.dumps(responseData), content_type="application/json")
 
 def search(request):
-	return render(request, 'search.html', {})
+	sources = NewsSource.objects.all()
+	feeds = NewsFeed.objects.all()
+	articles = Article.objects.all()[:20]
+	topEvents = NewsEvent.objects.all().order_by("score").reverse()[:5]
+	tweets = Tweet.objects.all().reverse()[:5]
+	context = {'tweets':tweets, 'articles': articles, 'sources': sources, 'feeds': feeds, 'request': request, 'topEvents': topEvents}
+	return render(request, 'search.html', context)
+
+def loadMore(request):
+	for param, val in request.GET.items():
+		print param, val
+	chunksLoaded = int(request.GET['chunksLoaded'])
+
+	if request.GET['model'] == "feed":
+		obj = NewsFeed.objects.get(id=request.GET["id"])
+		print "got feed"
+		sourceIds = [source.id for source in obj.newsSources.all()]
+		print "got list of sources"
+		results = Article.objects.filter(newsSource_id__in=sourceIds).order_by("pub_date").reverse()
+	elif request.GET["model"] == "source":
+		obj = NewsSource.objects.get(id=request.GET["id"])
+		results = obj.article_set.all().order_by("pub_date").reverse()
+	elif request.GET["model"] == "all":
+		results = Article.objects.all().order_by("pub_date").reverse()
+	print "so far so good"
+	results = results[chunksLoaded*20:(chunksLoaded+1)*20]
+	print "sliced fine"
+	responseData = []
+	for result in results:
+		responseObj = {
+		"id": result.id,
+		"title": result.title,
+		"url": result.url,
+		"pubDate": result.pub_date.strftime('%b %d, %Y, %I:%M %p'),
+		"sourceTitle": result.newsSource.title,
+		"summaryText": result.summaryText
+		}
+		responseData.append(responseObj)
+	print "packed up response data"
+	print responseData
+	return HttpResponse(json.dumps(responseData), content_type="application/json")
+
+def loadTweets(request):
+
+	searchTerm = request.GET['searchTerm']
+	streamTwitterData.stream(searchTerm)
+	tweet = Tweet.objects.filter(searchTerm=searchTerm).order_by("pub_date").reverse()[0]
+
+	# responseData = []
+	if tweet:
+		responseObj = {
+			"text": tweet.text,
+			"pub_date": tweet.pub_date.strftime('%b %d, %Y, %I:%M %p'),
+			"searchTerm": tweet.searchTerm
+		}
+		# responseData.append(responseObj)
+	# print responseObj
+	responseObj = json.dumps(responseObj)
+	# print responseObj
+	return HttpResponse(json.dumps(responseObj), content_type="application/json")
 
 # Create your views here.
 def nf_server(request):
