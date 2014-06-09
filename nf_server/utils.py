@@ -200,6 +200,7 @@ def getRecommendations(user):
 		recBundle = RecommendationBundle.objects.filter(user_id=userId)
 		if len(recBundle) == 0:
 			recBundle = RecommendationBundle(user_id=userId)
+			recBundle.save()
 		else:
 			recBundle = recBundle[0]
 		user = User(id=userId)
