@@ -8,6 +8,7 @@
         <div id="edit-feed-link"><a href="/edit_feed/{{ feed.id }}">Edit feed</a></div>   
     {% endif %}
 	<h2>{{ feed.title }}</h2>
+  <div class="description">{{feed.description}}</div>
 	<ul id="articles_list">
 		{% for article in articles %}
 			{% if article.thumbnail %}

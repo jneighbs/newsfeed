@@ -238,6 +238,7 @@
       - 1
       - 2
       - 3
+    description: "Let's keep up with what's going on in the United States of America."
 - model: nf_server.newsobject
   pk: 21
   fields:
@@ -248,6 +249,7 @@
     owner: 102
     newsSources:
       - 4
+    description: "Reddit armie assemble."
 - model: nf_server.newsobject
   pk: 22
   fields:
@@ -258,6 +260,7 @@
     owner: 102
     newsSources:
       - 1
+    description: "An apple a day keeps the doctor away. So read."
 - model: nf_server.newsobject
   pk: 25
   fields:
