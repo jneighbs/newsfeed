@@ -16,12 +16,14 @@ EditorSearchBox.prototype.createResultElement = function(id, response)
 	
 	var span = document.createElement("div");
 	span.classList.add("entry");
+	span.classList.add("form-control");
+	span.classList.add("form-control-editor");
 
 	var addButton = document.createElement("button");
-	addButton.classList.add("add_button");
+	addButton.classList.add("add_button_editor");
 	addButton.classList.add("btn");
 	addButton.classList.add("btn-default");
-	addButton.innerHTML = "+";
+	addButton.innerHTML = response;
 
 	var that = this;
 	addButton.onclick = function(event)
@@ -33,7 +35,7 @@ EditorSearchBox.prototype.createResultElement = function(id, response)
 	span.innerText = response;
 	span.appendChild(addButton);
 
-	return span;
+	return addButton;
 }
 
 // Basically the same as the ArticleSB's addButton handler

@@ -2,6 +2,19 @@
     Style
 ======================================================================
 */
+.add_button_editor {
+  margin-top: 5px;
+  width: 100%;
+}
+#editor-result-box {
+  margin-top: 10px;
+}
+li label input.checked-label {
+  margin-right: 10px;
+}
+.separation {
+  margin-bottom: 14px;
+}
 p.tweet {
    font-size: 14px !important;
  }
@@ -29,6 +42,12 @@ font-weight: 100;
   top: 5px;
   position: relative;
   width: 165px;
+  background-color: white;
+  color: black;
+  margin-bottom: 5px;
+}
+.create-button-tag:hover {
+  background-color: #ccc;
 }
 .add-events {
 font-size: 16px;

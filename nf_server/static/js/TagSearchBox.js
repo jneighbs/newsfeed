@@ -45,7 +45,7 @@ TagSearchBox.prototype.tagClickHandler = function(id, title)
 
 	if(searchResults.length > 0)
 	{
-		this.target.style.height= searchResults.length * 44 + 10 + "px";
+		//this.target.style.height= searchResults.length * 44 + 10 + "px";
 		this.target.style.display = "block";	
 	}
 	else

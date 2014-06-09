@@ -81,7 +81,7 @@ CompactSearchBox.prototype.resizeResultBox = function()
 {
 	if(this.resultCount > 0)
 	{
-		this.target.style.height= this.resultCount * 44 + 10 + "px";
+		//this.target.style.height= this.resultCount * 44 + 10 + "px";
 		this.target.style.display = "block";	
 	}
 	else
@@ -96,6 +96,7 @@ CompactSearchBox.prototype.addEntryToSaveList = function(id, title)
 	var label = document.createElement("label");
 	label.setAttribute("for", "id_" + this.models + "_" + this.saveList.children.length);
 	var input = document.createElement("input");
+	input.classList.add("checked-label");
 	input.setAttribute("checked", "checked");
 	input.id = "id_" + this.models + "_" + this.saveList.children.length;
 	input.name = this.sbType;
