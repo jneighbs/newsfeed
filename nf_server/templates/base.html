@@ -25,16 +25,14 @@
 <body onload="loadDate()">
 	<div id="top-nav">
 		<div id="date">
-			{% if user and not user.is_anonymous %}
-				<li class="nav-li name">Hi {{ user.get_full_name|default:user.username }}</li>
-			{% endif %}
+			{% if user and not user.is_anonymous %}<li class="nav-li name">Hi {{ user.get_full_name|default:user.username }}</li>{% endif %}
 		</div>
 		<ul class="nav-ul">
 		<li class="nav-li"><a href="/search">Search</a></li>
-			<li class="nav-li"><a href="/create_source">Add Source</a></li>
+			<li class="nav-li"><a href="/create_source">Add source</a></li>
 			{% if user and not user.is_anonymous %}
-	 			<li class="nav-li"><a href="create_event">Add Event</a></li>
-	 			<li class="nav-li"><a href="/create_feed">Add Feed</a></li>
+	 			<li class="nav-li"><a href="create_event">Add event</a></li>
+	 			<li class="nav-li"><a href="/create_feed">Add feed</a></li>
 	 			<li class="nav-li"><a href="{% url 'auth:logout' %}?next={{ request.path }}">Logout</a></li>
 			{% else %}
 				<li class="nav-li"><a href="{% url 'social:begin' 'facebook' %}?next={{ request.path }}">Login with Facebook</a></li>
@@ -44,15 +42,13 @@
 		<div id="home-title"><a href="/">Newsfeed:8000</a></div>	
 	</div>
 	<section role="main">
-		{% block leftbar %} {% endblock leftbar %} 
 		{% block content %} {% endblock content %} 
-		{% block rightbar %} {% endblock rightbar %}
 	</section>
 	<script>
 	function loadDate() {	
 		var today = new Date();
     	var dd = today.getDate();
-    	var mm = today.getMonth()+1; //January is 0!
+    	var mm = today.getMonth()+1;
     	var yyyy = today.getFullYear();
     	if(dd<10){dd='0'+dd} 
 		if(mm<10){mm='0'+mm}

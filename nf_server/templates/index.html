@@ -1,36 +1,9 @@
 {% extends "base.html" %}
-{% block leftbar %}
-<div id="logo-block" class="block-wrap ignore-shuffle" data-rowspan="2" data-colspan="1">
-  <div class="block text-only">
-    {% include "breaking_news.html" %}
-  </div>
-</div>
-<div id="bottom-left-block" class="block-wrap ignore-shuffle" data-rowspan="2" data-colspan="1">
-  <div class="block text-only">
-    <h2>Newsfeeds</h2>
-      <ul>
-        {% for feed in feeds %}
-        <li><a href="/feed/{{ feed.id }}">{{ feed.title }}</a></li>
-        {% endfor %}
-    </ul>
-  </div>
-</div>
-<div id="bottom-left-block-bottom" class="block-wrap ignore-shuffle" data-rowspan="2" data-colspan="1">
-  <div class="block text-only">
-    <h2>Newssources</h2>
-      <ul>
-        {% for source in sources %}
-        <li><a href="/source/{{ source.id }}">{{ source.title }}</a></li>
-        {% endfor %}
-      </ul>
-  </div>
-</div>
-{% endblock leftbar %}
 {% block content %}
+{% include "left-bar.html" %}
 <header id="intro" class="block-wrap ignore-shuffle" data-rowspan="2" data-colspan="2">
   <hgroup style="overflow:scroll;" class="block text-only">
-<!--   <h2>All</h2>
- -->  <ul>
+  <ul>
   {% for article in articles %}
     {% if article.thumbnail %}
       <li class="article-list">
@@ -41,29 +14,13 @@
       <a href="{{ article.url }}" target="_blank">{{ article.title }}</a>
       <div class="date">{{article.pub_date}} | {{ article.newsSource }}</div>
       {% if article.summaryText %}
-        {{article.summaryText}}
+        {{article.summaryText}}<br/>
       {% endif %}   
-      <br/><br/>
+      <br/>
     </li>
   {% endfor %}
   </ul>
 </hgroup>
 </header>
+{% include "right-bar.html" %}
 {% endblock content %}
-{% block rightbar %}
-<div id="right-bar-block" class="block-wrap ignore-shuffle" data-rowspan="2" data-colspan="1">
-  <div class="block text-only">
-    <h2>Social</h2>
-  </div>
-</div>
-<div id="right-bar-block-nf" class="block-wrap ignore-shuffle" data-rowspan="2" data-colspan="1">
-  <div class="block text-only">
-    <h2>Recommended Newsfeeds</h2>
-  </div>
-</div>
-<div id="right-bar-block-source" class="block-wrap ignore-shuffle" data-rowspan="2" data-colspan="1">
-  <div class="block text-only">
-    <h2>Recommended Newssources</h2>
-  </div>
-</div>
-{% endblock rightbar %}
