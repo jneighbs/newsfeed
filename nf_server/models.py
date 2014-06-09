@@ -74,6 +74,7 @@ class Tweet(NewsObject):
 	pub_date = models.DateTimeField('date published')
 	text = models.CharField(max_length=200)
 	tweet_id = models.CharField(max_length=500)
+	searchTerm = models.CharField(max_length=100)
 
 
 class NewsEvent(NewsObject):

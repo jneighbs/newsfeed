@@ -17,18 +17,21 @@ atoken = "1216830606-eXqhJtOp3Sv0alAmEzMmCkyNP9VCvcCLo2XUgEq"
 asecret = "Gs7K8vqWiwrHSAiXVnd24schGo3pdB5gxPbXGoVq2Glas"
 
 
+
 class listener(StreamListener):
+
+	searchTerm = "yuyu"
 
 	def on_data(self, stringJSON):
 
 		print "new tweet"
+		searchTerm = listener.searchTerm
 
 		data = json.loads(stringJSON)
 		text = data["text"]
-		thumbnail = ""
 		tweet_id =data["id_str"]
 
-		tweet = Tweet(pub_date=timezone.now(), text=text, title="", tweet_id=tweet_id)
+		tweet = Tweet(searchTerm=searchTerm, pub_date=timezone.now(), text=text, title="", tweet_id=tweet_id)
 		tweet.save()
 
 		return False
@@ -37,21 +40,22 @@ class listener(StreamListener):
 		print status
 
 
-def main():
-	searchTerm = ""
-	i=0
-	for arg in sys.argv:
-		if i == 1:
-			searchTerm = arg
-		i = i+1
+def stream(givenTerm):
+	# i=0
+	# for arg in sys.argv:
+	# 	if i == 1:
+	# 		searchTerm = arg
+	# 	i = i+1
 
-	print "twitter search term: "+searchTerm
+	print "searchTerm: "+givenTerm
+	listener.searchTerm = givenTerm
+
 	auth = OAuthHandler(ckey, csecret)
 	auth.set_access_token(atoken, asecret)
 	twitterStream = Stream(auth, listener())
-	twitterStream.filter(track=[searchTerm])
+	twitterStream.filter(track=[givenTerm])
 
 
 
 
-main()
+# main()

@@ -11,6 +11,7 @@ from django.template.context import RequestContext
 from itertools import chain
 from operator import attrgetter
 import datetime
+import streamTwitterData
 
 def index(request):
 	sources = NewsSource.objects.all()
@@ -516,6 +517,22 @@ def loadMore(request):
 	print "packed up response data"
 	print responseData
 	return HttpResponse(json.dumps(responseData), content_type="application/json")
+
+def loadTweets(request):
+
+	searchTerm = request.GET['searchTerm']
+	tweet = Tweet.objects.filter(searchTerm=searchTerm).order_by("pub_date").reverse()[0]
+
+	streamTwitterData.stream(searchTerm)
+
+	# responseObj = {}
+	# if tweet:
+	# 	responseObj = {
+	# 		"text": tweet.text,
+	# 		"pub_date": tweet.pub_date,
+	# 		"searchTerm": tweet.searchTerm
+	# 	}
+	return HttpResponse(responseObj, content_type="application/json")
 
 # Create your views here.
 def nf_server(request):
