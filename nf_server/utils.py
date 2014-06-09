@@ -9,7 +9,7 @@ cj = CookieJar()
 opener = urllib2.build_opener(urllib2.HTTPCookieProcessor(cj))
 
 
-from nf_server.models import Article, NewsFeed, NewsSource, NewsEvent, Tag, User, Rating
+from nf_server.models import Article, NewsFeed, NewsSource, NewsEvent, Tag, User, Rating, RecommendationBundle
 
 # Given a set of models and a query, returns all the instances
 # of all the models that contain that query in their title.
@@ -39,10 +39,17 @@ def findExactMatches(models, query):
 	for model in results:
 		responseData[model] = {}
 		for result in results[model]:
-			responseData[model][result.id] = result.allText()
+			if model == "articles":
+				data = {
+				"title": result.title,
+				"pubDate": result.pub_date.strftime('%b %d, %Y, %I:%M %p'),
+				"sourceTitle": result.newsSource.title
+				}
+				responseData[model][result.id] = data
+			else:
+				responseData[model][result.id] = result.allText()
 			if len(responseData[model]) > 14:
 				break
-		
 	return responseData
 
 # Given a list of models, a set of words, and a threshold, finds all instances
@@ -82,7 +89,15 @@ def findPartialMatches(models, queryWords, responseData, threshold):
 					queryWordCount += 1.0
 
 			if queryWordCount / len(queryWords) >= threshold:
-				responseData[model][candidate.id] = candidate.title
+				if model == 'articles':
+					data = {
+					"title": candidate.title,
+					"pubDate": candidate.pub_date.strftime('%b %d, %Y, %I:%M %p'),
+					"sourceTitle": candidate.newsSource.title,
+					}
+					responseData[model][candidate.id] = data
+				else:
+					responseData[model][candidate.id] = candidate.title
 			
 			if len(responseData[model]) > 14:
 				break
@@ -178,5 +193,20 @@ def canEditFeed(feedId, user):
 		return False
 
 	return True
+
+def getRecommendations(user):
+	if user and not user.is_anonymous():
+		userId = user.id
+	else:
+		userId = -1
+
+	recBundle = RecommendationBundle.objects.filter(user_id=userId)
+	if len(recBundle) == 0:
+		recBundle = RecommendationBundle(user_id=userId)
+	else:
+		recBundle = recBundle[0]
+
+	return (recBundle.articleRecommendations(), recBundle.newsSourceRecommendations())
+
 
 

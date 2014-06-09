@@ -16,7 +16,7 @@ def index(request):
 	sources = NewsSource.objects.all()
 	feeds = NewsFeed.objects.all()
 	articles = Article.objects.all().order_by("pub_date").reverse()[:20]
-	topEvents = NewsEvent.objects.all().order_by("score")[:5]
+	topEvents = NewsEvent.objects.all().order_by("score").reverse()[:5]
 	tweets = Tweet.objects.all().reverse()[:5]
 	context = {'tweets':tweets, 'articles': articles, 'sources': sources, 'feeds': feeds, 'request': request, 'topEvents': topEvents}
 	return render(request, 'index.html', context)
@@ -29,7 +29,7 @@ def source(request, source_id):
 	source.score += 1
 	source.save()
 	rating = utils.getRating(source_id, request.user)
-	topEvents = NewsEvent.objects.all().order_by("score")[:5]
+	topEvents = NewsEvent.objects.all().order_by("score").reverse()[:5]
 	articles = Article.objects.filter(newsSource=source_id).order_by("pub_date").reverse()[:20]
 	tweets = Tweet.objects.all().reverse()[:5]
 	context = {'tweets':tweets, 'source': source, 'articles': articles, 'sources': sources, 'feeds': feeds, 'rating': rating, 'topEvents': topEvents,}
@@ -84,7 +84,7 @@ def feed(request, feed_id):
 	tweets = Tweet.objects.all().reverse()[:5]
 
 	ratingValue = utils.getRating(feed_id, request.user)
-	topEvents = NewsEvent.objects.all().order_by("score")[:5]
+	topEvents = NewsEvent.objects.all().order_by("score").reverse()[:5]
 	context = RequestContext(request, {'user': request.user})
 	canEdit = utils.canEditFeed(feed_id, request.user)
 
@@ -200,7 +200,7 @@ def event(request, event_id):
 	sources = NewsSource.objects.all()
 	feeds = NewsFeed.objects.all()
 	articles = Article.objects.all()[:20]
-	topEvents = NewsEvent.objects.all().order_by("score")[:5]
+	topEvents = NewsEvent.objects.all().order_by("score").reverse()[:5]
 	event = NewsEvent.objects.get(id=event_id)
 	event.viewCount += 1
 	event.score += 1
@@ -208,7 +208,7 @@ def event(request, event_id):
 	rating = utils.getRating(event_id, request.user)
 	print rating
 	canEdit = utils.canEdit(event_id, request.user)
-	topEvents = NewsEvent.objects.all().order_by("score")[:5]
+	topEvents = NewsEvent.objects.all().order_by("score").reverse()[:5]
 	tweets = Tweet.objects.all().reverse()[:5]
 	context = {'tweets':tweets, 'articles': articles, 'sources': sources, 'feeds': feeds, 'event': event, 'rating': rating, 'topEvents': topEvents, 'canEdit': canEdit,}
 	return render(request, 'event.html', context)
@@ -317,9 +317,12 @@ def createEvent(request, event_id=None):
 		if (not request.user) or request.user.is_anonymous():
 			#return HttpResponseRedirect("/event/" + str(event_id))
 			print "bad user! not logged in! not your event!"
+			userId = -1
+		else:
+			userId = request.user.id
 
 		print "ain't got no event id"
-		event = NewsEvent(owner_id=request.user.id)
+		event = NewsEvent(owner_id=userId)
 		event.save()
 		form = NewsEventForm(instance=event)
 		form.fields['articles'].queryset = event.articles.all()
@@ -468,7 +471,7 @@ def search(request):
 	sources = NewsSource.objects.all()
 	feeds = NewsFeed.objects.all()
 	articles = Article.objects.all()[:20]
-	topEvents = NewsEvent.objects.all().order_by("score")[:5]
+	topEvents = NewsEvent.objects.all().order_by("score").reverse()[:5]
 	tweets = Tweet.objects.all().reverse()[:5]
 	context = {'tweets':tweets, 'articles': articles, 'sources': sources, 'feeds': feeds, 'request': request, 'topEvents': topEvents}
 	return render(request, 'search.html', context)

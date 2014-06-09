@@ -42,7 +42,7 @@ CompactSearchBox.prototype.successHelper = function(response)
 			continue;
 		}
 
-		var resultElement = this.createResultElement(id, response);
+		var resultElement = this.createResultElement(id, response[id]);
 		if(resultElement)
 		{
 			this.target.appendChild(resultElement);

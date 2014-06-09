@@ -13,7 +13,7 @@ ArticleSearchBox.prototype.createResultElement = function(id, response)
 	
 	var link = document.createElement("a");
 	link.href = "/article/" + id;
-	link.innerHTML = response[id];
+	link.innerHTML = response.title;
 	link.setAttribute("target", "blank");
 
 	var addButton = document.createElement("button");
@@ -29,7 +29,7 @@ ArticleSearchBox.prototype.createResultElement = function(id, response)
 			event.preventDefault();
 			that.addButtonClickHandler(id, title);
 		}
-	})(id, response[id], addButton);
+	})(id, response.title, addButton);
 
 	span.appendChild(link);
 	span.appendChild(addButton);
