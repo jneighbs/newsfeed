@@ -1,72 +1,43 @@
 {% extends "base.html" %}
-{% block leftbar %}
-<div id="logo-block" class="block-wrap ignore-shuffle" data-rowspan="2" data-colspan="1">
-  <div class="block text-only">
-    {% include "breaking_news.html" %}
-  </div>
-</div>
-<div id="bottom-left-block" class="block-wrap ignore-shuffle" data-rowspan="2" data-colspan="1">
-  <div class="block text-only">
-    <h2>Newsfeeds</h2>
-      <ul>
-        {% for feed in feeds %}
-        <li><a href="/feed/{{ feed.id }}">{{ feed.title }}</a></li>
-        {% endfor %}
-    </ul>
-  </div>
-</div>
-<div id="bottom-left-block-bottom" class="block-wrap ignore-shuffle" data-rowspan="2" data-colspan="1">
-  <div class="block text-only">
-    <h2>Newssources</h2>
-      <ul>
-        {% for source in sources %}
-        <li><a href="/source/{{ source.id }}">{{ source.title }}</a></li>
-        {% endfor %}
-      </ul>
-  </div>
-</div>
-{% endblock leftbar %}
 {% block content %}
+{% include "left-bar.html" %}
 <header id="intro" class="block-wrap ignore-shuffle" data-rowspan="2" data-colspan="2">
   <hgroup style="overflow:scroll;" class="block text-only">
-  {% include "rating.html" %}
+    <form action="save_rating_source" method="post">
+      {% csrf_token %}
+       <input id="rating-stars" data-max="5" data-min="1" type="number" name="rating" id="feed_rating" class="rating" />
+     </form>
+    <script>
+      $("#rating-stars").val(1).trigger("change");
+      $("#rating-stars").change(function() {
+        var data = { 'userID':  '{{user.id}}', 'rating': $("#rating-stars").val(), 'csrfmiddlewaretoken': '{{csrf_token}}'};
+        $.post( "/save_rating_source/{{source.id}}/", data );
+      });
+      $("#rating-stars").val({{rating}});
+    </script>
 	<h2>{{ source.title }}</h2>
 	<ul id="articles_list">
-	{% for article in articles %}
-	{% if article.thumbnail %}
+    {% for article in articles %}
+      {% if article.thumbnail %}
       <li class="article-list">
         <img src="{{article.thumbnail}}" class="article-img">
       {% else %}
       <li>
-       {% endif %}
-		<a href="{{ article.url }}" target="_blank">{{ article.title }}</a>
-		<div class="date">{{article.pub_date}} | {{ article.newsSource }}</div>
-		{{article.summaryText}}
-		<br/><br/>
-	</li>
- 	{%endfor%}
-	</ul>	
-  <button id="load_button">Load More</button>
+     {% endif %} 
+            <a href="{{ article.url }}" target="_blank">{{ article.title }}</a>
+            <div class="date">{{article.pub_date}} | {{ article.newsSource }}</div>
+            {% if article.summaryText %}
+              {{article.summaryText}}<br/>
+            {% endif %}   
+            <br/>
+          </li>
+    {%endfor%}
+  </ul>
+  <button id="load_button" class="btn btn-default create-button">Load more</button>
 </hgroup>
 </header>
 <script type="text/javascript">
   var loader = new ExtraArticlesFetcher("source", {{source.id}});
 </script>
+{% include "right-bar.html" %}
 {% endblock content %}
-{% block rightbar %}
-<div id="right-bar-block" class="block-wrap ignore-shuffle" data-rowspan="2" data-colspan="1">
-  <div class="block text-only">
-    <h2>Social</h2>
-  </div>
-</div>
-<div id="right-bar-block-nf" class="block-wrap ignore-shuffle" data-rowspan="2" data-colspan="1">
-  <div class="block text-only">
-    <h2>Recommended Newsfeeds</h2>
-  </div>
-</div>
-<div id="right-bar-block-source" class="block-wrap ignore-shuffle" data-rowspan="2" data-colspan="1">
-  <div class="block text-only">
-    <h2>Recommended Newssources</h2>
-  </div>
-</div>
-{% endblock rightbar %}

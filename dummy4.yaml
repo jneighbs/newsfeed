@@ -317,7 +317,7 @@
 - model: nf_server.newsevent
   pk: 31
   fields:
-    eventTag: "Karachi"
+    eventTag: "Shooting"
     owner: 100
     articles:
       - 32

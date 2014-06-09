@@ -147,6 +147,14 @@ def canEdit(eventId, user):
 
 	return True
 
+def canEditFeed(feedId, user):
+	if (not user) or user.is_anonymous():
+		return False
 
+	feed = NewsFeed.objects.get(id=feedId)
+	if user.id != feed.owner_id:
+		return False
+
+	return True
 
 

@@ -82,8 +82,10 @@ def feed(request, feed_id):
 
 	ratingValue = utils.getRating(feed_id, request.user)
 	topEvents = NewsEvent.objects.all().order_by("score")[:5]
+	context = RequestContext(request, {'user': request.user})
+	canEdit = utils.canEditFeed(feed_id, request.user)
 
-	context = {'articles': articles, 'feed': feed, 'feed_sources': feed_sources, 'sources': sources, 'feeds': feeds, 'rating': ratingValue, 'topEvents': topEvents,}
+	context = {'articles': articles, 'feed': feed, 'feed_sources': feed_sources, 'sources': sources, 'feeds': feeds, 'rating': ratingValue, 'topEvents': topEvents, 'canEdit': canEdit}
 	return render(request, 'feed.html', context)
 
 def saveRating(request, feed_id):
@@ -146,6 +148,40 @@ def saveRatingEvent(request, event_id):
 		rating.rater_id = userID
 		rating.ratee_id = event_id
 		event.score += request.POST["rating"]
+
+
+		if userID != -1:
+			print userID
+			rating.save()
+		else:
+			print "just kidding"
+
+	return HttpResponse("woohoo")
+
+
+def saveRatingSource(request, source_id):
+	# print "saving rating event"
+
+	if request.POST["userID"] == "None":
+		userID = -1
+	else:
+		userID = request.POST["userID"]
+
+	if request.POST["rating"] >= 1:
+		ratings = Rating.objects.filter(ratee_id=source_id, rater_id=userID)
+		source = NewsSource.objects.get(id=source_id)
+		if len(ratings) > 0:
+			rating = ratings[0]
+			
+			source.score -= rating.rating
+			
+		else:
+			rating = Rating()
+
+		rating.rating = request.POST["rating"]
+		rating.rater_id = userID
+		rating.ratee_id = source_id
+		source.score += request.POST["rating"]
 
 
 		if userID != -1:
