@@ -50,7 +50,7 @@ class Article(NewsObject):
 
 	def allText(self):
 		return self.title + " " + self.summaryText
-		
+
 class User(models.Model):
 	# CHANGE THESE TWO LATER
 	# first name / last name
@@ -143,7 +143,7 @@ class RecommendationBundle(models.Model):
 		return recs
 
 	def newsSourceRecommendations(self):
-		recs = NewsSource.objects.all().order_by("score", "pub_date")[:5]
+		recs = NewsSource.objects.all().order_by("score")[:5]
 		return recs
 
 	def newsFeedRecommendations(self):
