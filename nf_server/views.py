@@ -427,7 +427,12 @@ def article(request, article_id):
 	article.save()
 
 	if request.user and not request.user.is_anonymous():
-		user = User.objects.get(id=request.user.id)
+		user = User.objects.filter(id=request.user.id)
+		if len(user) == 0:
+			user = User(id=request.user.id)
+			user.save()
+		else:
+			user = user[0]
 		user.readArticles.add(article)
 		user.save()
 		
