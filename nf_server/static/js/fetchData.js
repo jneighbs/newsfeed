@@ -32,9 +32,9 @@ var success = function(response){
 
 	$("#right-bar-block-tweets").prepend(date_html)
 	$("#right-bar-block-tweets").prepend("<p>" + response.text + "</p>")
-	if(i<=1){
-		setTimeout(fetchTweets, 10000)
-	}
+	// if(i<=1){
+	// 	setTimeout(fetchTweets, 10000)
+	// }
 
 }
 
