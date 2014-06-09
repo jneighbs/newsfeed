@@ -31,7 +31,7 @@ def parseLink(url, source, tagNameFromUrl):
 				putInDB(entry, source, tagNameFromUrl)
 
 
-def scrapeImages(entry):
+def scrapeImages(entry, sourceName):
 
 	thumbnail = ""
 
@@ -42,20 +42,20 @@ def scrapeImages(entry):
 		elif isinstance(entry.media_thumbnail, list):
 			thumbnail = entry.media_thumbnail[0]['url']
 
-	elif "media_content" in entry:
+	elif "media_content" in entry and sourceName == "The New York Times":
 		if "url" in entry.media_content:
 			thumbnail = entry.media_content.url
 		elif isinstance(entry.media_content, list):
 			thumbnail = entry.media_content[0]['url']
 
-	# else:
+	elif sourceName == "Reddit":
 
-	# 	imgPat = re.compile('<img .*?src="(.*?)"', re.DOTALL)
-	# 	thumbnail = re.search(imgPat, entry.summary)
-	# 	if thumbnail is None:
-	# 		thumbnail = ""
-	# 	if thumbnail:	
-	# 		thumbnail = thumbnail.group(1)
+		imgPat = re.compile('<img .*?src="(.*?)"', re.DOTALL)
+		thumbnail = re.search(imgPat, entry.summary)
+		if thumbnail is None:
+			thumbnail = ""
+		if thumbnail:	
+			thumbnail = thumbnail.group(1)
 
 	# print thumbnail
 	return thumbnail
@@ -94,7 +94,7 @@ def addArticle(entry, sourceName):
 
 	# TODO convert pub_date
 	summaryText = pullSummary(entry.summary)
-	thumbnail = scrapeImages(entry)
+	thumbnail = scrapeImages(entry, sourceName)
 	newsSource = NewsSource.objects.get(title=sourceName)
 	article_id = sourceName+"."+entry.id
 
