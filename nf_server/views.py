@@ -316,7 +316,11 @@ def createEvent(request, event_id=None):
 			print "bad user! not logged in! not your event!"
 
 		print "ain't got no event id"
-		event = NewsEvent(owner_id=request.user.id)
+		if request.user and not request.user.is_anonymous():
+
+			event = NewsEvent(owner_id=request.user.id)
+		else:
+			event = NewsEvent(owner_id=-1)
 		event.save()
 		form = NewsEventForm(instance=event)
 		form.fields['articles'].queryset = event.articles.all()
@@ -448,7 +452,10 @@ def fireSearch(request, query):
 		return HttpResponse(json.dumps(responseData), content_type="application/json")
 
 	responseData = utils.findPartialMatches(models, queryWords, responseData, 0.5)
-
+	print "got response data..."
+	print responseData
+	lala = json.dumps(responseData)
+	print "jsonized"
 	return HttpResponse(json.dumps(responseData), content_type="application/json")
 
 def fireTagSearch(request, query):
@@ -457,7 +464,6 @@ def fireTagSearch(request, query):
 	models = [model for model in request.GET.get('models', '').split() if model in validModels]	
 
 	query = query.lower()
-
 	responseData = utils.tagSearch(models, query)
 	return HttpResponse(json.dumps(responseData), content_type="application/json")
 

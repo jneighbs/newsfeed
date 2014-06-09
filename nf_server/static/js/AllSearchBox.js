@@ -93,8 +93,14 @@ AllSearchBox.prototype.displayResults = function()
 				default:
 					continue;
 			}
-			link.textContent = response[model][id];
+			link.textContent = response[model][id].title;
 			span.appendChild(link);
+
+			var underText = document.createElement("div");
+			underText.classList.add("date");
+			underText.innerText = response[model][id].pubDate + " | " + response[model][id].sourceTitle;
+			span.appendChild(underText);
+			span.appendChild(document.createElement("br"));
 			this.target.appendChild(span);
 		}
 

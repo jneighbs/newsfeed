@@ -35,6 +35,7 @@ CompactSearchBox.prototype.successHelper = function(response)
 	
 	var idsToSkip = this.getIdsToSkip();
 	
+
 	for(var id in response)
 	{
 		if(id in idsToSkip)
@@ -42,13 +43,14 @@ CompactSearchBox.prototype.successHelper = function(response)
 			continue;
 		}
 
-		var resultElement = this.createResultElement(id, response);
+		var resultElement = this.createResultElement(id, response[id]);
 		if(resultElement)
 		{
 			this.target.appendChild(resultElement);
 			this.resultCount++;
 		}
 	}
+
 
 	this.resizeResultBox();
 
