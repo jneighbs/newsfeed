@@ -1,6 +1,11 @@
 <div id="right-bar-block" class="block-wrap ignore-shuffle" data-rowspan="2" data-colspan="1">
   <div class="block text-only">
     <h2>Social</h2>
+      <ul>
+        {% for tweet in tweets %}
+          <p>{{tweet.text}}</p>
+        {% endfor %}
+      </ul>
   </div>
 </div>
 <div id="right-bar-block-nf" class="block-wrap ignore-shuffle" data-rowspan="2" data-colspan="1">

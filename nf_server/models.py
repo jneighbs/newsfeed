@@ -69,13 +69,10 @@ class Article(NewsObject):
 		return self.title + " " + self.summaryText
 
 class Tweet(NewsObject):
-	newsSource = models.ForeignKey(NewsSource)
 	pub_date = models.DateTimeField('date published')
-	summaryText = models.CharField(max_length=200)
-	article_id = models.CharField(max_length=500)
+	text = models.CharField(max_length=200)
+	tweet_id = models.CharField(max_length=500)
 
-	def allText(self):
-		return self.title + " " + self.summaryText
 
 class NewsEvent(NewsObject):
 	# has many articles
