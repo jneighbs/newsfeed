@@ -2,7 +2,7 @@
 {% block content %}
 {% include "left-bar.html" %}
 <header id="intro" class="block-wrap ignore-shuffle" data-rowspan="2" data-colspan="2">
-  <hgroup style="overflow:scroll;" class="block text-only">
+  <hgroup style="overflow-y:scroll;" class="block text-only">
     <form action="save_rating_source" method="post">
       {% csrf_token %}
        <input id="rating-stars" data-max="5" data-min="1" type="number" name="rating" id="feed_rating" class="rating" />

@@ -2,13 +2,13 @@
 {% block content %}
 {% include "left-bar.html" %}
 <header id="intro" class="block-wrap ignore-shuffle" data-rowspan="2" data-colspan="2">
-  <hgroup style="overflow:scroll;" class="block text-only">
+  <hgroup style="overflow-y:scroll;" class="block text-only">
      {% include "rating.html" %}
      {% if canEdit %}
         <div id="edit-feed-link"><a href="/edit_feed/{{ feed.id }}">Edit feed</a></div>   
     {% endif %}
 	<h2>{{ feed.title }}</h2>
-  <div class="description">{{feed.description}}</div>
+  <div class="feed-description">{{feed.description}}</div>
 	<ul id="articles_list">
 		{% for article in articles %}
 			{% if article.thumbnail %}
