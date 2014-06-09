@@ -1,16 +1,9 @@
 searchTerm = ""
 
-var i = 0
-
  var fetchData = function(){
-
-	searchTerm = "#tracymorgan";
-	domObj = $("#tweet-searchTerm");
-	if(domObj.length != 0){
-		searchTerm = "#" + domObj[0].innerHTML.replaceAll(/ /g, "");
-	}
-
-	fetchTweets();
+	// TODO grab search term
+	searchTerm = "#lol"
+	fetchTweets()
 }
 
 var fetchTweets = function(){
@@ -24,7 +17,6 @@ var fetchTweets = function(){
 
 var success = function(response){
 
-	i++
 	response = JSON.parse(response);
 
 	date_html = '<div class="date">' + response.pub_date + '|' + response.searchTerm + '</div>';
@@ -32,9 +24,7 @@ var success = function(response){
 
 	$("#right-bar-block-tweets").prepend(date_html)
 	$("#right-bar-block-tweets").prepend("<p>" + response.text + "</p>")
-	if(i<=1){
-		setTimeout(fetchTweets, 10000)
-	}
+	setTimeout(fetchTweets, 15000)
 
 }
 
