@@ -13,7 +13,7 @@
     <h2>Recommend Articles</h2>
     <ul>
     {% for recArticle in recArticles %}
-    	<li><a href="/article/{{recArticle.id}}">{{recArticle.title}}</a></li>
+    	<li><a href="/article/{{recArticle.id}}" target="_blank">{{recArticle.title}}</a></li>
     {% endfor %}
 	</ul>
   </div>
@@ -23,7 +23,7 @@
     <h2>Recommended Newssources</h2>
     <ul>
     	{% for recSource in recSources %}
-    		<li><a href="/source/{{recSource.id}}">{{recSource.title}}</a></li>
+    		<li><a href="/source/{{recSource.id}}" target="_blank">{{recSource.title}}</a></li>
     	{% endfor %}
     </ul>
   </div>
