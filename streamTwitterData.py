@@ -8,7 +8,7 @@ import json
 
 import os
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "newsfeed_site.settings")
-from nf_server.models import Tweet, NewsSource
+from nf_server.models import Tweet
 
 ckey = "zxv5PuVTMmkz6RsgfGNmXp0mW"
 csecret = "tyzhrTZVpCMcNWGs2kXSn4o8InPbAJkI9xm176TyMStpfNhc8X"
@@ -22,13 +22,11 @@ class listener(StreamListener):
 		print "new tweet"
 
 		data = json.loads(stringJSON)
-		summaryText = data["text"]
+		text = data["text"]
 		thumbnail = ""
-		sourceName = "Twitter"
-		newsSource = NewsSource.objects.get(title=sourceName)
-		article_id = sourceName+"." + data["id_str"]
+		tweet_id =data["id_str"]
 
-		tweet = Tweet(newsSource=newsSource, pub_date=timezone.now(), summaryText=summaryText[0:199], title="", article_id=article_id)
+		tweet = Tweet(pub_date=timezone.now(), text=text, title="", tweet_id=tweet_id)
 		tweet.save()
 
 		return True

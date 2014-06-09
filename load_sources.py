@@ -28,7 +28,4 @@ def main():
 	#add the Time Magazine NewsSource	
 	addSource("Time Magazine", "", "United States")
 
-	#add the Twitter NewsSource	
-	addSource("Twitter", "", "United States")
-
 main()
