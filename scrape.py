@@ -48,14 +48,14 @@ def scrapeImages(entry):
 		elif isinstance(entry.media_content, list):
 			thumbnail = entry.media_content[0]['url']
 
-	else:
+	# else:
 
-		imgPat = re.compile('<img .*?src="(.*?)"', re.DOTALL)
-		thumbnail = re.search(imgPat, entry.summary)
-		if thumbnail is None:
-			thumbnail = ""
-		if thumbnail:	
-			thumbnail = thumbnail.group(1)
+	# 	imgPat = re.compile('<img .*?src="(.*?)"', re.DOTALL)
+	# 	thumbnail = re.search(imgPat, entry.summary)
+	# 	if thumbnail is None:
+	# 		thumbnail = ""
+	# 	if thumbnail:	
+	# 		thumbnail = thumbnail.group(1)
 
 	# print thumbnail
 	return thumbnail
