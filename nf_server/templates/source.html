@@ -17,21 +17,23 @@
     </script>
 	<h2>{{ source.title }}</h2>
 	<ul id="articles_list">
-    {% for article in articles %}
-      {% if article.thumbnail %}
+{% for article in articles %}
+    {% if article.thumbnail %}
+    <div>
       <li class="article-list">
-        <img src="{{article.thumbnail}}" class="article-img">
+        <img src="{{article.thumbnail}}" class="article-img source-{{source.id}}">
       {% else %}
       <li>
-     {% endif %} 
-            <a href="{{ article.url }}" target="_blank">{{ article.title }}</a>
-            <div class="date">{{article.pub_date}} | {{ article.newsSource }}</div>
-            {% if article.summaryText %}
-              {{article.summaryText}}<br/>
-            {% endif %}   
-            <br/>
-          </li>
-    {%endfor%}
+       {% endif %} 
+      <a href="{{ article.url }}" target="_blank">{{ article.title }}</a>
+      <div class="date">{{article.pub_date}} | {{ article.newsSource }}</div>
+      {% if article.summaryText %}
+        <div class="summary-text">{{article.summaryText}}...</div>
+      {% endif %}   
+      <br/>
+    </div>
+    </li>
+  {% endfor %}
   </ul>
   <button id="load_button" class="btn btn-default create-button">Load more</button>
 </hgroup>

@@ -5,12 +5,9 @@
 <form action="/save_feed/" method="post" class="form-horizontal">
 {% csrf_token %}
 <fieldset>
-
 <!-- Form Name -->
 <legend>Edit feed</legend>
-
 <input type="hidden" name="pk" value={{feed.id}}>
-
 <!-- Text input-->
 <div class="form-group">
 	<label class="col-md-4 control-label create-source" for="title">Feed name</label>  
@@ -41,18 +38,9 @@
 	{% endfor%}
   </div>
 </div>
-<!-- Tag input-->
-<!-- <div class="form-group">
-  <label class="col-md-4 control-label create-source" for="tags">Tags with spaces</label>  
-  <div class="col-md-4">
-  <input name="tag" id="id_tag" type="text" class="form-control input-md">
-  </div>
-</div> -->
 <div class="form-group">
   <input type="submit" class="btn btn-default create-button" value="Save" id="save_button">
 </div>
-
 </fieldset>
-
 </form>
 {% endblock content %}

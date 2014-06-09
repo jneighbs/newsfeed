@@ -386,8 +386,8 @@ def newEvent(request):
 				e.tag_set.add(newTag.id)
 
 	e.save()
-
-	return HttpResponseRedirect("/edit_event/" + request.POST['pk'])
+	return HttpResponseRedirect("/event/" + request.POST['pk'])
+	# return HttpResponseRedirect("/edit_event/" + request.POST['pk'])
 
 def validateEvent(request):
 	print "hi"

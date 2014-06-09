@@ -2,16 +2,38 @@
     Style
 ======================================================================
 */
-.timeline_entry_text {
+.tag {
+  font-size: 16px;
+}
+.timeline_entry_text, .tag_block {
   padding-left: 20px;
 }
 .article-img {
-  position: absolute;
-  right: 20px;
+height: 150px;
+width: auto;
+float: left;
+padding-top: 10px;
+padding-right: 10px !important;
+padding-bottom: 0px !important;
+margin-bottom: 0px !important;
+}
+.source-1 {
+  padding-top: 5px;
+  height: 70px !important;
+}
+.source-2 {
+  height: 110px !important;
+}
+.source-5 {
+  padding-top: 5px;
+  height: 70px !important;
+}
+.summary-text {
+  font-size: 16px;
 }
 .article-list {
-  max-width: 525px;
-}
+/*  max-width: 430px;
+*/}
 .source-checklist {
   font-weight: 100 !important;
   font-size:16px;
@@ -3193,6 +3215,17 @@ section {
     padding: 20px !important;
     width: 635px !important;
   }
+
+  #create-event {
+    margin: 0;
+    left: 150px !important;
+  }
+   #create-event hgroup {
+    height: 660px !important;
+    padding: 20px !important;
+    width: 1000px !important;
+  }
+
   #edit-feed-link {
   position: absolute !important;
   padding: inherit;

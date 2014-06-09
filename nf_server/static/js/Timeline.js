@@ -50,7 +50,8 @@ Timeline.prototype.createEntryElement = function(date, text, pk)
 	var textarea = document.createElement("textarea");
 	textarea.setAttribute("form", "event_form");
 	textarea.setAttribute("readonly", "readonly");
-	textarea.setAttribute("name", "timelineEntry_" + pk)
+	textarea.setAttribute("name", "timelineEntry_" + pk);
+	textarea.className += "form-control";
 	textarea.innerText = text;
 
 	outerDiv.appendChild(dateDiv);

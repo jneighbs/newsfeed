@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 {% block content %}
 {% include "left-bar.html" %}
+{% load staticfiles %}
 <header id="intro" class="block-wrap ignore-shuffle" data-rowspan="2" data-colspan="2">
 	<hgroup style="overflow:scroll;" class="block text-only">
 	  	<form action="save_rating_event" method="post">
@@ -17,17 +18,14 @@
 		</script>
 	<h2>{{event.title}}</h2>
 	{% if canEdit %}
-		<a href="/edit_event/{{event.id}}">Edit</a>
+		<div id="edit-feed-link"><a href="/edit_event/{{event.id}}">Edit event</a></div>   
 	{% endif %}
 	{% if event.tag_set.all %}
 		<div class="tag_block">
-			<div class="tags">
-				Tags: &nbsp;&nbsp;
-			</div>
 			{% for tag in event.tag_set.all %}
-				<div class="tag">
-					{{tag.text}}
-				</div>
+				<span class="tag">
+					{{tag.text}}&nbsp;
+				</span>
 			{% endfor %}
 		</div>
 	{% endif %}
