@@ -110,13 +110,90 @@ def saveRating(request, feed_id):
 		print feed
 	return HttpResponseRedirect("/feed/" + str(feed.id))
 
+def saveRatingEvent(request, event_id):
+	# print "saving rating event"
+
+	if request.POST["userID"] == "None":
+		userID = -1
+	else:
+		userID = request.POST["userID"]
+
+	if request.POST["rating"] >= 1:
+		ratings = Rating.objects.filter(ratee_id=event_id, rater_id=userID)
+		event = NewsEvent.objects.get(id=event_id)
+		if len(ratings) > 0:
+			rating = ratings[0]
+			
+			event.score -= rating.rating
+			
+		else:
+			rating = Rating()
+
+		rating.rating = request.POST["rating"]
+		rating.rater_id = userID
+		rating.ratee_id = event_id
+		event.score += request.POST["rating"]
+
+
+		if userID != -1:
+			print userID
+			rating.save()
+		else:
+			print "just kidding"
+
+	return HttpResponse("woohoo")
+
+
+def saveRatingSource(request, source_id):
+	# print "saving rating event"
+
+	if request.POST["userID"] == "None":
+		userID = -1
+	else:
+		userID = request.POST["userID"]
+
+	if request.POST["rating"] >= 1:
+		ratings = Rating.objects.filter(ratee_id=source_id, rater_id=userID)
+		source = NewsSource.objects.get(id=source_id)
+		if len(ratings) > 0:
+			rating = ratings[0]
+			
+			source.score -= rating.rating
+			
+		else:
+			rating = Rating()
+
+		rating.rating = request.POST["rating"]
+		rating.rater_id = userID
+		rating.ratee_id = source_id
+		source.score += request.POST["rating"]
+
+
+		if userID != -1:
+			print userID
+			rating.save()
+		else:
+			print "just kidding"
+
+	return HttpResponse("woohoo")
 def newFeed(request):
-	feed = NewsFeed()
-	feed.title = request.POST["name"]
-	feed.description = request.POST["description"]
-	feed.newsSources = request.POST["checkboxes"]
-	feed.save()
-	return HttpResponseRedirect("/feed/" + str(feed.id))
+	# start doing actual work
+	f = NewsFeed.objects.get(pk=request.POST['pk'])
+	print f.id
+
+	f.newsSources.clear()
+	if 'checkboxes' in request.POST:
+		for newsSourceId in request.POST.getlist('checkboxes'):
+			f.newsSources.add(newsSourceId)
+
+	if 'title' in request.POST:
+		f.title = request.POST['title']
+
+	if 'description' in request.POST:
+		f.description = request.POST['description']
+
+	f.save()
+	return HttpResponseRedirect("/feed/" + request.POST['pk'])
 
 # Create your views here.
 def event(request, event_id):
@@ -135,15 +212,6 @@ def event(request, event_id):
 	tweets = Tweet.objects.all().reverse()[:5]
 	context = {'tweets':tweets, 'articles': articles, 'sources': sources, 'feeds': feeds, 'event': event, 'rating': rating, 'topEvents': topEvents, 'canEdit': canEdit,}
 	return render(request, 'event.html', context)
-
-# Create your views here.
-def about(request):
-	sources = NewsSource.objects.all()
-	feeds = NewsFeed.objects.all()
-	articles = Article.objects.all()
-	tweets = Tweet.objects.all()[-5:]
-	context = {'tweets':tweets, 'articles': articles, 'sources': sources, 'feeds': feeds, 'request': request,}
-	return render(request, 'about.html', context)
 	
 def editFeed (request, feed_id):
 	all_sources = NewsSource.objects.all()
@@ -152,9 +220,50 @@ def editFeed (request, feed_id):
 	context = {'all_sources': all_sources, 'feeds_sources': feeds_sources, 'feed': feed}
 	return render(request, 'edit_feed.html', context)
 
-def createFeed(request):
+def saveFeed(request):
+	# start doing actual work
+	f = NewsFeed.objects.get(pk=request.POST['pk'])
+	print f.id
+
+	f.newsSources.clear()
+	if 'checkboxes' in request.POST:
+		for newsSourceId in request.POST.getlist('checkboxes'):
+			f.newsSources.add(newsSourceId)
+
+	if 'title' in request.POST:
+		f.title = request.POST['title']
+
+	f.save()
+	return HttpResponseRedirect("/feed/" + request.POST['pk'])
+
+def createFeed(request, feed_id=None):
+	context = RequestContext(request, {'user': request.user})
+	print "ID: ", request.user.id, " Name: ", request.user.username, request.user.is_anonymous()
+	#print dir(request.user)
+
+	if (not request.user) or request.user.is_anonymous():
+		#return HttpResponseRedirect("/event/" + str(event_id))
+		print "bad user! not logged in! not your event!"
+
+	if feed_id:
+		print "got an id"
+		feed = get_object_or_404(NewsFeed, pk=feed_id)
+		
+		if request.user.id != feed.owner_id:
+			print "not your event, kiddo"
+			#return HttpResponseRedirect("/event/" + str(event_id))
+	else:
+
+		if (not request.user) or request.user.is_anonymous():
+			#return HttpResponseRedirect("/event/" + str(event_id))
+			print "bad user! not logged in! not your event!"
+
+		print "ain't got no event id"
+		feed = NewsFeed(owner_id=request.user.id)
+		feed.save()
+	#return HttpResponse("So you wanna create an event, eh?")
 	all_sources = NewsSource.objects.all()
-	return render(request, 'create_feed.html', {'all_sources': all_sources})
+	return render(request, 'create_feed.html', {'all_sources': all_sources, 'feed':feed })
 
 def createEvent(request, event_id=None):
 	context = RequestContext(request, {'user': request.user})
