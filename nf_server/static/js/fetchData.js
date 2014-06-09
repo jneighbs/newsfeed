@@ -10,7 +10,7 @@ var i = 0
 		searchTerm = "#" + domObj[0].innerHTML.replace(/ /g, "");
 	}
 
-	fetchTweets();
+	// fetchTweets();
 }
 
 var fetchTweets = function(){

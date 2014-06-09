@@ -38,6 +38,8 @@ class listener(StreamListener):
 
 	def on_error(self, status):
 		print status
+		print "exiting.."
+		return False
 
 
 def stream(givenTerm):
