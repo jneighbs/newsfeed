@@ -13,6 +13,7 @@ os.environ.setdefault("DJANGO_SETTINGS_MODULE", "newsfeed_site.settings")
 from nf_server.models import Article, NewsSource, Tag
 
 
+
 cj = CookieJar()
 opener = urllib2.build_opener(urllib2.HTTPCookieProcessor(cj))
 pp = pprint.PrettyPrinter()
@@ -182,6 +183,20 @@ def scrapeNYTimes():
 					putInDB(entry, sourceName, tagNameFromURL)
 
 
+def getTweets():
+    tweets = []
+    try:
+            import twitter
+            api = twitter.Api()
+            latest = api.GetUserTimeline('HackedExistence')
+            for tweet in latest:
+                    status = tweet.text
+                    tweet_date = tweet.relative_created_at
+                    tweets.append({'status': status, 'date': tweet_date})
+    except:
+            tweets.append({'status': 'Follow us @HackedExistence', 'date': 'about 10 minutes ago'})
+    return {'tweets': tweets}
+
 def scrapeTwitter():
 
 	twitterURL = "http://api.twitter.com/1.1/search/tweets.json?q=%23freebandnames&since_id=24012619984051000&max_id=250126199840518145&result_type=mixed&count=4"
@@ -190,11 +205,14 @@ def scrapeTwitter():
 	print res.read()
 
 
+
+
 def main():
 
 	# readFromFile()
 
 	# scrapeTwitter()
+	# scrape from db
 
 	print "###############\n# Tech Crunch #\n###############"
 	parseLink("http://feeds.feedburner.com/TechCrunch/", "Tech Crunch", "")
