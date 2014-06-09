@@ -197,7 +197,11 @@ def canEditFeed(feedId, user):
 def getRecommendations(user):
 	if user and not user.is_anonymous():
 		userId = user.id
-		recBundle = RecommendationBundle.objects.get(user_id=userId)
+		recBundle = RecommendationBundle.objects.filter(user_id=userId)
+		if len(recBundle) == 0:
+			recBundle = RecommendationBundle(user_id=userId)
+		else:
+			recBundle = recBundle[0]
 		user = User(id=userId)
 		tags = Tag.objects.filter(tagees__in=user.readArticles.all())
 
