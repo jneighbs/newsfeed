@@ -18,7 +18,7 @@ def index(request):
 	feeds = NewsFeed.objects.all()
 	articles = Article.objects.all().order_by("pub_date").reverse()[:20]
 	topEvents = NewsEvent.objects.all().order_by("score").reverse()[:5]
-	tweets = Tweet.objects.all().reverse()[:5]
+	tweets = Tweet.objects.all().order_by("pub_date").reverse()[:5]
 	recArticles, recSources = utils.getRecommendations(request.user)
 	context = {'tweets':tweets, 'articles': articles, 'sources': sources, 'feeds': feeds, 'request': request, 'topEvents': topEvents, 'recArticles': recArticles, 'recSources': recSources}
 	return render(request, 'index.html', context)
@@ -521,18 +521,21 @@ def loadMore(request):
 def loadTweets(request):
 
 	searchTerm = request.GET['searchTerm']
+	streamTwitterData.stream(searchTerm)
 	tweet = Tweet.objects.filter(searchTerm=searchTerm).order_by("pub_date").reverse()[0]
 
-	streamTwitterData.stream(searchTerm)
-
-	# responseObj = {}
-	# if tweet:
-	# 	responseObj = {
-	# 		"text": tweet.text,
-	# 		"pub_date": tweet.pub_date,
-	# 		"searchTerm": tweet.searchTerm
-	# 	}
-	return HttpResponse(responseObj, content_type="application/json")
+	# responseData = []
+	if tweet:
+		responseObj = {
+			"text": tweet.text,
+			"pub_date": tweet.pub_date.strftime('%b %d, %Y, %I:%M %p'),
+			"searchTerm": tweet.searchTerm
+		}
+		# responseData.append(responseObj)
+	# print responseObj
+	responseObj = json.dumps(responseObj)
+	# print responseObj
+	return HttpResponse(json.dumps(responseObj), content_type="application/json")
 
 # Create your views here.
 def nf_server(request):
