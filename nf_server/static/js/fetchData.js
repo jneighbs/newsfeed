@@ -9,7 +9,7 @@ var i = 0
 		searchTerm = "#" + domObj[0].innerHTML.replace(/ /g, "");
 	}
 
-	// fetchTweets();
+	fetchTweets();
 }
 
 var fetchTweets = function(){
@@ -23,17 +23,14 @@ var fetchTweets = function(){
 
 var success = function(response){
 
-	i++
+	i++;
 	response = JSON.parse(response);
+	tweet_html = '<p class="tweet">' + response.text + '</p>';
 
-	date_html = '<div class="date">' + response.pub_date + '|' + response.searchTerm + '</div>';
-	console.log(date_html)
-
-	$("#right-bar-block-tweets").prepend(date_html)
-	$("#right-bar-block-tweets").prepend("<p>" + response.text + "</p>")
-	// if(i<=1){
-	// 	setTimeout(fetchTweets, 10000)
-	// }
+	$("#right-bar-block-tweets").prepend(tweet_html)
+	if(i<=1){
+		setTimeout(fetchTweets, 10000)
+	}
 
 }
 

@@ -61,13 +61,16 @@ def stream(givenTerm):
 	# 	i = i+1
 
 	print "searchTerm: "+givenTerm
-	listener.searchTerm = givenTerm
+	listener.searchTerm = str(givenTerm)
 
-	auth = OAuthHandler(ckey, csecret)
-	auth.set_access_token(atoken, asecret)
-	twitterStream = Stream(auth, listener())
-	twitterStream.filter(track=[givenTerm])
-
+	try:
+		auth = OAuthHandler(ckey, csecret)
+		auth.set_access_token(atoken, asecret)
+		twitterStream = Stream(auth, listener())
+		twitterStream.filter(track=[givenTerm])
+	except BaseException, e:
+		print "too many connections to twitter! Chill out a sec!" + str(e)
+		time.sleep(5)
 
 
 
