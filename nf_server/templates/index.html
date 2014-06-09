@@ -3,7 +3,7 @@
 {% include "left-bar.html" %}
 <header id="intro" class="block-wrap ignore-shuffle" data-rowspan="2" data-colspan="2">
   <hgroup style="overflow:scroll;" class="block text-only">
-  <ul>
+  <ul id="articles_list">
   {% for article in articles %}
     {% if article.thumbnail %}
       <li class="article-list">
@@ -20,6 +20,10 @@
     </li>
   {% endfor %}
   </ul>
+  <button id="load_button" class="btn btn-default create-button">Load more</button>
+  <script type="text/javascript">
+    var loader = new ExtraArticlesFetcher("all", -1);
+  </script>
 </hgroup>
 </header>
 {% include "right-bar.html" %}
