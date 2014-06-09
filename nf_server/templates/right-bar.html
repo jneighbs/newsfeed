@@ -12,7 +12,7 @@
   <div class="block text-only">
     <h2>Recommend Articles</h2>
     <ul>
-    {% for recArticle in articleRecs %}
+    {% for recArticle in recArticles %}
     	<li><a href="/article/{{recArticle.id}}">{{recArticle.title}}</a></li>
     {% endfor %}
 	</ul>
@@ -22,7 +22,7 @@
   <div class="block text-only">
     <h2>Recommended Newssources</h2>
     <ul>
-    	{% for recSource in sourceRecs %}
+    	{% for recSource in recSources %}
     		<li><a href="/source/{{recSource.id}}">{{recSource.title}}</a></li>
     	{% endfor %}
     </ul>
