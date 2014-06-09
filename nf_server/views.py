@@ -3,7 +3,7 @@ from django.shortcuts import render, get_object_or_404, get_list_or_404
 from tasks import slowAdd, classify, trainClassifier
 from django.core.urlresolvers import reverse
 from django.views import generic
-from models import Article, NewsFeed, NewsSource, NewsEvent, NewsEventForm, TimelineEntry, Tag, Rating, Tweet
+from models import Article, NewsFeed, NewsSource, NewsEvent, NewsEventForm, TimelineEntry, Tag, Rating, Tweet, User
 import json
 import utils
 import re
