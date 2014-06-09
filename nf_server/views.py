@@ -18,7 +18,8 @@ def index(request):
 	articles = Article.objects.all().order_by("pub_date").reverse()[:20]
 	topEvents = NewsEvent.objects.all().order_by("score").reverse()[:5]
 	tweets = Tweet.objects.all().reverse()[:5]
-	context = {'tweets':tweets, 'articles': articles, 'sources': sources, 'feeds': feeds, 'request': request, 'topEvents': topEvents}
+	recArticles, recSources = utils.getRecommendations(request.user)
+	context = {'tweets':tweets, 'articles': articles, 'sources': sources, 'feeds': feeds, 'request': request, 'topEvents': topEvents, 'recArticles': recArticles, 'recSources': recSources}
 	return render(request, 'index.html', context)
 
 def source(request, source_id):

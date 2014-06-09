@@ -137,10 +137,24 @@ class RecommendationBundle(models.Model):
 
 	# THESE ARE OBVIOUSLY DUMMY METHODS RITE DOODS?
 	def articleRecommendations(self):
-		return [1,2,3,4,5]
+		count = 0
+		recs = []
+		for article in Article.objects.all():
+			recs.append(article)
+			count += 1
+			if count == 5:
+				break
+		return recs
 
 	def newsSourceRecommendations(self):
-		return [1,2,3]
+		count = 0
+		recs = []
+		for source in NewsSource.objects.all():
+			recs.append(source)
+			count += 1
+			if count == 3:
+				break;
+		return recs
 
 	def newsFeedRecommendations(self):
 		return [1,2]
