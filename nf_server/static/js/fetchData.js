@@ -2,7 +2,6 @@ searchTerm = ""
 var i = 0
 
  var fetchData = function(){
-	// TODO grab search term
 
 	searchTerm = "#tracymorgan";
 	domObj = $("#tweet-searchTerm");

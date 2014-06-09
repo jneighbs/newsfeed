@@ -6,6 +6,7 @@ from tweepy import OAuthHandler
 from tweepy.streaming import StreamListener
 from django.utils import timezone
 import json
+import time
 
 import os
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "newsfeed_site.settings")
@@ -24,22 +25,32 @@ class listener(StreamListener):
 
 	def on_data(self, stringJSON):
 
-		print "new tweet"
-		searchTerm = listener.searchTerm
+		try:
+			print "new tweet"
+			searchTerm = listener.searchTerm
 
-		data = json.loads(stringJSON)
-		text = data["text"]
-		tweet_id =data["id_str"]
+			data = json.loads(stringJSON)
+			text = data["text"]
+			tweet_id =data["id_str"]
 
-		tweet = Tweet(searchTerm=searchTerm, pub_date=timezone.now(), text=text, title="", tweet_id=tweet_id)
-		tweet.save()
+			tweet = Tweet(searchTerm=searchTerm, pub_date=timezone.now(), text=text, title="", tweet_id=tweet_id)
+			tweet.save()
 
-		return False
+			return False
+		except BaseException, e:
+			print "failed on_data" + str(e)
+			time.sleep(10)
 
 	def on_error(self, status):
-		print status
-		print "exiting.."
+		print status + "exiting.."
 		return False
+
+	def on_timeout(self):
+		return False
+
+	def on_disconnect(self, notice):
+		return False
+
 
 
 def stream(givenTerm):
