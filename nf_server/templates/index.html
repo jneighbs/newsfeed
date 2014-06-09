@@ -5,6 +5,7 @@
   <hgroup style="overflow-y:scroll;" class="block text-only">
   <ul>
   {% for article in articles %}
+  <div>
     {% if article.thumbnail %}
       <li class="article-list">
         <img src="{{article.thumbnail}}" class="article-img">
@@ -18,6 +19,7 @@
       {% endif %}   
       <br/>
     </li>
+  </div>
   {% endfor %}
   </ul>
   <button id="load_button" class="btn btn-default create-button">Load more</button>

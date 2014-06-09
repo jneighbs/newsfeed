@@ -3,7 +3,7 @@
 {% load staticfiles %}
 <script type="text/javascript" src="{% static "js/SearchHelper.js" %}"></script>
 <script type="text/javascript" src="{% static "js/FieldValidator.js" %}"></script>
-<header id="create-event" class="block-wrap ignore-shuffle" data-rowspan="2" data-colspan="2">
+<header id="intro" class="block-wrap ignore-shuffle" data-rowspan="2" data-colspan="2">
 <hgroup style="overflow:scroll;" class="block text-only">
 <form action="/new_event/" method="post" id="event_form" class="form-horizontal">{% csrf_token %}
 	<fieldset>
@@ -14,8 +14,8 @@
 
 	<!-- Text input-->
 	<div class="form-group">
-		<label class="col-md-8 control-label create-source" for="id_title">Title</label>  
-	  	<div class="col-md-8">
+		<label class="col-md-4 control-label create-source" for="id_title">Title</label>  
+	  	<div class="col-md-4">
 	    	{{form.title}}
 			<div class="error_field" id="id_title_error">An event needs a name.</div>
 	  	</div>
@@ -23,8 +23,8 @@
 
 	<!-- Text input-->
 	<div class="form-group">
-		<label class="col-md-8 control-label create-source" for="id_tag">Tag</label>  
-	  	<div class="col-md-8">
+		<label class="col-md-4 control-label create-source" for="id_tag">Tag</label>  
+	  	<div class="col-md-4">
 	    	{{form.eventTag}}
 			<div class="error_field" id="id_eventTag_error">An event needs a unique event tag.</div>
 			<script type="text/javascript">
@@ -35,19 +35,17 @@
 
 	<!-- Text input-->
 	<div id="timeline" class="form-group">
-		<label class="col-md-8 control-label create-source" for="id_timeline">Timeline</label>  
-	  	<div class="col-md-8">
+		<label class="col-md-4 control-label create-source" for="id_timeline">Timeline</label>  
 	    	<script type="text/javascript">
 			var timelineEntries = {{timelineEntries|safe}};
 			var timeline = new Timeline("timeline", timelineEntries);
 		</script>
-	  	</div>
 	</div>
 
 	<!-- Text input-->
 	<div class="form-group">
-		<label class="col-md-8 control-label create-source" for="id_timeline">Articles</label>  
-	  	<div class="col-md-8">
+		<label class="col-md-4 control-label create-source" for="id_timeline">Articles</label>  
+	  	<div class="col-md-4">
 	    	{% if form.articles %}
 			{{form.articles}}
 		{% else %}
@@ -66,8 +64,8 @@
 
 	<!-- Text input-->
 	<div class="form-group">
-		<label class="col-md-8 control-label create-source" for="id_tags">Tags</label>  
-	  	<div class="col-md-8">
+		<label class="col-md-4 control-label create-source" for="id_tags">Tags</label>  
+	  	<div class="col-md-4">
 	    	<ul id="id_tags" class="saveList">
 		{% for tag in event.tag_set.all %}
 			<li>
@@ -90,8 +88,8 @@
 
 	<!-- Text input-->
 	<div class="form-group">
-		<label class="col-md-8 control-label create-source" for="id_editors">Editors</label>  
-	  	<div class="col-md-8">
+		<label class="col-md-4 control-label create-source" for="id_editors">Editors</label>  
+	  	<div class="col-md-4">
 	    	<ul id="id_tags" class="saveList">
 		{% if not form.editors %}
 			<ul id="id_editors" class="saveList">

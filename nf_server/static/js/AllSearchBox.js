@@ -71,7 +71,7 @@ AllSearchBox.prototype.displayResults = function()
 		for(var id in response[model])
 		{
 			//console.log(id + " " + response[model][id]);
-			var span = document.createElement("span");
+			var span = document.createElement("div");
 			span.classList.add("entry");
 			var link = document.createElement("a");
 			link.setAttribute("target", "blank");
