@@ -9,7 +9,7 @@ cj = CookieJar()
 opener = urllib2.build_opener(urllib2.HTTPCookieProcessor(cj))
 
 
-from nf_server.models import Article, NewsFeed, NewsSource, NewsEvent, Tag, User, Rating
+from nf_server.models import Article, NewsFeed, NewsSource, NewsEvent, Tag, User, Rating, RecommendationBundle
 
 # Given a set of models and a query, returns all the instances
 # of all the models that contain that query in their title.
@@ -193,5 +193,20 @@ def canEditFeed(feedId, user):
 		return False
 
 	return True
+
+def getRecommendations(user):
+	if user and not user.is_anonymous():
+		userId = user.id
+	else:
+		userId = -1
+
+	recBundle = RecommendationBundle.objects.filter(user_id=userId)
+	if len(recBundle) == 0:
+		recBundle = RecommendationBundle(user_id=userId)
+	else:
+		recBundle = recBundle[0]
+
+	return (recBundle.articleRecommendations(), recBundle.newsSourceRecommendations())
+
 
 

@@ -10,11 +10,21 @@
 </div>
 <div id="right-bar-block-nf" class="block-wrap ignore-shuffle" data-rowspan="2" data-colspan="1">
   <div class="block text-only">
-    <h2>Recommended Newsfeeds</h2>
+    <h2>Recommend Articles</h2>
+    <ul>
+    {% for recArticle in articleRecs %}
+    	<li><a href="/article/{{recArticle.id}}">{{recArticle.title}}</a></li>
+    {% endfor %}
+	</ul>
   </div>
 </div>
 <div id="right-bar-block-source" class="block-wrap ignore-shuffle" data-rowspan="2" data-colspan="1">
   <div class="block text-only">
     <h2>Recommended Newssources</h2>
+    <ul>
+    	{% for recSource in sourceRecs %}
+    		<li><a href="/source/{{recSource.id}}">{{recSource.title}}</a></li>
+    	{% endfor %}
+    </ul>
   </div>
 </div>
