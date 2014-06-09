@@ -2,6 +2,8 @@ import feedparser
 import urllib2
 import cookielib
 from cookielib import CookieJar
+import operator
+from django.db.models import Q
 
 cj = CookieJar()
 opener = urllib2.build_opener(urllib2.HTTPCookieProcessor(cj))
@@ -55,7 +57,9 @@ def findPartialMatches(models, queryWords, responseData, threshold):
 			responseData[model] = {}
 
 		if model == 'articles':
-			candidates = Article.objects.order_by('pub_date').all()
+			#candidates = Article.objects.order_by('pub_date').all()
+			candidates = Article.objects.filter(reduce(operator.and_, (Q(summaryText__contains=x) for x in queryWords)))
+			candidates = candidates & Article.objects.filter(reduce(operator.and_, (Q(title__contains=x) for x in queryWords)))
 		elif model == 'feeds':
 			candidates = NewsFeed.objects.all()
 		elif model == 'sources':
@@ -85,44 +89,62 @@ def findPartialMatches(models, queryWords, responseData, threshold):
 	return responseData
 
 def tagSearch(models, query):
-	print models
-	print query
+	#print models
+	#print query
 
 	responseData = {}
 
+	matchingTags = Tag.objects.filter(text__contains=query)
+	#print "found matching tags", matchingTags
 	for model in models:
+		#print "finding ", model
 		responseData[model] = {}
 
 		if model not in responseData:
 			responseData[model] = {}
 
 		if model == 'articles':
-			candidates = Article.objects.order_by('pub_date').all()
+			#candidates = Article.objects.order_by('pub_date').all()
+			try:
+				matches = Article.objects.filter(reduce(operator.and_, (Q(tag=x) for x in matchingTags)))
+			except TypeError:
+				matches = []
 		elif model == 'feeds':
-			candidates = NewsFeed.objects.all()
+			try:
+				matches = NewsFeed.objects.filter(reduce(operator.and_, (Q(tag=x) for x in matchingTags)))
+			except TypeError:
+				matches = []
 		elif model == 'sources':
-			candidates = NewsSource.objects.all()
+			try:
+				matches = NewsSource.objects.filter(reduce(operator.and_, (Q(tag=x) for x in matchingTags)))
+			except TypeError:
+				matches = []
 		elif model == 'events':
-			candidates = NewsEvent.objects.all()
-		elif model == 'tags':
-			candidates = Tag.objects.all()
-		elif model == 'users':
-			candidates = User.objects.all()
+			try:
+				matches = NewsEvent.objects.filter(reduce(operator.and_, (Q(tag=x) for x in matchingTags)))
+			except TypeError:
+				matches = []
+		else:
+			matches = []
 
-		for candidate in candidates:
+		for match in matches:
+			responseData[model][match.id] = match.title
 
-			for tag in candidate.tag_set.all():
-				if query in tag.text.lower():
-					responseData[model][candidate.id] = candidate.title
+		# for candidate in candidates:
 
-			if len(responseData[model]) > 14:
-				break;
+		# 	for tag in candidate.tag_set.all():
+		# 		if query in tag.text.lower():
+		# 			responseData[model][candidate.id] = candidate.title
+
+		if len(responseData[model]) > 14:
+			break;
 	return responseData
 
 def urlIsBroken(url):
 
 	feed = feedparser.parse(url)
-	return 'entries' in feed and len(feed.entries) > 0
+	print feed
+	return not ('entries' in feed and len(feed.entries) > 0)
 
 
 def getRating(objectId, user):
