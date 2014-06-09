@@ -204,15 +204,14 @@ def scrapeTwitter():
 	res = urllib2.urlopen(req)
 	print res.read()
 
-
+def scrapeDB():
+	sources = NewsSource.objects.all()
+	for source in sources:
+		url = source.url;
+		parseLink(source.url, source.title, "")
 
 
 def main():
-
-	# readFromFile()
-
-	# scrapeTwitter()
-	# scrape from db
 
 	print "###############\n# Tech Crunch #\n###############"
 	parseLink("http://feeds.feedburner.com/TechCrunch/", "Tech Crunch", "")
@@ -224,6 +223,8 @@ def main():
 	parseLink("http://feeds.sciencedaily.com/sciencedaily?format=xml", "ScienceDaily", "all")
 	parseLink("http://feeds.sciencedaily.com/sciencedaily/top_news?format=xml", "ScienceDaily", "topnews")
 	parseLink("http://feeds.sciencedaily.com/sciencedaily/most_popular?format=xml", "ScienceDaily", "mostpopular")
+
+	scrapeDB()
 
 	scrapeNYTimes()
 	scrapeReddit()
