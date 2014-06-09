@@ -16,7 +16,8 @@ def index(request):
 	sources = NewsSource.objects.all()
 	feeds = NewsFeed.objects.all()
 	articles = Article.objects.all().order_by("pub_date").reverse()[:20]
-	topEvents = NewsEvent.objects.all().order_by("score")[:5]
+	topEvents = NewsEvent.objects.all().order_by("score").reverse()[:5]
+	print topEvents
 	tweets = Tweet.objects.all()[:5]
 	context = {'articles': articles, 'sources': sources, 'feeds': feeds, 'request': request, 'topEvents': topEvents}
 	return render(request, 'index.html', context)
@@ -29,7 +30,7 @@ def source(request, source_id):
 	source.score += 1
 	source.save()
 	rating = utils.getRating(source_id, request.user)
-	topEvents = NewsEvent.objects.all().order_by("score")[:5]
+	topEvents = NewsEvent.objects.all().order_by("score").reverse()[:5]
 	articles = Article.objects.filter(newsSource=source_id).order_by("pub_date").reverse()[:20]
 	context = {'source': source, 'articles': articles, 'sources': sources, 'feeds': feeds, 'rating': rating, 'topEvents': topEvents,}
 	return render(request, 'source.html', context)
@@ -82,7 +83,7 @@ def feed(request, feed_id):
 	articles = Article.objects.filter(newsSource_id__in=sourceIds).order_by("pub_date").reverse()[:20]
 
 	ratingValue = utils.getRating(feed_id, request.user)
-	topEvents = NewsEvent.objects.all().order_by("score")[:5]
+	topEvents = NewsEvent.objects.all().order_by("score").reverse()[:5]
 	context = RequestContext(request, {'user': request.user})
 	canEdit = utils.canEditFeed(feed_id, request.user)
 
@@ -198,7 +199,6 @@ def event(request, event_id):
 	sources = NewsSource.objects.all()
 	feeds = NewsFeed.objects.all()
 	articles = Article.objects.all()[:20]
-	topEvents = NewsEvent.objects.all().order_by("score")[:5]
 	event = NewsEvent.objects.get(id=event_id)
 	event.viewCount += 1
 	event.score += 1
@@ -206,7 +206,7 @@ def event(request, event_id):
 	rating = utils.getRating(event_id, request.user)
 	print rating
 	canEdit = utils.canEdit(event_id, request.user)
-	topEvents = NewsEvent.objects.all().order_by("score")[:5]
+	topEvents = NewsEvent.objects.all().order_by("score").reverse()[:5]
 	context = {'articles': articles, 'sources': sources, 'feeds': feeds, 'event': event, 'rating': rating, 'topEvents': topEvents, 'canEdit': canEdit,}
 	return render(request, 'event.html', context)
 
@@ -471,7 +471,7 @@ def search(request):
 	sources = NewsSource.objects.all()
 	feeds = NewsFeed.objects.all()
 	articles = Article.objects.all()[:20]
-	topEvents = NewsEvent.objects.all().order_by("score")[:5]
+	topEvents = NewsEvent.objects.all().order_by("score").reverse()[:5]
 	context = {'articles': articles, 'sources': sources, 'feeds': feeds, 'request': request, 'topEvents': topEvents}
 	return render(request, 'search.html', context)
 
