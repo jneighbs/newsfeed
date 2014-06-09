@@ -30,7 +30,6 @@
 			{% endif %}
 		</div>
 		<ul class="nav-ul">
-		<!--<li class="nav-li"><a href="/about">About</a></li> -->
 		<li class="nav-li"><a href="/search">Search</a></li>
 			<li class="nav-li"><a href="/create_source">Add Source</a></li>
 			{% if user and not user.is_anonymous %}
@@ -38,7 +37,7 @@
 	 			<li class="nav-li"><a href="/create_feed">Add Feed</a></li>
 	 			<li class="nav-li"><a href="{% url 'auth:logout' %}?next={{ request.path }}">Logout</a></li>
 			{% else %}
-				<li class="nav-li"><a href="/get_login">Login</a></li>
+				<li class="nav-li"><a href="{% url 'social:begin' 'facebook' %}?next={{ request.path }}">Login with Facebook</a></li>
 			{% endif %}
 			{% block header %} {% endblock header %} 
 		</ul>

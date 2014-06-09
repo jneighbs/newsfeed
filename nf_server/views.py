@@ -36,9 +36,6 @@ def source(request, source_id):
 def createSource(request):
 	return render(request, 'create_source.html', {})
 
-def getLogin(request):
-	return render(request, 'get_login.html', {'request':request})
-
 def validateSource(request):
 	responseData = {"name": True, "description": True, "url": True}
 
@@ -144,13 +141,6 @@ def event(request, event_id):
 	context = {'articles': articles, 'sources': sources, 'feeds': feeds, 'event': event, 'rating': rating, 'topEvents': topEvents, 'canEdit': canEdit,}
 	return render(request, 'event.html', context)
 
-# Create your views here.
-def about(request):
-	sources = NewsSource.objects.all()
-	feeds = NewsFeed.objects.all()
-	articles = Article.objects.all()
-	context = {'articles': articles, 'sources': sources, 'feeds': feeds, 'request': request,}
-	return render(request, 'about.html', context)
 	
 def editFeed (request, feed_id):
 	all_sources = NewsSource.objects.all()
