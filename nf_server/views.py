@@ -123,7 +123,38 @@ def saveRating(request, feed_id):
 		#print rating
 	return HttpResponse("woohoo")
 
+def saveRatingEvent(request, event_id):
+	# print "saving rating event"
 
+	if request.POST["userID"] == "None":
+		userID = -1
+	else:
+		userID = request.POST["userID"]
+
+	if request.POST["rating"] >= 1:
+		ratings = Rating.objects.filter(ratee_id=event_id, rater_id=userID)
+		event = NewsEvent.objects.get(id=event_id)
+		if len(ratings) > 0:
+			rating = ratings[0]
+			
+			event.score -= rating.rating
+			
+		else:
+			rating = Rating()
+
+		rating.rating = request.POST["rating"]
+		rating.rater_id = userID
+		rating.ratee_id = event_id
+		event.score += request.POST["rating"]
+
+
+		if userID != -1:
+			print userID
+			rating.save()
+		else:
+			print "just kidding"
+
+	return HttpResponse("woohoo")
 
 # Create your views here.
 def event(request, event_id):
@@ -136,6 +167,7 @@ def event(request, event_id):
 	event.score += 1
 	event.save()
 	rating = utils.getRating(event_id, request.user)
+	print rating
 	canEdit = utils.canEdit(event_id, request.user)
 	topEvents = NewsEvent.objects.all().order_by("score")[:5]
 	context = {'articles': articles, 'sources': sources, 'feeds': feeds, 'event': event, 'rating': rating, 'topEvents': topEvents, 'canEdit': canEdit,}

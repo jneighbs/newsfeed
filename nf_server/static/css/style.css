@@ -2,6 +2,9 @@
     Style
 ======================================================================
 */
+.timeline_entry_text {
+  padding-left: 20px;
+}
 .article-img {
   position: absolute;
   right: 20px;

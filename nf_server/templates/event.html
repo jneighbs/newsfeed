@@ -2,47 +2,57 @@
 {% block content %}
 {% include "left-bar.html" %}
 <header id="intro" class="block-wrap ignore-shuffle" data-rowspan="2" data-colspan="2">
-  <hgroup style="overflow:scroll;" class="block text-only">
-  {% include "rating.html" %}
-<h2>{{event.title}}</h2>
-{% if canEdit %}
-<a href="/edit_event/{{event.id}}">Edit</a>
-{% endif %}
-
-<div class="tag_block">
-	<div class="tags">
-		Tags: &nbsp;&nbsp;
+	<hgroup style="overflow:scroll;" class="block text-only">
+	  	<form action="save_rating_event" method="post">
+	  		{% csrf_token %}
+	   		<input id="rating-stars" data-max="5" data-min="1" value="{{rating.rating}}"type="number" name="rating" id="feed_rating" class="rating" />
+	 	</form>
+		<script>
+		  $("#rating-stars").val(1).trigger("change");
+		  $("#rating-stars").change(function() {
+		    var data = { 'userID':  '{{user.id}}', 'rating': $("#rating-stars").val(), 'csrfmiddlewaretoken': '{{csrf_token}}'};
+		    $.post( "/save_rating_event/{{event.id}}/", data );
+		  });
+		  $("#rating-stars").val({{rating}});
+		</script>
+	<h2>{{event.title}}</h2>
+	{% if canEdit %}
+		<a href="/edit_event/{{event.id}}">Edit</a>
+	{% endif %}
+	{% if event.tag_set.all %}
+		<div class="tag_block">
+			<div class="tags">
+				Tags: &nbsp;&nbsp;
+			</div>
+			{% for tag in event.tag_set.all %}
+				<div class="tag">
+					{{tag.text}}
+				</div>
+			{% endfor %}
+		</div>
+	{% endif %}
+	<br/>
+	<div class="timeline_block">
+		<h2>Timeline</h2>
+		{% for timelineEntry in event.timelineentry_set.all %}
+		<div class="timeline_entry">
+			<div class="date">{{timelineEntry.date}}</div>
+			<div class="timeline_entry_text">
+				{{timelineEntry.text}}
+			</div>
+		</div>
+		{% endfor %}
 	</div>
-	{% for tag in event.tag_set.all %}
-		<div class="tag">
-			{{tag.text}}
-		</div>
-	{% endfor %}
-</div>
-
-<br />
-
-<div class="timeline_block">
-	<h2>Timeline</h2>
-	{% for timelineEntry in event.timelineentry_set.all %}
-	<div class="timeline_entry">
-		<div class="date">{{timelineEntry.date}}</div>
-		<div class="timeline_entry_text">
-			{{timelineEntry.text}}
-		</div>
+	<br/>
+	<div class="article_block">
+		<h2>Articles</h2>
+		{% for article in event.articles.all %}
+			<div class="article_entry timeline_entry_text">
+				<a href="{{article.url}}">{{article.title}}</a>
+			</div>
+		{% endfor %}
 	</div>
-	{% endfor %}
-</div>
-
-<div class="article_block">
-	<h2>Articles</h2>
-	{% for article in event.articles.all %}
-		<div class="article_entry">
-			<a href="{{article.url}}">{{article.title}}</a>
-		</div>
-	{% endfor %}
-</div>
-</hgroup>
+	</hgroup>
 </header>
 {% include "right-bar.html" %}
 {% endblock content %}
