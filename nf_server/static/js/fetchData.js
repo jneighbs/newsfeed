@@ -28,10 +28,9 @@ var success = function(response){
 	tweet_html = '<p class="tweet">' + response.text + '</p>';
 
 	$("#right-bar-block-tweets").prepend(tweet_html)
-/*	if(i<=1){
-		setTimeout(fetchTweets, 10000)
-	}*/
-
+	// if(i<=1){
+	// 	setTimeout(fetchTweets, 10000)
+	// }
 }
 
 

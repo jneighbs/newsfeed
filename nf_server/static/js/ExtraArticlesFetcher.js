@@ -35,6 +35,7 @@ ExtraArticlesFetcher.prototype.loadMore = function()
 		"id": this.modelId,
 		"chunksLoaded": this.chunksLoaded,
 	}
+	this.chunksLoaded += 1;
 	$.get("/load_more/", data, this.onLoadSuccess)
 }
 
