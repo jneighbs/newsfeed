@@ -13,7 +13,7 @@ ArticleSearchBox.prototype.createResultElement = function(id, response)
 	
 	var link = document.createElement("a");
 	link.href = "/article/" + id;
-	link.innerHTML = response[id].title;
+	link.innerHTML = response.title;
 	link.setAttribute("target", "blank");
 
 	var addButton = document.createElement("button");
