@@ -438,6 +438,12 @@ def article(request, article_id):
 	article.viewCount += 1
 	article.score += 1
 	article.save()
+
+	if request.user and not request.user.is_anonymous():
+		user = User.objects.get(id=request.user.id)
+		user.readArticles.add(article)
+		user.save()
+		
 	return HttpResponseRedirect(article.url)
 	return HttpResponse("article %s - newsfeed.com/article" % article_id)
 
