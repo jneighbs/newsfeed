@@ -232,6 +232,9 @@ def saveFeed(request):
 
 	if 'title' in request.POST:
 		f.title = request.POST['title']
+	if 'description' in request.POST:
+		f.description = request.POST['description']
+		print f.description
 
 	f.save()
 	return HttpResponseRedirect("/feed/" + request.POST['pk'])
@@ -392,7 +395,7 @@ def validateEvent(request):
 				responseData[name] = True
 		elif name == "eventTag":
 			if len(value) == 0:
-				responseData[name] = "An even needs an event tag."
+				responseData[name] = "An event needs an event tag."
 			elif " " in value:
 				responseData[name] = "No spaces allowed in event tags."
 			elif re.match('^[\w-]+$', value) is None:
