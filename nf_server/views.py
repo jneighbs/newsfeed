@@ -15,7 +15,7 @@ import datetime
 def index(request):
 	sources = NewsSource.objects.all()
 	feeds = NewsFeed.objects.all()
-	articles = Article.objects.all()[:20]
+	articles = Article.objects.all().order_by("pub_date").reverse()[:20]
 	topEvents = NewsEvent.objects.all().order_by("score")[:5]
 	context = {'articles': articles, 'sources': sources, 'feeds': feeds, 'request': request, 'topEvents': topEvents}
 	return render(request, 'index.html', context)
@@ -29,7 +29,7 @@ def source(request, source_id):
 	source.save()
 	rating = utils.getRating(source_id, request.user)
 	topEvents = NewsEvent.objects.all().order_by("score")[:5]
-	articles = Article.objects.filter(newsSource=source_id)[:20]
+	articles = Article.objects.filter(newsSource=source_id).order_by("pub_date").reverse()[:20]
 	context = {'source': source, 'articles': articles, 'sources': sources, 'feeds': feeds, 'rating': rating, 'topEvents': topEvents,}
 	return render(request, 'source.html', context)
 
@@ -482,6 +482,8 @@ def loadMore(request):
 	elif request.GET["model"] == "source":
 		obj = NewsSource.objects.get(id=request.GET["id"])
 		results = obj.article_set.all().order_by("pub_date").reverse()
+	elif request.GET["model"] == "all":
+		results = Article.objects.all().order_by("pub_date").reverse()
 	print "so far so good"
 	results = results[chunksLoaded*20:(chunksLoaded+1)*20]
 	print "sliced fine"

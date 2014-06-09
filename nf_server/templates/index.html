@@ -20,6 +20,10 @@
     </li>
   {% endfor %}
   </ul>
+  <button id="load_button" class="btn btn-default create-button">Load more</button>
+  <script type="text/javascript">
+    var loader = new ExtraArticlesFetcher("all", -1);
+  </script>
 </hgroup>
 </header>
 {% include "right-bar.html" %}
