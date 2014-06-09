@@ -71,7 +71,7 @@ AllSearchBox.prototype.displayResults = function()
 		for(var id in response[model])
 		{
 			//console.log(id + " " + response[model][id]);
-			var span = document.createElement("span");
+			var span = document.createElement("div");
 			span.classList.add("entry");
 			var link = document.createElement("a");
 			link.setAttribute("target", "blank");
@@ -93,8 +93,26 @@ AllSearchBox.prototype.displayResults = function()
 				default:
 					continue;
 			}
-			link.textContent = response[model][id];
+			if(model == "articles")
+			{
+				link.textContent = response[model][id].title;
+			}
+			else
+			{
+				link.textContent = response[model][id];
+			}
+			
 			span.appendChild(link);
+
+			if(model == "articles")
+			{
+				var underText = document.createElement("div");
+				underText.classList.add("date");
+				underText.innerText = response[model][id].pubDate + " | " + response[model][id].sourceTitle;
+				span.appendChild(underText);		
+			}
+
+			span.appendChild(document.createElement("br"));
 			this.target.appendChild(span);
 		}
 

@@ -39,10 +39,17 @@ def findExactMatches(models, query):
 	for model in results:
 		responseData[model] = {}
 		for result in results[model]:
-			responseData[model][result.id] = result.allText()
+			if model == "articles":
+				data = {
+				"title": result.title,
+				"pubDate": result.pub_date.strftime('%b %d, %Y, %I:%M %p'),
+				"sourceTitle": result.newsSource.title
+				}
+				responseData[model][result.id] = data
+			else:
+				responseData[model][result.id] = result.allText()
 			if len(responseData[model]) > 14:
 				break
-		
 	return responseData
 
 # Given a list of models, a set of words, and a threshold, finds all instances
@@ -82,7 +89,15 @@ def findPartialMatches(models, queryWords, responseData, threshold):
 					queryWordCount += 1.0
 
 			if queryWordCount / len(queryWords) >= threshold:
-				responseData[model][candidate.id] = candidate.title
+				if model == 'articles':
+					data = {
+					"title": candidate.title,
+					"pubDate": candidate.pub_date.strftime('%b %d, %Y, %I:%M %p'),
+					"sourceTitle": candidate.newsSource.title,
+					}
+					responseData[model][candidate.id] = data
+				else:
+					responseData[model][candidate.id] = candidate.title
 			
 			if len(responseData[model]) > 14:
 				break

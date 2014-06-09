@@ -10,13 +10,13 @@ TagSearchBox.prototype.createResultElement = function(id, response)
 {
 	var span = document.createElement("span");
 	span.classList.add("entry");
-	span.innerHTML = response[id];
+	span.innerHTML = response;
 
 	var that = this;
 	span.onclick = function(event)
 	{
 		event.preventDefault();
-		that.tagClickHandler(id, response[id]);
+		that.tagClickHandler(id, response);
 	}
 
 	return span;

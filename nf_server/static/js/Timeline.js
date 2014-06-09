@@ -32,12 +32,17 @@ Timeline.prototype.createEntryElement = function(date, text, pk)
 {
 	var outerDiv = document.createElement("div");
 	outerDiv.classList.add("timeline_entry");
+	outerDiv.classList.add("col-md-4");
+	outerDiv.classList.add("form-group");
 	
 	var dateDiv = document.createElement("div");
 	dateDiv.classList.add("date");
 	dateDiv.innerText = date;
 	
 	var editButton = document.createElement("button");
+	editButton.classList.add("btn")
+	editButton.classList.add("btn-default");
+	editButton.classList.add("create-button-timeline");
 	editButton.innerText = "Edit";
 
 	var that = this;
@@ -55,9 +60,8 @@ Timeline.prototype.createEntryElement = function(date, text, pk)
 	textarea.innerText = text;
 
 	outerDiv.appendChild(dateDiv);
-	outerDiv.appendChild(editButton);
-	outerDiv.appendChild(document.createElement("br"));
 	outerDiv.appendChild(textarea);
+	outerDiv.appendChild(editButton);
 
 	return outerDiv;
 }
@@ -67,11 +71,14 @@ Timeline.prototype.createNewEntryElement = function()
 	var outerDiv = document.createElement("div");
 	outerDiv.classList.add("timeline_entry");
 	outerDiv.classList.add("new_timeline_entry");
+	outerDiv.classList.add("col-md-4");
 
 	outerDiv.appendChild(document.createElement("textarea"));
 
 	var button = document.createElement("button");
-	button.classList.add("add");
+	button.classList.add("btn")
+	button.classList.add("btn-default");
+	button.classList.add("create-button-timeline");
 	button.innerText = "Add";
 
 	var that = this;

@@ -3,22 +3,18 @@ from django.shortcuts import render, get_object_or_404, get_list_or_404
 from tasks import slowAdd, classify, trainClassifier
 from django.core.urlresolvers import reverse
 from django.views import generic
-from models import Article, NewsFeed, NewsSource, NewsEvent, NewsEventForm, TimelineEntry, Tag, Rating, User, Tweet
+from models import Article, NewsFeed, NewsSource, NewsEvent, NewsEventForm, TimelineEntry, Tag, Rating
 import json
 import utils
 import re
 from django.template.context import RequestContext
-from itertools import chain
-from operator import attrgetter
-import datetime
 
 def index(request):
 	sources = NewsSource.objects.all()
 	feeds = NewsFeed.objects.all()
-	articles = Article.objects.all().order_by("pub_date").reverse()[:20]
+	articles = Article.objects.all()[:20]
 	topEvents = NewsEvent.objects.all().order_by("score")[:5]
-	tweets = Tweet.objects.all().reverse()[:5]
-	context = {'tweets':tweets, 'articles': articles, 'sources': sources, 'feeds': feeds, 'request': request, 'topEvents': topEvents}
+	context = {'articles': articles, 'sources': sources, 'feeds': feeds, 'request': request, 'topEvents': topEvents}
 	return render(request, 'index.html', context)
 
 def source(request, source_id):
@@ -28,15 +24,16 @@ def source(request, source_id):
 	source.viewCount += 1
 	source.score += 1
 	source.save()
-	rating = utils.getRating(source_id, request.user)
-	topEvents = NewsEvent.objects.all().order_by("score")[:5]
-	articles = Article.objects.filter(newsSource=source_id).order_by("pub_date").reverse()[:20]
-	tweets = Tweet.objects.all().reverse()[:5]
-	context = {'tweets':tweets, 'source': source, 'articles': articles, 'sources': sources, 'feeds': feeds, 'rating': rating, 'topEvents': topEvents,}
+	#articles = get_list_or_404(Article, newsSource=source_id)
+	articles = Article.objects.filter(newsSource=source_id)
+	context = {'source': source, 'articles': articles, 'sources': sources, 'feeds': feeds}
 	return render(request, 'source.html', context)
 
 def createSource(request):
 	return render(request, 'create_source.html', {})
+
+def getLogin(request):
+	return render(request, 'get_login.html', {'request':request})
 
 def validateSource(request):
 	responseData = {"name": True, "description": True, "url": True}
@@ -77,142 +74,49 @@ def feed(request, feed_id):
 	feed.viewCount += 1
 	feed.score += 1
 	feed.save()
-	feed_sources = feed.newsSources.all()
-
-	sourceIds = [source.id for source in feed_sources]
-	articles = Article.objects.filter(newsSource_id__in=sourceIds).order_by("pub_date").reverse()[:20]
-	tweets = Tweet.objects.all().reverse()[:5]
-
-	ratingValue = utils.getRating(feed_id, request.user)
-	topEvents = NewsEvent.objects.all().order_by("score")[:5]
-	context = RequestContext(request, {'user': request.user})
-	canEdit = utils.canEditFeed(feed_id, request.user)
-
-	context = {'tweets':tweets, 'articles': articles, 'feed': feed, 'feed_sources': feed_sources, 'sources': sources, 'feeds': feeds, 'rating': ratingValue, 'topEvents': topEvents, 'canEdit': canEdit}
+	feeds_sources = feed.newsSources.all()
+	articles = Article.objects.all()
+	context = {'articles': articles, 'feed': feed, 'feeds_sources': feeds_sources, 'sources': sources, 'feeds': feeds}
 	return render(request, 'feed.html', context)
 
 def saveRating(request, feed_id):
-	#print "saving rating"
+	print "hi"
+	print request.POST["rating"]
+	feed = get_object_or_404(NewsFeed, pk=feed_id)
+	if (request.POST["rating"] >= 1):
+		print request.POST["rating"]
+		rating = Rating()
+		rating.rating = request.POST["rating"];
+		rating.save()
+		feed.ratings.add(rating);
+		feed.save()
+		print feed
+	return HttpResponseRedirect("/feed/" + str(feed.id))
 
-	if request.POST["userID"] == "None":
-		userID = -1
-	else:
-		userID = request.POST["userID"]
-
-	if request.POST["rating"] >= 1:
-		#print request.POST["rating"]
-		ratings = Rating.objects.filter(ratee_id=feed_id, rater_id=userID)
-		feed = NewsFeed.objects.get(id=feed_id)
-		if len(ratings) > 0:
-			#print "getting old rating"
-			rating = ratings[0]
-			
-			feed.score -= rating.rating
-			
-		else:
-			#print "creating new rating"
-			rating = Rating()
-
-		rating.rating = request.POST["rating"]
-		rating.rater_id = userID
-		rating.ratee_id = feed_id
-		feed.score += request.POST["rating"]
-
-		#print "done setting fields"
-
-		if userID != -1:
-			rating.save()
-		#else:
-		#	print "just kidding"
-
-		#print rating
-	return HttpResponse("woohoo")
-
-def saveRatingEvent(request, event_id):
-	# print "saving rating event"
-
-	if request.POST["userID"] == "None":
-		userID = -1
-	else:
-		userID = request.POST["userID"]
-
-	if request.POST["rating"] >= 1:
-		ratings = Rating.objects.filter(ratee_id=event_id, rater_id=userID)
-		event = NewsEvent.objects.get(id=event_id)
-		if len(ratings) > 0:
-			rating = ratings[0]
-			
-			event.score -= rating.rating
-			
-		else:
-			rating = Rating()
-
-		rating.rating = request.POST["rating"]
-		rating.rater_id = userID
-		rating.ratee_id = event_id
-		event.score += request.POST["rating"]
-
-
-		if userID != -1:
-			print userID
-			rating.save()
-		else:
-			print "just kidding"
-
-	return HttpResponse("woohoo")
-
-
-def saveRatingSource(request, source_id):
-	# print "saving rating event"
-
-	if request.POST["userID"] == "None":
-		userID = -1
-	else:
-		userID = request.POST["userID"]
-
-	if request.POST["rating"] >= 1:
-		ratings = Rating.objects.filter(ratee_id=source_id, rater_id=userID)
-		source = NewsSource.objects.get(id=source_id)
-		if len(ratings) > 0:
-			rating = ratings[0]
-			
-			source.score -= rating.rating
-			
-		else:
-			rating = Rating()
-
-		rating.rating = request.POST["rating"]
-		rating.rater_id = userID
-		rating.ratee_id = source_id
-		source.score += request.POST["rating"]
-
-
-		if userID != -1:
-			print userID
-			rating.save()
-		else:
-			print "just kidding"
-
-	return HttpResponse("woohoo")
+def newFeed(request):
+	feed = NewsFeed()
+	feed.title = request.POST["name"]
+	feed.description = request.POST["description"]
+	feed.newsSources = request.POST["checkboxes"]
+	feed.save()
+	return HttpResponseRedirect("/feed/" + str(feed.id))
 
 # Create your views here.
 def event(request, event_id):
-	sources = NewsSource.objects.all()
-	feeds = NewsFeed.objects.all()
-	articles = Article.objects.all()[:20]
-	topEvents = NewsEvent.objects.all().order_by("score")[:5]
 	event = NewsEvent.objects.get(id=event_id)
 	event.viewCount += 1
 	event.score += 1
 	event.save()
-	rating = utils.getRating(event_id, request.user)
-	print rating
-	canEdit = utils.canEdit(event_id, request.user)
-	topEvents = NewsEvent.objects.all().order_by("score")[:5]
-	tweets = Tweet.objects.all().reverse()[:5]
-	context = {'tweets':tweets, 'articles': articles, 'sources': sources, 'feeds': feeds, 'event': event, 'rating': rating, 'topEvents': topEvents, 'canEdit': canEdit,}
+	context = {'event': event}
 	return render(request, 'event.html', context)
 
+# Create your views here.
+def about(request):
+	sources = NewsSource.objects.all()
+	feeds = NewsFeed.objects.all()
+	articles = Article.objects.all()
+	context = {'articles': articles, 'sources': sources, 'feeds': feeds, 'request': request,}
+	return render(request, 'about.html', context)
 	
 def editFeed (request, feed_id):
 	all_sources = NewsSource.objects.all()
@@ -221,69 +125,9 @@ def editFeed (request, feed_id):
 	context = {'all_sources': all_sources, 'feeds_sources': feeds_sources, 'feed': feed}
 	return render(request, 'edit_feed.html', context)
 
-def saveFeed(request):
-	# start doing actual work
-	f = NewsFeed.objects.get(pk=request.POST['pk'])
-	print f.id
-
-	f.newsSources.clear()
-	if 'checkboxes' in request.POST:
-		for newsSourceId in request.POST.getlist('checkboxes'):
-			f.newsSources.add(newsSourceId)
-
-	if 'title' in request.POST:
-		f.title = request.POST['title']
-
-	f.save()
-	return HttpResponseRedirect("/feed/" + request.POST['pk'])
-
-def createFeed(request, feed_id=None):
-	context = RequestContext(request, {'user': request.user})
-	print "ID: ", request.user.id, " Name: ", request.user.username, request.user.is_anonymous()
-	#print dir(request.user)
-
-	if (not request.user) or request.user.is_anonymous():
-		#return HttpResponseRedirect("/event/" + str(event_id))
-		print "bad user! not logged in! not your event!"
-
-	if feed_id:
-		print "got an id"
-		feed = get_object_or_404(NewsFeed, pk=feed_id)
-		
-		if request.user.id != feed.owner_id:
-			print "not your event, kiddo"
-			#return HttpResponseRedirect("/event/" + str(event_id))
-	else:
-
-		if (not request.user) or request.user.is_anonymous():
-			#return HttpResponseRedirect("/event/" + str(event_id))
-			print "bad user! not logged in! not your event!"
-
-		print "ain't got no event id"
-		feed = NewsFeed(owner_id=request.user.id)
-		feed.save()
-	#return HttpResponse("So you wanna create an event, eh?")
+def createFeed(request):
 	all_sources = NewsSource.objects.all()
-	return render(request, 'create_feed.html', {'all_sources': all_sources, 'feed':feed })
-
-def newFeed(request):
-	# start doing actual work
-	f = NewsFeed.objects.get(pk=request.POST['pk'])
-	print f.id
-
-	f.newsSources.clear()
-	if 'checkboxes' in request.POST:
-		for newsSourceId in request.POST.getlist('checkboxes'):
-			f.newsSources.add(newsSourceId)
-
-	if 'title' in request.POST:
-		f.title = request.POST['title']
-
-	if 'description' in request.POST:
-		f.description = request.POST['description']
-
-	f.save()
-	return HttpResponseRedirect("/feed/" + request.POST['pk'])
+	return render(request, 'create_feed.html', {'all_sources': all_sources})
 
 def createEvent(request, event_id=None):
 	context = RequestContext(request, {'user': request.user})
@@ -390,8 +234,8 @@ def newEvent(request):
 				e.tag_set.add(newTag.id)
 
 	e.save()
-	return HttpResponseRedirect("/event/" + request.POST['pk'])
-	# return HttpResponseRedirect("/edit_event/" + request.POST['pk'])
+
+	return HttpResponseRedirect("/edit_event/" + request.POST['pk'])
 
 def validateEvent(request):
 	print "hi"
@@ -409,7 +253,7 @@ def validateEvent(request):
 				responseData[name] = True
 		elif name == "eventTag":
 			if len(value) == 0:
-				responseData[name] = "An event needs an event tag."
+				responseData[name] = "An even needs an event tag."
 			elif " " in value:
 				responseData[name] = "No spaces allowed in event tags."
 			elif re.match('^[\w-]+$', value) is None:
@@ -465,47 +309,7 @@ def fireTagSearch(request, query):
 	return HttpResponse(json.dumps(responseData), content_type="application/json")
 
 def search(request):
-	sources = NewsSource.objects.all()
-	feeds = NewsFeed.objects.all()
-	articles = Article.objects.all()[:20]
-	topEvents = NewsEvent.objects.all().order_by("score")[:5]
-	tweets = Tweet.objects.all().reverse()[:5]
-	context = {'tweets':tweets, 'articles': articles, 'sources': sources, 'feeds': feeds, 'request': request, 'topEvents': topEvents}
-	return render(request, 'search.html', context)
-
-def loadMore(request):
-	for param, val in request.GET.items():
-		print param, val
-	chunksLoaded = int(request.GET['chunksLoaded'])
-
-	if request.GET['model'] == "feed":
-		obj = NewsFeed.objects.get(id=request.GET["id"])
-		print "got feed"
-		sourceIds = [source.id for source in obj.newsSources.all()]
-		print "got list of sources"
-		results = Article.objects.filter(newsSource_id__in=sourceIds).order_by("pub_date").reverse()
-	elif request.GET["model"] == "source":
-		obj = NewsSource.objects.get(id=request.GET["id"])
-		results = obj.article_set.all().order_by("pub_date").reverse()
-	elif request.GET["model"] == "all":
-		results = Article.objects.all().order_by("pub_date").reverse()
-	print "so far so good"
-	results = results[chunksLoaded*20:(chunksLoaded+1)*20]
-	print "sliced fine"
-	responseData = []
-	for result in results:
-		responseObj = {
-		"id": result.id,
-		"title": result.title,
-		"url": result.url,
-		"pubDate": result.pub_date.strftime('%b %d, %Y, %I:%M %p'),
-		"sourceTitle": result.newsSource.title,
-		"summaryText": result.summaryText
-		}
-		responseData.append(responseObj)
-	print "packed up response data"
-	print responseData
-	return HttpResponse(json.dumps(responseData), content_type="application/json")
+	return render(request, 'search.html', {})
 
 # Create your views here.
 def nf_server(request):
