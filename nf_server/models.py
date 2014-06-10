@@ -75,7 +75,7 @@ class Tweet(NewsObject):
 	text = models.CharField(max_length=200)
 	tweet_id = models.CharField(max_length=500)
 	searchTerm = models.CharField(max_length=100)
-
+	screenname = models.CharField(max_length=100)
 
 class NewsEvent(NewsObject):
 	# has many articles

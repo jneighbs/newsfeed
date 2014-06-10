@@ -2,6 +2,13 @@
     Style
 ======================================================================
 */
+.twitter-logo {
+  width: 50px;
+height: auto;
+position: absolute;
+right: 10px;
+top: 20px;
+}
 .error_field {
   font-size: 12px;
   text-align: center;
@@ -19,7 +26,12 @@ li label input.checked-label {
 .separation {
   margin-bottom: 14px;
 }
-p.tweet {
+#right-bar-block-tweets li {
+  line-height: 14px !important;
+  padding-top: 7px;
+  padding-bottom: 7px;
+}
+a.tweet {
    font-size: 14px !important;
  }
 .feed-description {
@@ -98,7 +110,7 @@ width: 180%;
   padding-left: 20px;
 }
 .article-img {
-min-height: 110px;
+min-height: 80px;
 max-height: 120px;
 width: auto;
 float: left;
@@ -121,7 +133,7 @@ border-radius: 2px;
   font-size: 16px;
 }
 .article-list {
-min-height: 120px !important;
+min-height: 80px !important;
 margin-bottom: 10px !important;
 }
 .source-checklist {

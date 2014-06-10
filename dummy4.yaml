@@ -272,7 +272,7 @@
 - model: nf_server.newsfeed
   pk: 22
   fields:
-    owner: 2
+    owner: 1
     newsSources:
       - 1
     description: "An apple a day keeps the doctor away. So read."
@@ -283,7 +283,7 @@
 - model: nf_server.newsevent
   pk: 25
   fields:
-    eventTag: "Comedian"
+    eventTag: "tracymorgan"
     owner: 2
     articles:
       - 26
@@ -335,7 +335,7 @@
 - model: nf_server.newsevent
   pk: 31
   fields:
-    eventTag: "Shooting"
+    eventTag: "karachi"
     owner: 2
     articles:
       - 32
@@ -395,7 +395,7 @@
 - model: nf_server.newsevent
   pk: 39
   fields:
-    eventTag: "Basketball"
+    eventTag: "NBAFinals"
     owner: 2
     articles:
       - 40
@@ -454,3 +454,25 @@
     text: "Miami Heat wins Game 2 (98-96)"
     date: 2014-06-08 23:11+00:00
     event: 39
+- model: nf_server.newsobject
+  pk: 48
+  fields:
+    title: "Bowe Bergdahl"
+- model: nf_server.newsevent
+  pk: 48
+  fields:
+    eventTag: "bergdahl"
+    owner: 1
+    editors:
+      - 2
+- model: nf_server.newsobject
+  pk: 49
+  fields:
+    title: "Oregon Shooting"
+- model: nf_server.newsevent
+  pk: 49
+  fields:
+    eventTag: "shooting"
+    owner: 2
+    editors:
+      - 1
