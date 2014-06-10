@@ -382,7 +382,8 @@ def newEvent(request):
 
 	e.save()
 
-	return HttpResponseRedirect("/edit_event/" + request.POST['pk'])
+	# return HttpResponseRedirect("/edit_event/" + request.POST['pk'])
+	return HttpResponseRedirect("/event/" + request.POST['pk'])
 
 def validateEvent(request):
 	print "hi"
