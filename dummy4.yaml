@@ -476,3 +476,98 @@
     owner: 2
     editors:
       - 1
+- model: nf_server.newsobject
+  pk: 50
+  fields:
+    title: "FIFA World Cup"
+- model: nf_server.newsevent
+  pk: 50
+  fields:
+    eventTag: "worldcup"
+    owner: 2
+    editors:
+      - 1
+- model: nf_server.timelineentry
+  pk: 51
+  fields:
+    text: "Student with a rifle killed a student and slightly wounded a teacher at the start of the second-to-last day of the year at Reynolds High School in Troutdale, Oregon"
+    date: 2014-06-10 10:11+00:00
+    event: 49
+- model: nf_server.timelineentry
+  pk: 52
+  fields:
+    text: "SWAT teams descended on Reynolds High School after receiving a report of a shooting in the gymnasium"
+    date: 2014-06-10 10:45+00:00
+    event: 49
+- model: nf_server.timelineentry
+  pk: 53
+  fields:
+    text: "School locked down and a room-by-room search conducted"
+    date: 2014-06-10 11:15+00:00
+    event: 49
+- model: nf_server.timelineentry
+  pk: 54
+  fields:
+    text: "Gunman found dead a short time later in a bathroom stall by camera-equipped robot, where he apparently killed himself"
+    date: 2014-06-10 11:47+00:00
+    event: 49
+- model: nf_server.timelineentry
+  pk: 55
+  fields:
+    text: "Sao Paulo, which is hosting the opening match of the tournament on Thursday, has been rocked by the fifth day of protests by subway workers, with police firing tear gas at the rioters"
+    date: 2014-06-09 20:18+00:00
+    event: 50
+- model: nf_server.timelineentry
+  pk: 56
+  fields:
+    text: "Manchester United and Netherlands striker Robin van Persie and teammate Daryl Janmaat were bowled over by a kite surfer in Rio de Janeiro"
+    date: 2014-06-09 22:54+00:00
+    event: 50
+- model: nf_server.timelineentry
+  pk: 57
+  fields:
+    text: "Subway workers in Sao Paulo have suspended a strike that was responsible for the massive traffic jams in the city, but warned that the protest could resume when the soccer tournament begins"
+    date: 2014-06-10 04:27+00:00
+    event: 50
+- model: nf_server.timelineentry
+  pk: 58
+  fields:
+    text: "In an effort to minimize the chance of protests during the World Cup, the Brazilian government says it will meet the demands of homeless rights group Trabalhadores Sem-Teto (MTST)"
+    date: 2014-06-10 05:47+00:00
+    event: 50
+- model: nf_server.timelineentry
+  pk: 59
+  fields:
+    text: "FIFA is on major alert in Brazil after Bosnia and Herzegovina coach Safet Susic was assaulted by a gang of armed youths in the Brazilian city of Guaruja"
+    date: 2014-06-10 06:16+00:00
+    event: 50
+- model: nf_server.timelineentry
+  pk: 60
+  fields:
+    text: "Brazilian President Dilma Rousseff will not attend the formal opening of the FIFA Congress on Tuesday"
+    date: 2014-06-10 08:55+00:00
+    event: 50
+- model: nf_server.timelineentry
+  pk: 61
+  fields:
+    text: "Bergdahl was released as part of a prisoner exchange for five Taliban members who were being held at the detention center at Guantanamo Bay"
+    date: 2014-05-31 08:55+00:00
+    event: 48
+- model: nf_server.timelineentry
+  pk: 62
+  fields:
+    text: "Bergdahl was handed over by 18 Taliban members to a special operations team in eastern Afghanistan, near Khost on the Pakistani border, in what was described as a peaceful handover"
+    date: 2014-05-31 10:30+00:00
+    event: 48
+- model: nf_server.timelineentry
+  pk: 63
+  fields:
+    text: "Bergdahl was treated by U.S. military medical staff at an undisclosed base in eastern Afghanistan and transferred to Bagram Airfield before being flown to Landstuhl Regional Medical Center, Germany, for medical treatment"
+    date: 2014-06-02 10:45+00:00
+    event: 48
+- model: nf_server.timelineentry
+  pk: 64
+  fields:
+    text: "Bergdahl expected to return home to Brooke Army Medical Center in San Antonio, Texas, for further recovery"
+    date: 2014-06-03 23:11+00:00
+    event: 48

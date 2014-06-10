@@ -26,7 +26,7 @@ var success = function(response){
 	i++;
 	response = JSON.parse(response);
 	tweet_html='<li><a href="https://twitter.com/'+response.screenname+'/status/'+response.tweet_id+' target="_blank" class="tweet">'+response.text+'</a></li>';
-/*	tweet_html = '<p class="tweet">' + response.text + '</p>';
+/*	tweet_html = '<p class="tweet_hello">' + response.text + '</p>';
 */
 	$("#right-bar-block-tweets").prepend(tweet_html)
 	// if(i<=1){

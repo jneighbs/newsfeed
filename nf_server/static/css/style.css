@@ -34,6 +34,9 @@ li label input.checked-label {
 a.tweet {
    font-size: 14px !important;
  }
+ p.tweet, p.tweet_hello {
+   font-size: 14px !important;
+ }
 .feed-description {
   font-size: 14px;
   margin-bottom: 14px;
@@ -3370,15 +3373,15 @@ z-index:10;
     overflow: scroll;
   }
   #logo-block {
-    height: 250px !important;
+    height: 230px !important;
   }
   #bottom-left-block {
-    top: 315px !important;
-    height: 220px;
+    top: 295px !important;
+    height: 200px;
   }
    #bottom-left-block-bottom {
-    top: 530px !important;
-    height: 220px;
+    top: 490px !important;
+    height: 260px;
   }
   #right-bar-block {
        display: block;
