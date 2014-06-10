@@ -20,6 +20,7 @@ def index(request):
 	topEvents = NewsEvent.objects.all().order_by("score").reverse()[:5]
 	tweets = Tweet.objects.all().order_by("pub_date").reverse()[:5]
 	recArticles, recSources = utils.getRecommendations(request.user)
+	print request.user
 	context = {'tweets':tweets, 'articles': articles, 'sources': sources, 'feeds': feeds, 'request': request, 'topEvents': topEvents, 'recArticles': recArticles, 'recSources': recSources}
 	return render(request, 'index.html', context)
 
@@ -120,6 +121,7 @@ def saveRatingEvent(request, event_id):
 		userID = -1
 	else:
 		userID = request.POST["userID"]
+		print userID
 
 	if request.POST["rating"] >= 1:
 		ratings = Rating.objects.filter(ratee_id=event_id, rater_id=userID)

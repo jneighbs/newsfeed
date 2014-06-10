@@ -233,7 +233,7 @@
 - model: nf_server.newsfeed
   pk: 20
   fields:
-    owner: 100
+    owner: 2
     newsSources:
       - 1
       - 2
@@ -246,7 +246,7 @@
 - model: nf_server.newsfeed
   pk: 21
   fields:
-    owner: 102
+    owner: 2
     newsSources:
       - 4
     description: "Reddit armie assemble."
@@ -257,7 +257,7 @@
 - model: nf_server.newsfeed
   pk: 22
   fields:
-    owner: 102
+    owner: 2
     newsSources:
       - 1
     description: "An apple a day keeps the doctor away. So read."
@@ -269,7 +269,7 @@
   pk: 25
   fields:
     eventTag: "Comedian"
-    owner: 100
+    owner: 2
     articles:
       - 26
       - 27
@@ -321,9 +321,11 @@
   pk: 31
   fields:
     eventTag: "Shooting"
-    owner: 100
+    owner: 2
     articles:
       - 32
+    editors:
+      - 1
 - model: nf_server.newsobject
   pk: 32
   fields:
@@ -379,9 +381,11 @@
   pk: 39
   fields:
     eventTag: "Basketball"
-    owner: 101
+    owner: 2
     articles:
       - 40
+    editors:
+      - 1
 - model: nf_server.newsobject
   pk: 40
   fields:
