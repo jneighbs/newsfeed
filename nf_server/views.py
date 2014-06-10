@@ -523,7 +523,9 @@ def loadTweets(request):
 		responseObj = {
 			"text": tweet.text,
 			"pub_date": tweet.pub_date.strftime('%b %d, %Y, %I:%M %p'),
-			"searchTerm": tweet.searchTerm
+			"searchTerm": tweet.searchTerm,
+			"screenname": tweet.screenname,
+			"tweet_id" : tweet.tweet_id
 		}
 		# responseData.append(responseObj)
 	# print responseObj
