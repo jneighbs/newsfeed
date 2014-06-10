@@ -2,6 +2,10 @@
     Style
 ======================================================================
 */
+.error_field {
+  font-size: 12px;
+  text-align: center;
+}
 .add_button_editor {
   margin-top: 5px;
   width: 100%;
@@ -60,17 +64,32 @@ top: 5px;
 left: 198px;
 float: inherit;
 }
-.new_timeline_entry {
+.new_timeline_entry, .timeline_entry {
   padding-top:15px;
-
 }
 #article_result_box {
-width: 700px;
-display: block;
-left: -200px;
 position: relative;
-font-size: 12px;
-height:inherit;
+font-size: 16px;
+height: inherit;
+width: 180%;
+}
+#article_result_box div.entry {
+  min-height: 60px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+#article_result_box div.entry a {
+  width: 80%;
+  float: right;
+  display: block;
+  position: relative;
+  left: -20px;
+  vertical-align: center
+}
+.add_button {
+  float: left;
+  position: relative;
+  top: 5px;
 }
 .tag {
   font-size: 16px;
@@ -79,13 +98,13 @@ height:inherit;
   padding-left: 20px;
 }
 .article-img {
-height: 70px;
+min-height: 110px;
+max-height: 120px;
 width: auto;
 float: left;
-padding-top: 0px;
-padding-right: 10px !important;
-padding-bottom: 0px !important;
-margin-bottom: 0px !important;
+margin-top: 5px !important;
+margin-right: 5px !important;
+border-radius: 2px;
 }
 .source-1 {
   padding-top: 5px;
@@ -102,8 +121,9 @@ margin-bottom: 0px !important;
   font-size: 16px;
 }
 .article-list {
-/*  max-width: 430px;
-*/}
+min-height: 120px !important;
+margin-bottom: 10px !important;
+}
 .source-checklist {
   font-weight: 100 !important;
   font-size:16px;

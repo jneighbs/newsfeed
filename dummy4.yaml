@@ -1,4 +1,19 @@
 - model: nf_server.user
+  pk: 1
+  fields:
+    name: Jacob Neighbors
+    password: drowssap
+- model: nf_server.user
+  pk: 2
+  fields:
+    name: Marie Feng
+    password: drowssap
+- model: nf_server.user
+  pk: 3
+  fields:
+    name: Sam McLaughlin
+    password: drowssap
+- model: nf_server.user
   pk: 100
   fields:
     name: Anderson Zedd

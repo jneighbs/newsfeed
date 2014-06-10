@@ -18,8 +18,8 @@ ArticleSearchBox.prototype.createResultElement = function(id, response)
 
 	var addButton = document.createElement("button");
 	addButton.classList.add("add_button");
-/*	addButton.classList.add("btn");
-	addButton.classList.add("btn-default");*/
+	addButton.classList.add("btn");
+	addButton.classList.add("btn-default");
 	addButton.innerHTML = "+";
 
 	var that = this;
