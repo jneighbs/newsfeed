@@ -32,8 +32,11 @@ class listener(StreamListener):
 			data = json.loads(stringJSON)
 			text = data["text"]
 			tweet_id =data["id_str"]
+			print text
+			screenname = data["user"]["screen_name"]
+			print screenname
 
-			tweet = Tweet(searchTerm=searchTerm, pub_date=timezone.now(), text=text, title="", tweet_id=tweet_id)
+			tweet = Tweet(searchTerm=searchTerm, pub_date=timezone.now(), text=text, title="", tweet_id=tweet_id, screenname=screenname)
 			tweet.save()
 
 			return False

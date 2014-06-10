@@ -1,19 +1,20 @@
 <div id="right-bar-block" class="block-wrap ignore-shuffle" data-rowspan="2" data-colspan="1">
   <div class="block text-only">
     <h2>Social</h2>
+    <img class="twitter-logo" src="http://www.annelacourciere.com/files/twitter-bird-light-bgs.png"/>
       <ul id="right-bar-block-tweets">
         {% for tweet in tweets %}
-          <p class="tweet">{{tweet.text}}</p>
+          <li><a href="https://twitter.com/{{tweet.screenname}}/status/{{tweet.tweet_id}}" target="_blank" class="tweet">{{tweet.text}}</a></li>
         {% endfor %}
       </ul>
   </div>
 </div>
 <div id="right-bar-block-nf" class="block-wrap ignore-shuffle" data-rowspan="2" data-colspan="1">
   <div class="block text-only">
-    <h2>Recommend Articles</h2>
+    <h2>Recommended Articles</h2>
     <ul>
     {% for recArticle in recArticles %}
-    	<li><a href="/article/{{recArticle.id}}">{{recArticle.title}}</a></li>
+    	<li><a href="/article/{{recArticle.id}}" target="_blank">{{recArticle.title}}</a></li>
     {% endfor %}
 	</ul>
   </div>
@@ -23,7 +24,7 @@
     <h2>Recommended Newssources</h2>
     <ul>
     	{% for recSource in recSources %}
-    		<li><a href="/source/{{recSource.id}}">{{recSource.title}}</a></li>
+    		<li><a href="/source/{{recSource.id}}" target="_blank">{{recSource.title}}</a></li>
     	{% endfor %}
     </ul>
   </div>

@@ -120,6 +120,7 @@ def saveRatingEvent(request, event_id):
 		userID = -1
 	else:
 		userID = request.POST["userID"]
+		print userID
 
 	if request.POST["rating"] >= 1:
 		ratings = Rating.objects.filter(ratee_id=event_id, rater_id=userID)
@@ -194,6 +195,7 @@ def newFeed(request):
 
 	if 'description' in request.POST:
 		f.description = request.POST['description']
+		print f.description
 
 	f.save()
 	return HttpResponseRedirect("/feed/" + request.POST['pk'])
@@ -228,7 +230,6 @@ def editFeed (request, feed_id):
 def saveFeed(request):
 	# start doing actual work
 	f = NewsFeed.objects.get(pk=request.POST['pk'])
-	print f.id
 
 	f.newsSources.clear()
 	if 'checkboxes' in request.POST:
@@ -237,9 +238,9 @@ def saveFeed(request):
 
 	if 'title' in request.POST:
 		f.title = request.POST['title']
+
 	if 'description' in request.POST:
 		f.description = request.POST['description']
-		print f.description
 
 	f.save()
 	return HttpResponseRedirect("/feed/" + request.POST['pk'])
@@ -316,8 +317,8 @@ def createEvent(request, event_id=None):
 		form.fields['articles'].queryset = event.articles.all()
 		form.fields['editors'].queryset = event.editors.all()
 		timelineEntries = []
-	
-
+	print "here comes the title"
+	print "before"+event.title+"after"
 	return render(request, 'create_event.html', {'form': form, 'event': event, 'timelineEntries': timelineEntries})
 	#return HttpResponse("So you wanna create an event, eh?")
 
@@ -522,7 +523,9 @@ def loadTweets(request):
 		responseObj = {
 			"text": tweet.text,
 			"pub_date": tweet.pub_date.strftime('%b %d, %Y, %I:%M %p'),
-			"searchTerm": tweet.searchTerm
+			"searchTerm": tweet.searchTerm,
+			"screenname": tweet.screenname,
+			"tweet_id" : tweet.tweet_id
 		}
 		# responseData.append(responseObj)
 	# print responseObj

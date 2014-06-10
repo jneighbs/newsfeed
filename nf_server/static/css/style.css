@@ -2,6 +2,17 @@
     Style
 ======================================================================
 */
+.twitter-logo {
+  width: 50px;
+height: auto;
+position: absolute;
+right: 10px;
+top: 20px;
+}
+.error_field {
+  font-size: 12px;
+  text-align: center;
+}
 .add_button_editor {
   margin-top: 5px;
   width: 100%;
@@ -15,7 +26,15 @@ li label input.checked-label {
 .separation {
   margin-bottom: 14px;
 }
-p.tweet {
+#right-bar-block-tweets li {
+  line-height: 14px !important;
+  padding-top: 7px;
+  padding-bottom: 7px;
+}
+a.tweet {
+   font-size: 14px !important;
+ }
+ p.tweet, p.tweet_hello {
    font-size: 14px !important;
  }
 .feed-description {
@@ -60,17 +79,32 @@ top: 5px;
 left: 198px;
 float: inherit;
 }
-.new_timeline_entry {
+.new_timeline_entry, .timeline_entry {
   padding-top:15px;
-
 }
 #article_result_box {
-width: 700px;
-display: block;
-left: -200px;
 position: relative;
-font-size: 12px;
-height:inherit;
+font-size: 16px;
+height: inherit;
+width: 180%;
+}
+#article_result_box div.entry {
+  min-height: 60px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+#article_result_box div.entry a {
+  width: 80%;
+  float: right;
+  display: block;
+  position: relative;
+  left: -20px;
+  vertical-align: center
+}
+.add_button {
+  float: left;
+  position: relative;
+  top: 5px;
 }
 .tag {
   font-size: 16px;
@@ -79,13 +113,13 @@ height:inherit;
   padding-left: 20px;
 }
 .article-img {
-height: 70px;
+min-height: 70px;
+max-height: 100px;
 width: auto;
 float: left;
-padding-top: 0px;
-padding-right: 10px !important;
-padding-bottom: 0px !important;
-margin-bottom: 0px !important;
+margin-top: 5px !important;
+margin-right: 5px !important;
+border-radius: 2px;
 }
 .source-1 {
   padding-top: 5px;
@@ -99,11 +133,12 @@ margin-bottom: 0px !important;
   height: 70px !important;
 }
 .summary-text {
-  font-size: 16px;
+  font-size: 14px;
 }
 .article-list {
-/*  max-width: 430px;
-*/}
+min-height: 100px !important;
+margin-bottom: 10px !important;
+}
 .source-checklist {
   font-weight: 100 !important;
   font-size:16px;
@@ -3338,15 +3373,15 @@ z-index:10;
     overflow: scroll;
   }
   #logo-block {
-    height: 250px !important;
+    height: 230px !important;
   }
   #bottom-left-block {
-    top: 315px !important;
-    height: 220px;
+    top: 295px !important;
+    height: 200px;
   }
    #bottom-left-block-bottom {
-    top: 530px !important;
-    height: 220px;
+    top: 490px !important;
+    height: 260px;
   }
   #right-bar-block {
        display: block;
